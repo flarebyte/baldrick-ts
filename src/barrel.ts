@@ -1,3 +1,3 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync } from 'fs';
 
-export { readFileSync, writeFileSync }
+export { readFileSync, writeFileSync };

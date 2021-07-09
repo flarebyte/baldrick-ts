@@ -1,53 +1,103 @@
-import { z as zod } from "zod";
-
 export interface PackageJson {
-    name:             string;
-    description:      string;
-    keywords:         string[];
-    author:           Author | string;
-    version:          string;
-    license:          string;
-    homepage:         string;
-    repository:       Repository;
-    main:             string;
-    typings:          string;
-    files:            string[];
-    engines:          Engines;
-    scripts:          Scripts;
-    module:           string;
-    devDependencies:  Dependencies;
-    dependencies:  Dependencies;
-    peerDependencies: Dependencies;
+  name: string;
+  description: string;
+  keywords: string[];
+  author: Author | string;
+  version: string;
+  license: string;
+  homepage: string;
+  repository: Repository;
+  main: string;
+  typings: string;
+  files: string[];
+  engines: Engines;
+  scripts: Scripts;
+  module: string;
+  devDependencies: Dependencies;
+  dependencies: Dependencies;
+  peerDependencies: Dependencies;
 }
 
 export interface Author {
-    name: string;
-    url:  string;
+  name: string;
+  url: string;
 }
 
 export interface Dependencies {
-    [key: string]: string;
+  [key: string]: string;
 }
 
 export interface Engines {
-    node: string;
+  node: string;
 }
 
 export interface Repository {
-    type: string;
-    url:  string;
+  type: string;
+  url: string;
 }
 
 export interface Scripts {
-    [key: string]: string;
+  [key: string]: string;
 }
 
-const fromString = (_: string): PackageJson | string => {
-    return "todo"
-}
+const trimString = (value: string | null | undefined): string =>
+  value === null || value === undefined ? 'fixme' : value?.trim();
+const trimStringArray = (values: string[] | null | undefined): string[] =>
+  values === null || values === undefined ? [] : values.map(trimString);
 
-const toString = (_: PackageJson): string => {
-    return "todo"
-}
+const copyScripts = (scripts: Scripts): Scripts =>
+  Object.fromEntries(
+    Object.entries(scripts).map(keyVal => [
+      trimString(keyVal[0]),
+      trimString(keyVal[1]),
+    ])
+  );
 
-export { fromString, toString}
+const copyDependencies = (deps: Dependencies): Dependencies =>
+  Object.fromEntries(
+    Object.entries(
+      deps === null || deps === undefined ? {} : deps
+    ).map(keyVal => [trimString(keyVal[0]), trimString(keyVal[1])])
+  );
+
+const copyPackageJson = (pj: PackageJson): PackageJson => ({
+  name: trimString(pj.name),
+  description: trimString(pj.description),
+  keywords: trimStringArray(pj.keywords),
+  author:
+    typeof pj.author === 'string'
+      ? {
+          name: trimString(pj.author),
+          url: 'https://github.com/fixme',
+        }
+      : pj.author,
+  version: trimString(pj.version),
+  license: trimString(pj.license),
+  homepage: trimString(pj.homepage),
+  repository: {
+    type: trimString(pj?.repository.type),
+    url: trimString(pj?.repository.url),
+  },
+  main: trimString(pj.main),
+  typings: trimString(pj.typings),
+  files: trimStringArray(pj.files),
+  engines: {
+    node: trimString(pj.engines.node),
+  },
+  scripts: copyScripts(pj.scripts),
+  module: trimString(pj.module),
+  dependencies: copyDependencies(pj.dependencies),
+  devDependencies: copyDependencies(pj.devDependencies),
+  peerDependencies: copyDependencies(pj.peerDependencies),
+});
+
+const fromString = (content: string): PackageJson => {
+  const results: PackageJson = copyPackageJson(JSON.parse(content));
+  return results;
+};
+
+const toString = (packageJson: PackageJson): string => {
+  return JSON.stringify(packageJson, null, 2);
+};
+
+export { fromString, toString };
