@@ -107,7 +107,11 @@ const toString = (packageJson: PackageJson): string => {
 };
 
 const toCountItems = (value: string | any): number =>
-  typeof value === 'string' ? 1 : (typeof value === 'object' ? Object.keys(value).length: value.length);
+  typeof value === 'string'
+    ? 1
+    : typeof value === 'object'
+    ? Object.keys(value).length
+    : value.length;
 
 const toStringLength = (value: string | any): number =>
   typeof value === 'string' ? value.length : 0;
