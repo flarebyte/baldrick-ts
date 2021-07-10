@@ -18,6 +18,12 @@ export interface PackageJson {
   peerDependencies: Dependencies;
 }
 
+export interface PackageKeyStats {
+  key: string;
+  countItems: number;
+  stringLength: number;
+}
+
 export interface Author {
   name: string;
   url: string;
@@ -100,4 +106,17 @@ const toString = (packageJson: PackageJson): string => {
   return JSON.stringify(packageJson, null, 2);
 };
 
-export { fromString, toString };
+const toCountItems = (value: string | any): number =>
+  typeof value === 'string' ? 1 : (typeof value === 'object' ? Object.keys(value).length: value.length);
+
+const toStringLength = (value: string | any): number =>
+  typeof value === 'string' ? value.length : 0;
+
+const packageToStats = (packageJson: PackageJson): PackageKeyStats[] =>
+  Object.entries(packageJson).map(keyValue => ({
+    key: keyValue[0],
+    countItems: toCountItems(keyValue[1]),
+    stringLength: toStringLength(keyValue[1]),
+  }));
+
+export { fromString, toString, packageToStats };

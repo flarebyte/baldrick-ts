@@ -1,4 +1,4 @@
-import { fromString } from '../src/package-model';
+import { fromString, packageToStats } from '../src/package-model';
 
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
@@ -9,6 +9,8 @@ const fixturePackageJsonString: string = JSON.stringify(
 describe('Package.json analyzer', () => {
   it('should convert package.json from a string', () => {
     const actual = fromString(fixturePackageJsonString);
+    const stats = packageToStats(actual);
     expect(actual.name.length).toBeGreaterThan(1);
+    expect(stats.filter( s => s.countItems === 0 && s.stringLength === 0 ).map( s => s.key)).toStrictEqual(['dependencies', 'peerDependencies']);
   });
 });
