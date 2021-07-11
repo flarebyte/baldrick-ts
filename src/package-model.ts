@@ -1,3 +1,5 @@
+const minNodeVersion = 12
+
 export interface PackageJson {
   name: string;
   description: string;
@@ -153,6 +155,9 @@ const packageToStats = (packageJson: PackageJson): PackageKeyStats[] =>
     stringLength: toStringLength(keyValue[1]),
   }));
 
+const hasDependency = (name: string, dependencies: Dependencies): boolean =>
+  Object.keys(dependencies).includes(name);
+
 const packageToCoreProject = (
   githubAccount: string,
   packageJson: PackageJson
@@ -161,7 +166,9 @@ const packageToCoreProject = (
   githubAccount,
   licenseType:
     packageJson.license === 'MIT' ? LicenseType.MIT : LicenseType.Other,
-  scaffoldingType: ScaffoldingType.Other,
+  scaffoldingType: hasDependency('tsdx', packageJson.devDependencies)
+    ? ScaffoldingType.TsDx
+    : ScaffoldingType.Other,
   pipelineType: PipelineType.Github,
   projectType: ProjectType.TsLib,
 });
@@ -181,7 +188,7 @@ const normalizeOpenSourcePackage = (
   typings: 'dist/index.d.ts',
   files: ['dist', 'src'],
   engines: {
-    node: '>=12',
+    node: `>=${minNodeVersion}`,
   },
   scripts: {
     start: 'tsdx watch',
@@ -199,8 +206,7 @@ const normalizeOpenSourcePackage = (
     ready:
       'yarn fix;yarn fix:main;yarn lint;yarn test:cov;yarn build;yarn size;yarn docs',
     preversion: 'yarn lint;yarn test:cov;yarn size;',
-    postversion:
-      'git push --tags',
+    postversion: 'git push --tags',
   },
   module: `dist/${coreProject.name}.esm.js`,
 });
