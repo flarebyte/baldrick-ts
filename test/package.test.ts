@@ -1,4 +1,4 @@
-import { fromString, packageToStats } from '../src/package-model';
+import { fromString, packageToStats } from '../src/package';
 
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
