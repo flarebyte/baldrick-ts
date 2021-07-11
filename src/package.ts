@@ -1,82 +1,16 @@
+import {
+  Scripts,
+  Dependencies,
+  PackageJson,
+  PackageKeyStats,
+  CoreProject,
+  LicenseType,
+  PipelineType,
+  ProjectType,
+  ScaffoldingType,
+} from './model';
+
 const minNodeVersion = 12;
-
-export interface PackageJson {
-  name: string;
-  description: string;
-  keywords: string[];
-  author: Author | string;
-  version: string;
-  license: string;
-  homepage: string;
-  repository: Repository;
-  main: string;
-  typings: string;
-  files: string[];
-  engines: Engines;
-  scripts: Scripts;
-  module: string;
-  devDependencies: Dependencies;
-  dependencies: Dependencies;
-  peerDependencies: Dependencies;
-}
-
-export interface PackageKeyStats {
-  key: string;
-  countItems: number;
-  stringLength: number;
-}
-
-export interface Author {
-  name: string;
-  url: string;
-}
-
-export interface Dependencies {
-  [key: string]: string;
-}
-
-export interface Engines {
-  node: string;
-}
-
-export interface Repository {
-  type: string;
-  url: string;
-}
-
-export interface Scripts {
-  [key: string]: string;
-}
-
-enum LicenseType {
-  MIT,
-  Other,
-}
-
-enum ScaffoldingType {
-  TsDx,
-  Other,
-}
-
-enum PipelineType {
-  Github,
-  Other,
-}
-
-enum ProjectType {
-  TsLib,
-  TsCli,
-  Other,
-}
-
-export interface CoreProject {
-  name: string;
-  githubAccount: string;
-  licenseType: LicenseType;
-  scaffoldingType: ScaffoldingType;
-  pipelineType: PipelineType;
-  projectType: ProjectType;
-}
 
 const trimString = (value: string | null | undefined): string =>
   value === null || value === undefined ? 'fixme' : value?.trim();
