@@ -1,4 +1,4 @@
-const minNodeVersion = 12
+const minNodeVersion = 12;
 
 export interface PackageJson {
   name: string;
@@ -218,10 +218,28 @@ const normalizePackage = (
     ? normalizeOpenSourcePackage(coreProject, packageJson)
     : packageJson;
 
+const defaultSizeLimit = (coreProject: CoreProject) => [
+  {
+    path: `dist/${coreProject.name}.cjs.production.min.js`,
+    limit: '5 KB',
+  },
+  {
+    path: `dist/${coreProject.name}.esm.js`,
+    limit: '5 KB',
+  },
+];
+const defaultPrettier = {
+  printWidth: 80,
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'es5',
+};
 export {
   fromString,
   toString,
   packageToStats,
   packageToCoreProject,
   normalizePackage,
+  defaultSizeLimit,
+  defaultPrettier,
 };
