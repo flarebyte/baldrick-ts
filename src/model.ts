@@ -85,3 +85,10 @@ export interface Todo {
   description: string;
   priority: TodoPriority;
 }
+
+export enum FieldStatus {
+  Ok,
+  Todo,
+  Fixable,
+}
+export type toFieldStatus = (value: any) => FieldStatus;
