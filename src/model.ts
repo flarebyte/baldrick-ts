@@ -92,3 +92,23 @@ export enum FieldStatus {
   Fixable,
 }
 export type toFieldStatus = (value: any) => FieldStatus;
+
+export interface PackageJsonStatus {
+  name: toFieldStatus;
+  description: toFieldStatus;
+  keywords: toFieldStatus;
+  author: toFieldStatus;
+  version: toFieldStatus;
+  license: toFieldStatus;
+  homepage: toFieldStatus;
+  repository: toFieldStatus;
+  main: toFieldStatus;
+  typings: toFieldStatus;
+  files: toFieldStatus;
+  engines: toFieldStatus;
+  scripts: toFieldStatus;
+  module: toFieldStatus;
+  devDependencies: toFieldStatus;
+  dependencies: toFieldStatus;
+  peerDependencies: toFieldStatus;
+}

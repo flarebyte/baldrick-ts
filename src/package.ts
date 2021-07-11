@@ -8,6 +8,8 @@ import {
   PipelineType,
   ProjectType,
   ScaffoldingType,
+  FieldStatus,
+  PackageJsonStatus,
 } from './model';
 
 const minNodeVersion = 12;
@@ -168,6 +170,37 @@ const defaultPrettier = {
   singleQuote: true,
   trailingComma: 'es5',
 };
+
+const packageJsonStatus: PackageJsonStatus = {
+  name: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  description: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  keywords: (_: any[]) => FieldStatus.Ok,
+  author: (_: any[]) => FieldStatus.Ok,
+  version: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  license: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  homepage: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  repository: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  main: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  typings: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  files: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  engines: (_: any) => FieldStatus.Ok,
+  scripts: (_: any[]) => FieldStatus.Ok,
+  module: (value: string) =>
+    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
+  devDependencies: (_: any[]) => FieldStatus.Ok,
+  dependencies: (_: any[]) => FieldStatus.Ok,
+  peerDependencies: (_: any[]) => FieldStatus.Ok,
+};
+
 export {
   fromString,
   toString,
@@ -176,4 +209,5 @@ export {
   normalizePackage,
   defaultSizeLimit,
   defaultPrettier,
+  packageJsonStatus,
 };
