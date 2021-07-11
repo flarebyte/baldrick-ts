@@ -46,6 +46,36 @@ export interface Scripts {
   [key: string]: string;
 }
 
+enum LicenseType {
+  MIT,
+  Other,
+}
+
+enum ScaffoldingType {
+  TsDx,
+  Other,
+}
+
+enum PipelineType {
+  Github,
+  Other,
+}
+
+enum ProjectType {
+  TsLib,
+  TsCli,
+  Other,
+}
+
+export interface CoreProject {
+  name: string;
+  githubAccount: string;
+  licenseType: LicenseType;
+  scaffoldingType: ScaffoldingType;
+  pipelineType: PipelineType;
+  projectType: ProjectType;
+}
+
 const trimString = (value: string | null | undefined): string =>
   value === null || value === undefined ? 'fixme' : value?.trim();
 const trimStringArray = (values: string[] | null | undefined): string[] =>
@@ -123,4 +153,69 @@ const packageToStats = (packageJson: PackageJson): PackageKeyStats[] =>
     stringLength: toStringLength(keyValue[1]),
   }));
 
-export { fromString, toString, packageToStats };
+const packageToCoreProject = (
+  githubAccount: string,
+  packageJson: PackageJson
+): CoreProject => ({
+  name: packageJson.name,
+  githubAccount,
+  licenseType:
+    packageJson.license === 'MIT' ? LicenseType.MIT : LicenseType.Other,
+  scaffoldingType: ScaffoldingType.Other,
+  pipelineType: PipelineType.Github,
+  projectType: ProjectType.TsLib,
+});
+
+const normalizeOpenSourcePackage = (
+  coreProject: CoreProject,
+  packageJson: PackageJson
+): PackageJson => ({
+  ...packageJson,
+  name: coreProject.name,
+  homepage: `https://github.com/${coreProject.githubAccount}/${coreProject.name}`,
+  repository: {
+    type: 'git',
+    url: `https://github.com/${coreProject.githubAccount}/${coreProject.name}.git`,
+  },
+  main: 'dist/index.js',
+  typings: 'dist/index.d.ts',
+  files: ['dist', 'src'],
+  engines: {
+    node: '>=12',
+  },
+  scripts: {
+    start: 'tsdx watch',
+    build: 'tsdx build',
+    test: 'tsdx test',
+    'test:cov': 'tsdx test --coverage',
+    watch: 'tsdx watch',
+    lint: 'tsdx lint src test',
+    fix: 'tsdx lint src test --fix',
+    prepare: 'tsdx build',
+    size: 'size-limit',
+    analyze: 'size-limit --why',
+    docs: 'typedoc',
+    'fix:main': 'prettier --write *.md *.json .github/workflows/*.yml',
+    ready:
+      'yarn fix;yarn fix:main;yarn lint;yarn test:cov;yarn build;yarn size;yarn docs',
+    preversion: 'yarn lint;yarn test:cov;yarn size;',
+    postversion:
+      'git push --tags',
+  },
+  module: `dist/${coreProject.name}.esm.js`,
+});
+const normalizePackage = (
+  coreProject: CoreProject,
+  packageJson: PackageJson
+): PackageJson =>
+  coreProject.licenseType === LicenseType.MIT
+    ? normalizeOpenSourcePackage(coreProject, packageJson)
+    : packageJson;
+
+export {
+  fromString,
+  toString,
+  packageToStats,
+  packageToCoreProject,
+  normalizePackage,
+};

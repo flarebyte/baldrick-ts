@@ -27,24 +27,20 @@ describe('Package.json analyzer', () => {
       notIncluded(Object.keys(actual), Object.keys(initJson)).sort()
     ).toStrictEqual(['dependencies']);
   });
- 
-  it.todo('Convert author to obj format')
-  it.todo('Move prettier outside package')
-  it.todo('Move size-limit outside package')
-  it.todo('Delete husky')
-  it.todo('Automatically create mandatory fields')
 
-  it.todo('Display a todo list')
+  it.todo('Convert author to obj format');
+  it.todo('Move prettier outside package');
+  it.todo('Move size-limit outside package');
+  it.todo('Delete husky');
+  it.todo('Automatically create mandatory fields');
 
-  it.todo('Display fixme in the todo list')
+  it.todo('Display a todo list');
 
-  it.todo('Check name consistency in different fields')
+  it.todo('Display fixme in the todo list');
 
-  it.todo('Check source code structure is normalized')
+  it.todo('Check name consistency in different fields');
 
-  it.todo('Normalize scripts section')
+  it.todo('Check source code structure is normalized');
 
-
+  it.todo('Normalize scripts section');
 });
-
-
