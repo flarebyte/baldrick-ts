@@ -203,25 +203,41 @@ const packConv: PackageJsonStatusConverter = {
 };
 
 const convertPackageToStatus = (
-  packageJson: PackageJson
+  packageJson: PackageJson,
+  fixedPackageJson: PackageJson
 ): PackageJsonStatus => ({
-  name: packConv.name(packageJson.name),
-  description: packConv.description(packageJson.description),
-  keywords: packConv.keywords(packageJson.keywords),
-  author: packConv.author(packageJson.author),
-  version: packConv.version(packageJson.version),
-  license: packConv.license(packageJson.license),
-  homepage: packConv.homepage(packageJson.homepage),
-  repository: packConv.repository(packageJson.repository),
-  main: packConv.main(packageJson.main),
-  typings: packConv.typings(packageJson.typings),
-  files: packConv.files(packageJson.files),
-  engines: packConv.engines(packageJson.engines),
-  scripts: packConv.scripts(packageJson.scripts),
-  module: packConv.module(packageJson.module),
-  devDependencies: packConv.devDependencies(packageJson.devDependencies),
-  dependencies: packConv.dependencies(packageJson.dependencies),
-  peerDependencies: packConv.peerDependencies(packageJson.peerDependencies),
+  name: packConv.name(packageJson.name, fixedPackageJson.name),
+  description: packConv.description(
+    packageJson.description,
+    fixedPackageJson.description
+  ),
+  keywords: packConv.keywords(packageJson.keywords, fixedPackageJson.keywords),
+  author: packConv.author(packageJson.author, fixedPackageJson.author),
+  version: packConv.version(packageJson.version, fixedPackageJson.version),
+  license: packConv.license(packageJson.license, fixedPackageJson.license),
+  homepage: packConv.homepage(packageJson.homepage, fixedPackageJson.homepage),
+  repository: packConv.repository(
+    packageJson.repository,
+    fixedPackageJson.repository
+  ),
+  main: packConv.main(packageJson.main, fixedPackageJson.main),
+  typings: packConv.typings(packageJson.typings, fixedPackageJson.typings),
+  files: packConv.files(packageJson.files, fixedPackageJson.files),
+  engines: packConv.engines(packageJson.engines, fixedPackageJson.engines),
+  scripts: packConv.scripts(packageJson.scripts, fixedPackageJson.scripts),
+  module: packConv.module(packageJson.module, fixedPackageJson.module),
+  devDependencies: packConv.devDependencies(
+    packageJson.devDependencies,
+    fixedPackageJson.devDependencies
+  ),
+  dependencies: packConv.dependencies(
+    packageJson.dependencies,
+    fixedPackageJson.dependencies
+  ),
+  peerDependencies: packConv.peerDependencies(
+    packageJson.peerDependencies,
+    fixedPackageJson.peerDependencies
+  ),
 });
 
 export {

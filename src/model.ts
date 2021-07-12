@@ -91,7 +91,8 @@ export enum FieldStatus {
   Todo,
   Fixable,
 }
-export type toFieldStatus = (value: any) => FieldStatus;
+
+export type toFieldStatus = (value: any, fixed: any) => FieldStatus;
 
 export interface PackageJsonStatusConverter {
   name: toFieldStatus;
