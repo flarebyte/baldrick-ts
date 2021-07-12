@@ -9,6 +9,7 @@ import {
   ProjectType,
   ScaffoldingType,
   FieldStatus,
+  PackageJsonStatusConverter,
   PackageJsonStatus,
 } from './model';
 
@@ -171,7 +172,7 @@ const defaultPrettier = {
   trailingComma: 'es5',
 };
 
-const packageJsonStatus: PackageJsonStatus = {
+const packConv: PackageJsonStatusConverter = {
   name: (value: string) =>
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
   description: (value: string) =>
@@ -201,6 +202,28 @@ const packageJsonStatus: PackageJsonStatus = {
   peerDependencies: (_: any[]) => FieldStatus.Ok,
 };
 
+const convertPackageToStatus = (
+  packageJson: PackageJson
+): PackageJsonStatus => ({
+  name: packConv.name(packageJson.name),
+  description: packConv.description(packageJson.description),
+  keywords: packConv.keywords(packageJson.keywords),
+  author: packConv.author(packageJson.author),
+  version: packConv.version(packageJson.version),
+  license: packConv.license(packageJson.license),
+  homepage: packConv.homepage(packageJson.homepage),
+  repository: packConv.repository(packageJson.repository),
+  main: packConv.main(packageJson.main),
+  typings: packConv.typings(packageJson.typings),
+  files: packConv.files(packageJson.files),
+  engines: packConv.engines(packageJson.engines),
+  scripts: packConv.scripts(packageJson.scripts),
+  module: packConv.module(packageJson.module),
+  devDependencies: packConv.devDependencies(packageJson.devDependencies),
+  dependencies: packConv.dependencies(packageJson.dependencies),
+  peerDependencies: packConv.peerDependencies(packageJson.peerDependencies),
+});
+
 export {
   fromString,
   toString,
@@ -209,5 +232,5 @@ export {
   normalizePackage,
   defaultSizeLimit,
   defaultPrettier,
-  packageJsonStatus,
+  convertPackageToStatus,
 };

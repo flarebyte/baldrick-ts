@@ -93,7 +93,7 @@ export enum FieldStatus {
 }
 export type toFieldStatus = (value: any) => FieldStatus;
 
-export interface PackageJsonStatus {
+export interface PackageJsonStatusConverter {
   name: toFieldStatus;
   description: toFieldStatus;
   keywords: toFieldStatus;
@@ -111,4 +111,24 @@ export interface PackageJsonStatus {
   devDependencies: toFieldStatus;
   dependencies: toFieldStatus;
   peerDependencies: toFieldStatus;
+}
+
+export interface PackageJsonStatus {
+  name: FieldStatus;
+  description: FieldStatus;
+  keywords: FieldStatus;
+  author: FieldStatus;
+  version: FieldStatus;
+  license: FieldStatus;
+  homepage: FieldStatus;
+  repository: FieldStatus;
+  main: FieldStatus;
+  typings: FieldStatus;
+  files: FieldStatus;
+  engines: FieldStatus;
+  scripts: FieldStatus;
+  module: FieldStatus;
+  devDependencies: FieldStatus;
+  dependencies: FieldStatus;
+  peerDependencies: FieldStatus;
 }
