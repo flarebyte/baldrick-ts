@@ -283,7 +283,7 @@ const fixAutomatically = (githubAccount: string, packageJson: PackageJson): Pack
   return fixed;
 }
 
-const statusToTodo = (status: FieldStatus): string => status === FieldStatus.Ok ? 'OK': status === FieldStatus.Todo ? 'TODO' : 'FIX'
+const statusToTodo = (status: FieldStatus): string => status === FieldStatus.Ok ? 'OK': status === FieldStatus.Todo ? '❌ TODO' : '🤖 FIX'
 const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
   const [key, stats] = keyStats
   return {

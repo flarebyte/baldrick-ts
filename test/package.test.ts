@@ -33,22 +33,29 @@ describe('Package.json analyzer', () => {
     const todos = suggestTasksToDo('flarebyte', actual);
     expect(todos).toContainEqual({
       description: 'Key repository of package.json',
-      status: 'FIX',
+      status: '🤖 FIX',
     });
     expect(todos).toContainEqual({
       description: 'Key scripts of package.json',
-      status: 'FIX',
+      status: '🤖 FIX',
     });
   });
-  it.todo('Convert author to obj format');
+  it('Convert author to obj format', () => {
+    const ref = fromString(fixturePackageJsonString);
+    const actual = {
+      ...ref,
+      author: 'Mathilde',
+    };
+    const todos = suggestTasksToDo('flarebyte', actual);
+    expect(todos).toHaveLength(3);
+    expect(todos).toContainEqual({
+      description: 'Key author of package.json',
+      status: '❌ TODO',
+    });
+  });
+  
   it.todo('Move prettier outside package');
   it.todo('Move size-limit outside package');
-  it.todo('Delete husky');
-  it.todo('Automatically create mandatory fields');
-
-  it.todo('Display a todo list');
-
-  it.todo('Display fixme in the todo list');
 
   it.todo('Check name consistency in different fields');
 
