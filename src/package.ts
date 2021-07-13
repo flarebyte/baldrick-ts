@@ -1,3 +1,4 @@
+import isEqual from 'lodash.isequal';
 import {
   Scripts,
   Dependencies,
@@ -11,12 +12,15 @@ import {
   FieldStatus,
   PackageJsonStatusConverter,
   PackageJsonStatus,
+  Author,
+  Engines,
 } from './model';
 
 const minNodeVersion = 12;
+const fixme = 'fixme'
 
 const trimString = (value: string | null | undefined): string =>
-  value === null || value === undefined ? 'fixme' : value?.trim();
+  value === null || value === undefined ? fixme : value?.trim();
 const trimStringArray = (values: string[] | null | undefined): string[] =>
   values === null || values === undefined ? [] : values.map(trimString);
 
@@ -43,7 +47,7 @@ const copyPackageJson = (pj: PackageJson): PackageJson => ({
     typeof pj.author === 'string'
       ? {
           name: trimString(pj.author),
-          url: 'https://github.com/fixme',
+          url: `https://github.com/${fixme}`,
         }
       : pj.author,
   version: trimString(pj.version),
@@ -177,29 +181,29 @@ const packConv: PackageJsonStatusConverter = {
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
   description: (value: string) =>
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  keywords: (_: any[]) => FieldStatus.Ok,
-  author: (_: any[]) => FieldStatus.Ok,
+  keywords: (value: string[]) => value.length > 0 ? FieldStatus.Ok : FieldStatus.Todo,
+  author: (value: Author | string) => typeof value === 'string' ? FieldStatus.Todo: ((value as Author).name.includes(fixme) || (value as Author).url.includes(fixme) ? FieldStatus.Todo: FieldStatus.Ok),
   version: (value: string) =>
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
   license: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  homepage: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  repository: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  main: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  typings: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  files: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  engines: (_: any) => FieldStatus.Ok,
-  scripts: (_: any[]) => FieldStatus.Ok,
-  module: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  devDependencies: (_: any[]) => FieldStatus.Ok,
-  dependencies: (_: any[]) => FieldStatus.Ok,
-  peerDependencies: (_: any[]) => FieldStatus.Ok,
+    value.length > 1 ? FieldStatus.Ok : FieldStatus.Todo,
+  homepage: (value: string, fixed: string) =>
+    value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  repository: (value: string, fixed: string) =>
+  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  main: (value: string, fixed: string) =>
+  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  typings: (value: string, fixed: string) =>
+  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  files: (value: string[], fixed: string[]) =>
+    isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
+  engines: (value: Engines, fixed: Engines) => isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
+  scripts: (value: Scripts, fixed: Scripts) => isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
+  module: (value: string, fixed: string) =>
+  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  devDependencies: (_: Dependencies) => FieldStatus.Ok,
+  dependencies: (_: Dependencies) => FieldStatus.Ok,
+  peerDependencies: (_: Dependencies) => FieldStatus.Ok,
 };
 
 const convertPackageToStatus = (
