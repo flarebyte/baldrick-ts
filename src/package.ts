@@ -17,7 +17,7 @@ import {
 } from './model';
 
 const minNodeVersion = 12;
-const fixme = 'fixme'
+const fixme = 'fixme';
 
 const trimString = (value: string | null | undefined): string =>
   value === null || value === undefined ? fixme : value?.trim();
@@ -39,39 +39,28 @@ const copyDependencies = (deps: Dependencies): Dependencies =>
     ).map(keyVal => [trimString(keyVal[0]), trimString(keyVal[1])])
   );
 
-const copyPackageJson = (pj: PackageJson): PackageJson => ({
-  name: trimString(pj.name),
-  description: trimString(pj.description),
-  keywords: trimStringArray(pj.keywords),
-  author:
-    typeof pj.author === 'string'
-      ? {
-          name: trimString(pj.author),
-          url: `https://github.com/${fixme}`,
-        }
-      : pj.author,
-  version: trimString(pj.version),
-  license: trimString(pj.license),
-  homepage: trimString(pj.homepage),
-  repository: {
-    type: trimString(pj?.repository.type),
-    url: trimString(pj?.repository.url),
-  },
-  main: trimString(pj.main),
-  typings: trimString(pj.typings),
-  files: trimStringArray(pj.files),
-  engines: {
-    node: trimString(pj.engines.node),
-  },
-  scripts: copyScripts(pj.scripts),
-  module: trimString(pj.module),
-  dependencies: copyDependencies(pj.dependencies),
-  devDependencies: copyDependencies(pj.devDependencies),
-  peerDependencies: copyDependencies(pj.peerDependencies),
+const simpleCopyPackageJson = (pj: PackageJson): PackageJson => ({
+  name: pj.name,
+  description: pj.description,
+  keywords: pj.keywords,
+  author: pj.author,
+  version: pj.version,
+  license: pj.license,
+  homepage: pj.homepage,
+  repository: pj.repository,
+  main: pj.main,
+  typings: pj.typings,
+  files: pj.files,
+  engines: pj.engines,
+  scripts: pj.scripts,
+  module: pj.module,
+  dependencies: pj.dependencies,
+  devDependencies: pj.devDependencies,
+  peerDependencies: pj.peerDependencies,
 });
 
 const fromString = (content: string): PackageJson => {
-  const results: PackageJson = copyPackageJson(JSON.parse(content));
+  const results: PackageJson = simpleCopyPackageJson(JSON.parse(content));
   return results;
 };
 
@@ -84,6 +73,8 @@ const toCountItems = (value: string | any): number =>
     ? 1
     : typeof value === 'object'
     ? Object.keys(value).length
+    : value === null || value === undefined
+    ? 0
     : value.length;
 
 const toStringLength = (value: string | any): number =>
@@ -112,6 +103,37 @@ const packageToCoreProject = (
     : ScaffoldingType.Other,
   pipelineType: PipelineType.Github,
   projectType: ProjectType.TsLib,
+});
+
+const trimPackageJson = (pj: PackageJson): PackageJson => ({
+  name: trimString(pj.name),
+  description: trimString(pj.description),
+  keywords: trimStringArray(pj.keywords),
+  author:
+    typeof pj.author === 'string'
+      ? {
+          name: trimString(pj.author),
+          url: `https://github.com/${fixme}`,
+        }
+      : pj.author,
+  version: trimString(pj.version),
+  license: trimString(pj.license),
+  homepage: trimString(pj.homepage),
+  repository: {
+    type: trimString(pj?.repository.type),
+    url: trimString(pj?.repository.url),
+  },
+  main: trimString(pj.main),
+  typings: trimString(pj.typings),
+  files: trimStringArray(pj.files),
+  engines: {
+    node: trimString(pj.engines.node),
+  },
+  scripts: copyScripts(pj.scripts),
+  module: trimString(pj.module),
+  dependencies: copyDependencies(pj.dependencies),
+  devDependencies: copyDependencies(pj.devDependencies),
+  peerDependencies: copyDependencies(pj.peerDependencies),
 });
 
 const normalizeOpenSourcePackage = (
@@ -181,26 +203,35 @@ const packConv: PackageJsonStatusConverter = {
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
   description: (value: string) =>
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  keywords: (value: string[]) => value.length > 0 ? FieldStatus.Ok : FieldStatus.Todo,
-  author: (value: Author | string) => typeof value === 'string' ? FieldStatus.Todo: ((value as Author).name.includes(fixme) || (value as Author).url.includes(fixme) ? FieldStatus.Todo: FieldStatus.Ok),
+  keywords: (value: string[]) =>
+    value.length > 0 ? FieldStatus.Ok : FieldStatus.Todo,
+  author: (value: Author | string) =>
+    typeof value === 'string'
+      ? FieldStatus.Todo
+      : (value as Author).name.includes(fixme) ||
+        (value as Author).url.includes(fixme)
+      ? FieldStatus.Todo
+      : FieldStatus.Ok,
   version: (value: string) =>
     value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
   license: (value: string) =>
     value.length > 1 ? FieldStatus.Ok : FieldStatus.Todo,
   homepage: (value: string, fixed: string) =>
-    value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   repository: (value: string, fixed: string) =>
-  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   main: (value: string, fixed: string) =>
-  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   typings: (value: string, fixed: string) =>
-  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   files: (value: string[], fixed: string[]) =>
     isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
-  engines: (value: Engines, fixed: Engines) => isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
-  scripts: (value: Scripts, fixed: Scripts) => isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
+  engines: (value: Engines, fixed: Engines) =>
+    isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
+  scripts: (value: Scripts, fixed: Scripts) =>
+    isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
   module: (value: string, fixed: string) =>
-  value ===  fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   devDependencies: (_: Dependencies) => FieldStatus.Ok,
   dependencies: (_: Dependencies) => FieldStatus.Ok,
   peerDependencies: (_: Dependencies) => FieldStatus.Ok,
@@ -249,6 +280,7 @@ export {
   toString,
   packageToStats,
   packageToCoreProject,
+  trimPackageJson,
   normalizePackage,
   defaultSizeLimit,
   defaultPrettier,
