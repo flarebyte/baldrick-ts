@@ -28,6 +28,17 @@ describe('Package.json analyzer', () => {
     ).toStrictEqual(['dependencies']);
   });
 
+  it.todo('Move prettier outside package');
+  it.todo('Move size-limit outside package');
+
+  it.todo('Check name consistency in different fields');
+
+  it.todo('Check source code structure is normalized');
+
+  it.todo('Normalize scripts section');
+});
+
+describe('Suggestions', () => {
   it('Summarize what to be fixed and done', () => {
     const actual = fromString(fixturePackageJsonString);
     const todos = suggestTasksToDo('flarebyte', actual);
@@ -40,7 +51,7 @@ describe('Package.json analyzer', () => {
       status: '🤖 FIX',
     });
   });
-  it('Convert author to obj format', () => {
+  it('Check that the author is in obj format', () => {
     const ref = fromString(fixturePackageJsonString);
     const actual = {
       ...ref,
@@ -53,13 +64,4 @@ describe('Package.json analyzer', () => {
       status: '❌ TODO',
     });
   });
-  
-  it.todo('Move prettier outside package');
-  it.todo('Move size-limit outside package');
-
-  it.todo('Check name consistency in different fields');
-
-  it.todo('Check source code structure is normalized');
-
-  it.todo('Normalize scripts section');
 });
