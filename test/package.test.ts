@@ -1,3 +1,4 @@
+import { Todo } from '../src/model';
 import { fromString, packageToStats, suggestTasksToDo } from '../src/package';
 
 const fixturePackageJsonString: string = JSON.stringify(
@@ -38,10 +39,13 @@ describe('Package.json analyzer', () => {
   it.todo('Normalize scripts section');
 });
 
+const todoToKeys = (todos: Todo[]): string[] =>
+  todos.map(v => v.description.replace(' of package.json', '')).sort();
+
 describe('Suggestions', () => {
+  const ref = fromString(fixturePackageJsonString);
   it('Summarize what to be fixed and done', () => {
-    const actual = fromString(fixturePackageJsonString);
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo('flarebyte', ref);
     expect(todos).toContainEqual({
       description: 'Key repository of package.json',
       status: '🤖 FIX',
@@ -52,16 +56,21 @@ describe('Suggestions', () => {
     });
   });
   it('Check that the author is in obj format', () => {
-    const ref = fromString(fixturePackageJsonString);
     const actual = {
       ...ref,
       author: 'Mathilde',
     };
     const todos = suggestTasksToDo('flarebyte', actual);
-    expect(todos).toHaveLength(3);
+    const todoKeys = todoToKeys(todos);
+    expect(todoKeys).toEqual(['Key author', 'Key repository', 'Key scripts']);
     expect(todos).toContainEqual({
       description: 'Key author of package.json',
       status: '❌ TODO',
     });
+  });
+  it('Check the github name is propagated', () => {
+    const todos = suggestTasksToDo('byte', ref);
+    const todoKeys = todoToKeys(todos);
+    expect(todoKeys).toEqual(['Key homepage', 'Key repository', 'Key scripts']);
   });
 });
