@@ -76,20 +76,15 @@ export interface CoreProject {
   projectType: ProjectType;
 }
 
-export interface TodoPriority {
-  name: string;
-  specialChar: string;
-}
-export interface Todo {
-  name: string;
-  description: string;
-  priority: TodoPriority;
-}
-
 export enum FieldStatus {
   Ok,
   Todo,
   Fixable,
+}
+
+export interface Todo {
+  description: string;
+  status: string;
 }
 
 export type toFieldStatus = (value: any, fixed: any) => FieldStatus;

@@ -1,4 +1,4 @@
-import { fromString, packageToStats } from '../src/package';
+import { fromString, packageToStats, suggestTasksToDo } from '../src/package';
 
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
@@ -28,6 +28,18 @@ describe('Package.json analyzer', () => {
     ).toStrictEqual(['dependencies']);
   });
 
+  it('Summarize what to be fixed and done', () => {
+    const actual = fromString(fixturePackageJsonString);
+    const todos = suggestTasksToDo('flarebyte', actual);
+    expect(todos).toContainEqual({
+      description: 'Key repository of package.json',
+      status: 'FIX',
+    });
+    expect(todos).toContainEqual({
+      description: 'Key scripts of package.json',
+      status: 'FIX',
+    });
+  });
   it.todo('Convert author to obj format');
   it.todo('Move prettier outside package');
   it.todo('Move size-limit outside package');

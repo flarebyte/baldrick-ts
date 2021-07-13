@@ -14,6 +14,7 @@ import {
   PackageJsonStatus,
   Author,
   Engines,
+  Todo,
 } from './model';
 
 const minNodeVersion = 12;
@@ -275,14 +276,39 @@ const convertPackageToStatus = (
   ),
 });
 
+const fixAutomatically = (githubAccount: string, packageJson: PackageJson): PackageJson => {
+  const trimmed = trimPackageJson(packageJson)
+  const coreProject = packageToCoreProject(githubAccount, packageJson)
+  const fixed = normalizeOpenSourcePackage(coreProject, trimmed)
+  return fixed;
+}
+
+const statusToTodo = (status: FieldStatus): string => status === FieldStatus.Ok ? 'OK': status === FieldStatus.Todo ? 'TODO' : 'FIX'
+const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
+  const [key, stats] = keyStats
+  return {
+    description: `Key ${key} of package.json`,
+    status: statusToTodo(stats)
+  }
+}
+
+const keepNotOk = (keyStats: [string, FieldStatus]): boolean => keyStats[1] !== FieldStatus.Ok
+
+const suggestTasksToDo = (githubAccount: string, packageJson: PackageJson): Todo[] => {
+  const fixed = fixAutomatically(githubAccount, packageJson)
+  const packageStatus = convertPackageToStatus(packageJson, fixed)
+  const results = Object.entries(packageStatus).filter(keepNotOk).map(keyStatsToTodo)
+  return results
+}
+
 export {
   fromString,
   toString,
   packageToStats,
-  packageToCoreProject,
   trimPackageJson,
   normalizePackage,
   defaultSizeLimit,
   defaultPrettier,
-  convertPackageToStatus,
+  fixAutomatically,
+  suggestTasksToDo
 };
