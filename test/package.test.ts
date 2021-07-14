@@ -1,4 +1,4 @@
-import { Todo } from '../src/model';
+import { LicenseType, PipelineType, ProjectType, ScaffoldingType, Todo } from '../src/model';
 import {
   defaultPrettier,
   defaultSizeLimit,
@@ -7,6 +7,7 @@ import {
   toString,
   packageToStats,
   suggestTasksToDo,
+  packageToCoreProject,
 } from '../src/package';
 import { writeFileSync } from '../src/barrel';
 
@@ -46,9 +47,44 @@ describe('Package.json analyzer', () => {
 
 const todoToKeys = (todos: Todo[]): string[] =>
   todos.map(v => v.description.replace(' of package.json', '')).sort();
-const alwaysMissing = ['Key repository', 'Key scripts'];
+
+describe('Core project', () => {
+  const ref = fromString(fixturePackageJsonString);
+  it('it should understand MIT', ()=> {
+    const actual = packageToCoreProject('flarebyte', ref)
+    expect(actual.githubAccount).toBe('flarebyte')
+    expect(actual.licenseType).toBe(LicenseType.MIT)
+    expect(actual.name).toEqual('scratchbook')
+    expect(actual.pipelineType).toEqual(PipelineType.Github)
+    expect(actual.projectType).toEqual(ProjectType.TsLib)
+    expect(actual.scaffoldingType).toEqual(ScaffoldingType.TsDx)
+
+  })
+  
+  it('it should understand other license', ()=> {
+    const modified = {
+      ...ref,
+      license: 'GPL'
+    }
+    const actual = packageToCoreProject('flarebyte', modified)
+    expect(actual.licenseType).toEqual(LicenseType.Other)
+  })
+  
+  it('it should understand other scaffolding', ()=> {
+    const modified = {
+      ...ref,
+      devDependencies: {
+        typescript: "^4.3.5"
+      }
+    }
+    const actual = packageToCoreProject('flarebyte', modified)
+    expect(actual.scaffoldingType).toEqual(ScaffoldingType.Other)
+  })
+})  
+
 describe('Suggestions', () => {
   const ref = fromString(fixturePackageJsonString);
+  const alwaysMissing = ['Key repository', 'Key scripts'];
   it('Summarize what to be fixed and done', () => {
     const todos = suggestTasksToDo('flarebyte', ref);
     expect(todos).toContainEqual({
@@ -122,6 +158,16 @@ describe('Suggestions', () => {
     const todos = suggestTasksToDo('flarebyte', actual);
     expect(todoToKeys(todos)).toEqual(['Key engines', ...alwaysMissing].sort());
   });
+  
+  it('should detect empty string', () => {
+    const actual = {
+      ...ref,
+      description: '',
+    };
+    const todos = suggestTasksToDo('flarebyte', actual);
+    expect(todoToKeys(todos)).toEqual(['Key description', ...alwaysMissing].sort());
+  });
+
 });
 
 describe('Move specific configuration outside of package.json', () => {

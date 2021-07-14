@@ -16,14 +16,10 @@ import {
   Engines,
   Todo,
 } from './model';
+import { toCountItems, toStringLength, trimString, trimStringArray } from './utils';
 
 const minNodeVersion = 12;
 const fixme = 'fixme';
-
-const trimString = (value: string | null | undefined): string =>
-  value === null || value === undefined ? fixme : value?.trim();
-const trimStringArray = (values: string[] | null | undefined): string[] =>
-  values === null || values === undefined ? [] : values.map(trimString);
 
 const copyScripts = (scripts: Scripts): Scripts =>
   Object.fromEntries(
@@ -69,18 +65,6 @@ const toString = (packageJson: PackageJson): string => {
   return JSON.stringify(packageJson, null, 2);
 };
 
-const toCountItems = (value: string | any): number =>
-  typeof value === 'string'
-    ? 1
-    : typeof value === 'object'
-    ? Object.keys(value).length
-    : value === null || value === undefined
-    ? 0
-    : value.length;
-
-const toStringLength = (value: string | any): number =>
-  typeof value === 'string' ? value.length : 0;
-
 const packageToStats = (packageJson: PackageJson): PackageKeyStats[] =>
   Object.entries(packageJson).map(keyValue => ({
     key: keyValue[0],
@@ -121,8 +105,8 @@ const trimPackageJson = (pj: PackageJson): PackageJson => ({
   license: trimString(pj.license),
   homepage: trimString(pj.homepage),
   repository: {
-    type: trimString(pj?.repository.type),
-    url: trimString(pj?.repository.url),
+    type: trimString(pj.repository.type),
+    url: trimString(pj.repository.url),
   },
   main: trimString(pj.main),
   typings: trimString(pj.typings),
@@ -305,7 +289,7 @@ export {
   fromString,
   toString,
   packageToStats,
-  trimPackageJson,
+  packageToCoreProject,
   defaultSizeLimit,
   defaultPrettier,
   fixAutomatically,
