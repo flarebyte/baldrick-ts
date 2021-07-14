@@ -200,12 +200,12 @@ const defaultPrettier = {
 };
 
 const packConv: PackageJsonStatusConverter = {
-  name: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  description: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  keywords: (value: string[]) =>
-    value.length > 0 ? FieldStatus.Ok : FieldStatus.Todo,
+  name: (value: string, fixed: string) =>
+    value.length <3 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  description: (value: string, fixed: string) =>
+  value.length <3 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  keywords: (value: string[], fixed: string[]) =>
+    value.length === 0 ? FieldStatus.Todo : isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
   author: (value: Author | string) =>
     typeof value === 'string'
       ? FieldStatus.Todo
@@ -213,10 +213,10 @@ const packConv: PackageJsonStatusConverter = {
         (value as Author).url.includes(fixme)
       ? FieldStatus.Todo
       : FieldStatus.Ok,
-  version: (value: string) =>
-    value.length > 3 ? FieldStatus.Ok : FieldStatus.Todo,
-  license: (value: string) =>
-    value.length > 1 ? FieldStatus.Ok : FieldStatus.Todo,
+  version: (value: string, fixed: string) =>
+    value.length < 3 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  license: (value: string, fixed: string) =>
+    value.length < 2 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   homepage: (value: string, fixed: string) =>
     value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
   repository: (value: string, fixed: string) =>
@@ -279,7 +279,7 @@ const convertPackageToStatus = (
 const fixAutomatically = (githubAccount: string, packageJson: PackageJson): PackageJson => {
   const trimmed = trimPackageJson(packageJson)
   const coreProject = packageToCoreProject(githubAccount, packageJson)
-  const fixed = normalizeOpenSourcePackage(coreProject, trimmed)
+  const fixed = normalizePackage(coreProject, trimmed)
   return fixed;
 }
 
@@ -306,7 +306,6 @@ export {
   toString,
   packageToStats,
   trimPackageJson,
-  normalizePackage,
   defaultSizeLimit,
   defaultPrettier,
   fixAutomatically,
