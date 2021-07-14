@@ -105,7 +105,7 @@ const toMaintenanceMd = `
 # Developer maintenance
 `;
 
-const toReadmeMd = (coreProject: CoreProject, existingReadme: string): string =>
+const toReadmeMd = (_a: CoreProject, _b: string): string =>
   '';
 
 export { toCodeOfConductMd, toContributingMd, toMaintenanceMd, toReadmeMd };

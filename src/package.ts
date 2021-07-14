@@ -1,4 +1,3 @@
-import isEqual from 'lodash.isequal';
 import {
   Scripts,
   Dependencies,
@@ -13,10 +12,9 @@ import {
   PackageJsonStatusConverter,
   PackageJsonStatus,
   Author,
-  Engines,
   Todo,
 } from './model';
-import { toCountItems, toStringLength, trimString, trimStringArray } from './utils';
+import { autoToStatus, editableArrToStatus, editableToStatus, statusToTodo, toCountItems, toStringLength, trimString, trimStringArray } from './utils';
 
 const minNodeVersion = 12;
 const fixme = 'fixme';
@@ -158,13 +156,19 @@ const normalizeOpenSourcePackage = (
   },
   module: `dist/${coreProject.name}.esm.js`,
 });
+
+const normalizeOtherPackage = (
+  coreProject: CoreProject,
+  packageJson: PackageJson
+): PackageJson =>({...normalizeOpenSourcePackage(coreProject, packageJson)})
+
 const normalizePackage = (
   coreProject: CoreProject,
   packageJson: PackageJson
 ): PackageJson =>
   coreProject.licenseType === LicenseType.MIT
     ? normalizeOpenSourcePackage(coreProject, packageJson)
-    : packageJson;
+    : normalizeOtherPackage(coreProject, packageJson);
 
 const defaultSizeLimit = (coreProject: CoreProject) => [
   {
@@ -184,12 +188,9 @@ const defaultPrettier = {
 };
 
 const packConv: PackageJsonStatusConverter = {
-  name: (value: string, fixed: string) =>
-    value.length <3 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  description: (value: string, fixed: string) =>
-  value.length <3 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  keywords: (value: string[], fixed: string[]) =>
-    value.length === 0 ? FieldStatus.Todo : isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
+  name: editableToStatus,
+  description: editableToStatus,
+  keywords: editableArrToStatus,
   author: (value: Author | string) =>
     typeof value === 'string'
       ? FieldStatus.Todo
@@ -197,26 +198,16 @@ const packConv: PackageJsonStatusConverter = {
         (value as Author).url.includes(fixme)
       ? FieldStatus.Todo
       : FieldStatus.Ok,
-  version: (value: string, fixed: string) =>
-    value.length < 3 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  license: (value: string, fixed: string) =>
-    value.length < 2 ? FieldStatus.Todo : value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  homepage: (value: string, fixed: string) =>
-    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  repository: (value: string, fixed: string) =>
-    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  main: (value: string, fixed: string) =>
-    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  typings: (value: string, fixed: string) =>
-    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
-  files: (value: string[], fixed: string[]) =>
-    isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
-  engines: (value: Engines, fixed: Engines) =>
-    isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
-  scripts: (value: Scripts, fixed: Scripts) =>
-    isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable,
-  module: (value: string, fixed: string) =>
-    value === fixed ? FieldStatus.Ok : FieldStatus.Fixable,
+  version: editableToStatus,
+  license: editableToStatus,
+  homepage: autoToStatus,
+  repository: autoToStatus,
+  main: autoToStatus,
+  typings: autoToStatus,
+  files: autoToStatus,
+  engines: autoToStatus,
+  scripts: autoToStatus,
+  module: autoToStatus,
   devDependencies: (_: Dependencies) => FieldStatus.Ok,
   dependencies: (_: Dependencies) => FieldStatus.Ok,
   peerDependencies: (_: Dependencies) => FieldStatus.Ok,
@@ -267,7 +258,6 @@ const fixAutomatically = (githubAccount: string, packageJson: PackageJson): Pack
   return fixed;
 }
 
-const statusToTodo = (status: FieldStatus): string => status === FieldStatus.Ok ? 'OK': status === FieldStatus.Todo ? '❌ TODO' : '🤖 FIX'
 const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
   const [key, stats] = keyStats
   return {

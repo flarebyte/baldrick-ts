@@ -1,4 +1,10 @@
-import { LicenseType, PipelineType, ProjectType, ScaffoldingType, Todo } from '../src/model';
+import {
+  LicenseType,
+  PipelineType,
+  ProjectType,
+  ScaffoldingType,
+  Todo,
+} from '../src/model';
 import {
   defaultPrettier,
   defaultSizeLimit,
@@ -50,47 +56,42 @@ const todoToKeys = (todos: Todo[]): string[] =>
 
 describe('Core project', () => {
   const ref = fromString(fixturePackageJsonString);
-  it('it should understand MIT', ()=> {
-    const actual = packageToCoreProject('flarebyte', ref)
-    expect(actual.githubAccount).toBe('flarebyte')
-    expect(actual.licenseType).toBe(LicenseType.MIT)
-    expect(actual.name).toEqual('scratchbook')
-    expect(actual.pipelineType).toEqual(PipelineType.Github)
-    expect(actual.projectType).toEqual(ProjectType.TsLib)
-    expect(actual.scaffoldingType).toEqual(ScaffoldingType.TsDx)
+  it('it should understand MIT', () => {
+    const actual = packageToCoreProject('flarebyte', ref);
+    expect(actual.githubAccount).toBe('flarebyte');
+    expect(actual.licenseType).toBe(LicenseType.MIT);
+    expect(actual.name).toEqual('scratchbook');
+    expect(actual.pipelineType).toEqual(PipelineType.Github);
+    expect(actual.projectType).toEqual(ProjectType.TsLib);
+    expect(actual.scaffoldingType).toEqual(ScaffoldingType.TsDx);
+  });
 
-  })
-  
-  it('it should understand other license', ()=> {
+  it('it should understand other license', () => {
     const modified = {
       ...ref,
-      license: 'GPL'
-    }
-    const actual = packageToCoreProject('flarebyte', modified)
-    expect(actual.licenseType).toEqual(LicenseType.Other)
-  })
-  
-  it('it should understand other scaffolding', ()=> {
+      license: 'GPL',
+    };
+    const actual = packageToCoreProject('flarebyte', modified);
+    expect(actual.licenseType).toEqual(LicenseType.Other);
+  });
+
+  it('it should understand other scaffolding', () => {
     const modified = {
       ...ref,
       devDependencies: {
-        typescript: "^4.3.5"
-      }
-    }
-    const actual = packageToCoreProject('flarebyte', modified)
-    expect(actual.scaffoldingType).toEqual(ScaffoldingType.Other)
-  })
-})  
+        typescript: '^4.3.5',
+      },
+    };
+    const actual = packageToCoreProject('flarebyte', modified);
+    expect(actual.scaffoldingType).toEqual(ScaffoldingType.Other);
+  });
+});
 
 describe('Suggestions', () => {
   const ref = fromString(fixturePackageJsonString);
-  const alwaysMissing = ['Key repository', 'Key scripts'];
+  const alwaysMissing = ['Key scripts'];
   it('Summarize what to be fixed and done', () => {
     const todos = suggestTasksToDo('flarebyte', ref);
-    expect(todos).toContainEqual({
-      description: 'Key repository of package.json',
-      status: '🤖 FIX',
-    });
     expect(todos).toContainEqual({
       description: 'Key scripts of package.json',
       status: '🤖 FIX',
@@ -108,10 +109,27 @@ describe('Suggestions', () => {
       status: '❌ TODO',
     });
   });
+
+  it('Check that the author does not contain fixme', () => {
+    const actual = {
+      ...ref,
+      author: {
+        name: 'fixme',
+        url: 'https://github.com/fixme',
+      },
+    };
+    const todos = suggestTasksToDo('flarebyte', actual);
+    expect(todoToKeys(todos)).toEqual(['Key author', ...alwaysMissing].sort());
+    expect(todos).toContainEqual({
+      description: 'Key author of package.json',
+      status: '❌ TODO',
+    });
+  });
+
   it('Check the github name is propagated', () => {
     const todos = suggestTasksToDo('byte', ref);
     expect(todoToKeys(todos)).toEqual(
-      ['Key homepage', ...alwaysMissing].sort()
+      ['Key homepage', 'Key repository', ...alwaysMissing].sort()
     );
   });
   it('Trim spaces for description', () => {
@@ -144,7 +162,7 @@ describe('Suggestions', () => {
     const todos = suggestTasksToDo('flarebyte', actual);
     // todo check why
     expect(todoToKeys(todos)).toEqual(
-      ['Key homepage', 'Key module', ...alwaysMissing].sort()
+      ['Key homepage', 'Key module', 'Key repository', ...alwaysMissing].sort()
     );
   });
 
@@ -158,16 +176,17 @@ describe('Suggestions', () => {
     const todos = suggestTasksToDo('flarebyte', actual);
     expect(todoToKeys(todos)).toEqual(['Key engines', ...alwaysMissing].sort());
   });
-  
+
   it('should detect empty string', () => {
     const actual = {
       ...ref,
       description: '',
     };
     const todos = suggestTasksToDo('flarebyte', actual);
-    expect(todoToKeys(todos)).toEqual(['Key description', ...alwaysMissing].sort());
+    expect(todoToKeys(todos)).toEqual(
+      ['Key description', ...alwaysMissing].sort()
+    );
   });
-
 });
 
 describe('Move specific configuration outside of package.json', () => {
@@ -199,5 +218,15 @@ describe('Normalize package.json', () => {
     const ref = fromString(fixturePackageJsonString);
     const actual = fixAutomatically('flarebyte', ref);
     expect(actual).toEqual(expected);
+  });
+
+  it('Normalize for other cases', () => {
+    const ref = fromString(fixturePackageJsonString);
+    const given = {
+      ...ref,
+      license: 'GPL'
+    }
+    const actual = fixAutomatically('flarebyte', given);
+    expect(actual).toBeDefined();
   });
 });
