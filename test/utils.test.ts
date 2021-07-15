@@ -22,10 +22,14 @@ describe('Utility', () => {
     expect(trimStringArray(undefined)).toEqual([]);
   });
   it('Count the number of items', () => {
+    expect(toCountItems(null)).toEqual(0)
+    expect(toCountItems(undefined)).toEqual(0)
     expect(toCountItems('abc')).toEqual(1);
     expect(toCountItems('')).toEqual(1);
-    // expect(toCountItems(null)).toEqual(0)
-    // expect(toCountItems(undefined)).toEqual(0)
+    expect(toCountItems([])).toEqual(0);
+    expect(toCountItems(['a', 'b'])).toEqual(2);
+    expect(toCountItems({ a: 'alpha', b: 'beta'})).toEqual(2);
+
   });
   it('Convert an editable field value to status', () => {
     expect(editableToStatus('long text', 'long text')).toEqual(FieldStatus.Ok);

@@ -12,15 +12,14 @@ const trimStringArray = (values: string[] | null | undefined): string[] =>
 const toStringLength = (value: string | any): number =>
   typeof value === 'string' ? value.length : 0;
 
-const toCountItems = (value: string | any): number =>
-  typeof value === 'string'
-    ? 1
-    : typeof value === 'object'
-    ? Object.keys(value).length
-    : value === null || value === undefined
+const toCountItems = (
+  value: string | string[] | object | null | undefined
+): number =>
+  value === null || value === undefined
     ? 0
-    : value.length;
-
+    : typeof value === 'string'
+    ? 1
+    : Object.keys(value).length;
 const editableToStatus = (value: string, fixed: string): FieldStatus =>
   value.length < 3
     ? FieldStatus.Todo
