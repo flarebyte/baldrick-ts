@@ -80,20 +80,24 @@ describe('Utility', () => {
 
   it('Default an object to empty object', () => {
     const obj1 = {
-      a: 'something'
-    }
+      a: 'something',
+    };
     expect(alwaysObj(obj1)).toEqual(obj1);
     expect(alwaysObj(null)).toEqual({});
     expect(alwaysObj(undefined)).toEqual({});
   });
   it('Default an array to empty array', () => {
-    const array1 = ['hello']
+    const array1 = ['hello'];
     expect(alwaysArray(array1)).toEqual(array1);
     expect(alwaysArray(null)).toEqual([]);
     expect(alwaysArray(undefined)).toEqual([]);
   });
   it('Find headers', () => {
-    expect(findHeader('## ')(['not header', '## header', 'after-header'])).toEqual('header');
-    expect(findHeader('## ')(['not header', 'still-no-header', 'after-header'])).toEqual('');  
+    expect(
+      findHeader('## ')(['not header', '## header', 'after-header'])
+    ).toEqual('header');
+    expect(
+      findHeader('## ')(['not header', 'still-no-header', 'after-header'])
+    ).toEqual('');
   });
 });
