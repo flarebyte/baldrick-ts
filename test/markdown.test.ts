@@ -86,4 +86,23 @@ describe('Markdown documentation', () => {
     expect(actual.sections[1].body).toContain('In eu mi bibendum');
     expect(actual.sections[1].body).toContain('et sollicitudin.');
   });
+  
+  it('parse a markdown document without any secondary sections', () => {
+    const basicMarkdown = `
+    # Main title
+    
+    ![npm](https://img.shields.io/npm/v/scratchbook)
+    ![Build status](https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg)
+
+    > main description
+
+    Some other info
+    `;
+    const actual = parseMarkdown(basicMarkdown);
+    expect(actual.title).toEqual('Main title');
+    expect(actual.description).toEqual('main description');
+    expect(actual.badges).toHaveLength(2);
+    expect(actual.mainSection.trim()).toEqual('Some other info');
+    expect(actual.sections).toHaveLength(0);
+  });
 });
