@@ -1,5 +1,5 @@
 import { Badge, CoreProject, MdDocument, MdSection } from './model';
-import { stringBetween } from './utils';
+import { findHeader, stringBetween } from './utils';
 const _ = '`';
 const ___ = '```';
 
@@ -136,11 +136,6 @@ const getSecondarySections = (lines: string[]): MdSection[] => {
   );
   return sections;
 };
-
-const findHeader = (prefix: string) => (lines: string[]) =>
-  (lines.find(line => line.startsWith(prefix)) || prefix).substring(
-    prefix.length
-  );
 
 const extractBadge = (line: string): Badge => ({
   text: stringBetween('![', ']')(line),

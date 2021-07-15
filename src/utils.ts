@@ -58,6 +58,10 @@ const alwaysObj = (value: null | undefined | object): object =>
 const alwaysArray = (value: null | undefined | any[]): any[] =>
   value === null || value === undefined ? [] : value;
 
+const findHeader = (prefix: string) => (lines: string[]) =>
+  (lines.find(line => line.startsWith(prefix)) || prefix).substring(
+    prefix.length
+  );
 export {
   trimString,
   trimStringArray,
@@ -70,4 +74,5 @@ export {
   stringBetween,
   alwaysObj,
   alwaysArray,
+  findHeader,
 };

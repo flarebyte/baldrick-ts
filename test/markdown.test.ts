@@ -2,11 +2,13 @@ import {
   codeOfConductMd,
   contributingMd,
   maintenanceMd,
+  markdownToString,
   parseMarkdown,
   toReadmeMd,
 } from '../src/markdown';
 import {
   LicenseType,
+  MdDocument,
   PipelineType,
   ProjectType,
   ScaffoldingType,
@@ -86,7 +88,7 @@ describe('Markdown documentation', () => {
     expect(actual.sections[1].body).toContain('In eu mi bibendum');
     expect(actual.sections[1].body).toContain('et sollicitudin.');
   });
-  
+
   it('parse a markdown document without any secondary sections', () => {
     const basicMarkdown = `
     # Main title
@@ -104,5 +106,40 @@ describe('Markdown documentation', () => {
     expect(actual.badges).toHaveLength(2);
     expect(actual.mainSection.trim()).toEqual('Some other info');
     expect(actual.sections).toHaveLength(0);
+  });
+
+  it('should produces a markdown document', () => {
+    const mdDoc: MdDocument = {
+      title: 'The Title',
+      description: 'The description',
+      badges: [
+        { text: 'badge text', url: 'http://site.com/badge' },
+        { text: 'badge 2 text', url: 'http://othersite.com/badge' },
+      ],
+      mainSection: 'main 1\nmain 2\nmain 3',
+      sections: [
+        {
+          title: 'Alpha',
+          body: 'Lorem ipsum dolor sit amet',
+        },
+        {
+          title: 'Bravo',
+          body: 'In eu mi bibendum neque egestas congue quisque.',
+        },
+      ],
+    };
+    const actual = markdownToString(mdDoc);
+    expect(actual).toContain(`# ${mdDoc.title}`);
+    expect(actual).toContain(`> ${mdDoc.description}`);
+    expect(actual).toContain(mdDoc.badges[0].text);
+    expect(actual).toContain(mdDoc.badges[0].url);
+    expect(actual).toContain(mdDoc.badges[1].text);
+    expect(actual).toContain(mdDoc.badges[1].url);
+    expect(actual).toContain('main 1');
+    expect(actual).toContain('main 3');
+    expect(actual).toContain(mdDoc.sections[0].title);
+    expect(actual).toContain(mdDoc.sections[0].body);
+    expect(actual).toContain(mdDoc.sections[1].title);
+    expect(actual).toContain(mdDoc.sections[1].body);
   });
 });
