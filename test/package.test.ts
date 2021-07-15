@@ -5,11 +5,8 @@ import {
   ScaffoldingType,
   Todo,
 } from '../src/model';
-import {
-  fixAutomatically,
-  suggestTasksToDo,
-  packageToCoreProject,
-} from '../src/package';
+import { fixAutomatically, suggestTasksToDo } from '../src/package';
+import { packageToCoreProject } from '../src/package-copy';
 import { fromString, toString } from '../src/package-io';
 import { writeFileSync } from '../src/barrel';
 import { defaultPrettier } from '../src/conf-prettier';

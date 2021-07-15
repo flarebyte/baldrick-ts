@@ -1,53 +1,16 @@
 import {
-  Scripts,
-  Dependencies,
   PackageJson,
   CoreProject,
   LicenseType,
-  PipelineType,
-  ProjectType,
-  ScaffoldingType,
   FieldStatus,
   Todo,
 } from './model';
+import { copyDependencies, copyScripts, packageToCoreProject } from './package-copy';
 import { convertPackageToStatus } from './package-status';
-import { alwaysObj, statusToTodo, trimString, trimStringArray } from './utils';
+import { statusToTodo, trimString, trimStringArray } from './utils';
 
 const minNodeVersion = 12;
 const fixme = 'fixme';
-
-const copyScripts = (scripts: Scripts): Scripts =>
-  Object.fromEntries(
-    Object.entries(scripts).map(keyVal => [
-      trimString(keyVal[0]),
-      trimString(keyVal[1]),
-    ])
-  );
-
-const copyDependencies = (deps: Dependencies): Dependencies =>
-  Object.fromEntries(
-    Object.entries(
-      alwaysObj(deps)
-    ).map(keyVal => [trimString(keyVal[0]), trimString(keyVal[1])])
-  );
-
-const hasDependency = (name: string, dependencies: Dependencies): boolean =>
-  Object.keys(dependencies).includes(name);
-
-const packageToCoreProject = (
-  githubAccount: string,
-  packageJson: PackageJson
-): CoreProject => ({
-  name: packageJson.name,
-  githubAccount,
-  licenseType:
-    packageJson.license === 'MIT' ? LicenseType.MIT : LicenseType.Other,
-  scaffoldingType: hasDependency('tsdx', packageJson.devDependencies)
-    ? ScaffoldingType.TsDx
-    : ScaffoldingType.Other,
-  pipelineType: PipelineType.Github,
-  projectType: ProjectType.TsLib,
-});
 
 const trimPackageJson = (pj: PackageJson): PackageJson => ({
   name: trimString(pj.name),
@@ -158,7 +121,6 @@ const suggestTasksToDo = (githubAccount: string, packageJson: PackageJson): Todo
 }
 
 export {
-  packageToCoreProject,
   fixAutomatically,
   suggestTasksToDo
 };
