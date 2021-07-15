@@ -15,8 +15,8 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test",
-    "test:cov": "tsdx test --coverage",
+    "test": "tsdx test --config jest.config.json",
+    "test:cov": "tsdx test --config jest.config.json --coverage",
     "lint": "tsdx lint",
     "fix": "tsdx lint --fix",
     "prepare": "tsdx build",

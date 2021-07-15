@@ -224,8 +224,8 @@ describe('Normalize package.json', () => {
     const ref = fromString(fixturePackageJsonString);
     const given = {
       ...ref,
-      license: 'GPL'
-    }
+      license: 'GPL',
+    };
     const actual = fixAutomatically('flarebyte', given);
     expect(actual).toBeDefined();
   });

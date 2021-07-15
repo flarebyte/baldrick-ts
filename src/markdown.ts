@@ -2,7 +2,7 @@ import { CoreProject } from './model';
 const _ = '`';
 const ___ = '```';
 
-const toCodeOfConductMd = `
+const codeOfConductMd = `
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
@@ -50,7 +50,7 @@ This Code of Conduct is adapted from the [Contributor Covenant][homepage], versi
 [homepage]: http://contributor-covenant.org
 [version]: http://contributor-covenant.org/version/1/4/
 `;
-const toContributingMd = `
+const contributingMd = `
 # Contributing
 
 Welcome ! and many thanks for taking the time to contribute !
@@ -101,11 +101,10 @@ ${___}
 yarn version
 ${___}
 `;
-const toMaintenanceMd = `
+const maintenanceMd = `
 # Developer maintenance
 `;
 
-const toReadmeMd = (_a: CoreProject, _b: string): string =>
-  '';
+const toReadmeMd = (_a: CoreProject, _b: string): string => '';
 
-export { toCodeOfConductMd, toContributingMd, toMaintenanceMd, toReadmeMd };
+export { codeOfConductMd, contributingMd, maintenanceMd, toReadmeMd };

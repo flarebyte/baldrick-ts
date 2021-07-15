@@ -4,7 +4,7 @@ import { FieldStatus } from './model';
 const fixme = 'fixme';
 
 const trimString = (value: string | null | undefined): string =>
-  value === null || value === undefined ? fixme : value?.trim();
+  value === null || value === undefined ? fixme : value.trim();
 
 const trimStringArray = (values: string[] | null | undefined): string[] =>
   values === null || values === undefined ? [] : values.map(trimString);
@@ -44,6 +44,7 @@ const statusToTodo = (status: FieldStatus): string =>
     : status === FieldStatus.Todo
     ? '❌ TODO'
     : '🤖 FIX';
+
 export {
   trimString,
   trimStringArray,
