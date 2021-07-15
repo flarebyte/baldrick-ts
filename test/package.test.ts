@@ -6,17 +6,15 @@ import {
   Todo,
 } from '../src/model';
 import {
-  defaultPrettier,
-  defaultSizeLimit,
   fixAutomatically,
-  fromString,
-  toString,
-  packageToStats,
   suggestTasksToDo,
   packageToCoreProject,
 } from '../src/package';
+import { fromString, toString } from '../src/package-io';
 import { writeFileSync } from '../src/barrel';
-
+import { defaultPrettier } from '../src/conf-prettier';
+import { defaultSizeLimit } from '../src/conf-size-limit';
+import { packageToStats } from '../src/package-stats';
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
   null,

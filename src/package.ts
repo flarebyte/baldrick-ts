@@ -2,19 +2,16 @@ import {
   Scripts,
   Dependencies,
   PackageJson,
-  PackageKeyStats,
   CoreProject,
   LicenseType,
   PipelineType,
   ProjectType,
   ScaffoldingType,
   FieldStatus,
-  PackageJsonStatusConverter,
-  PackageJsonStatus,
-  Author,
   Todo,
 } from './model';
-import { alwaysObj, autoToStatus, editableArrToStatus, editableToStatus, statusToTodo, toCountItems, toStringLength, trimString, trimStringArray } from './utils';
+import { convertPackageToStatus } from './package-status';
+import { alwaysObj, statusToTodo, trimString, trimStringArray } from './utils';
 
 const minNodeVersion = 12;
 const fixme = 'fixme';
@@ -33,42 +30,6 @@ const copyDependencies = (deps: Dependencies): Dependencies =>
       alwaysObj(deps)
     ).map(keyVal => [trimString(keyVal[0]), trimString(keyVal[1])])
   );
-
-const simpleCopyPackageJson = (pj: PackageJson): PackageJson => ({
-  name: pj.name,
-  description: pj.description,
-  keywords: pj.keywords,
-  author: pj.author,
-  version: pj.version,
-  license: pj.license,
-  homepage: pj.homepage,
-  repository: pj.repository,
-  main: pj.main,
-  typings: pj.typings,
-  files: pj.files,
-  engines: pj.engines,
-  scripts: pj.scripts,
-  module: pj.module,
-  dependencies: pj.dependencies,
-  devDependencies: pj.devDependencies,
-  peerDependencies: pj.peerDependencies,
-});
-
-const fromString = (content: string): PackageJson => {
-  const results: PackageJson = simpleCopyPackageJson(JSON.parse(content));
-  return results;
-};
-
-const toString = (packageJson: PackageJson): string => {
-  return JSON.stringify(packageJson, null, 2);
-};
-
-const packageToStats = (packageJson: PackageJson): PackageKeyStats[] =>
-  Object.entries(packageJson).map(keyValue => ({
-    key: keyValue[0],
-    countItems: toCountItems(keyValue[1]),
-    stringLength: toStringLength(keyValue[1]),
-  }));
 
 const hasDependency = (name: string, dependencies: Dependencies): boolean =>
   Object.keys(dependencies).includes(name);
@@ -170,86 +131,7 @@ const normalizePackage = (
     ? normalizeOpenSourcePackage(coreProject, packageJson)
     : normalizeOtherPackage(coreProject, packageJson);
 
-const defaultSizeLimit = (coreProject: CoreProject) => [
-  {
-    path: `dist/${coreProject.name}.cjs.production.min.js`,
-    limit: '5 KB',
-  },
-  {
-    path: `dist/${coreProject.name}.esm.js`,
-    limit: '5 KB',
-  },
-];
-const defaultPrettier = {
-  printWidth: 80,
-  semi: true,
-  singleQuote: true,
-  trailingComma: 'es5',
-};
 
-const packConv: PackageJsonStatusConverter = {
-  name: editableToStatus,
-  description: editableToStatus,
-  keywords: editableArrToStatus,
-  author: (value: Author | string) =>
-    typeof value === 'string'
-      ? FieldStatus.Todo
-      : (value as Author).name.includes(fixme) ||
-        (value as Author).url.includes(fixme)
-      ? FieldStatus.Todo
-      : FieldStatus.Ok,
-  version: editableToStatus,
-  license: editableToStatus,
-  homepage: autoToStatus,
-  repository: autoToStatus,
-  main: autoToStatus,
-  typings: autoToStatus,
-  files: autoToStatus,
-  engines: autoToStatus,
-  scripts: autoToStatus,
-  module: autoToStatus,
-  devDependencies: (_: Dependencies) => FieldStatus.Ok,
-  dependencies: (_: Dependencies) => FieldStatus.Ok,
-  peerDependencies: (_: Dependencies) => FieldStatus.Ok,
-};
-
-const convertPackageToStatus = (
-  packageJson: PackageJson,
-  fixedPackageJson: PackageJson
-): PackageJsonStatus => ({
-  name: packConv.name(packageJson.name, fixedPackageJson.name),
-  description: packConv.description(
-    packageJson.description,
-    fixedPackageJson.description
-  ),
-  keywords: packConv.keywords(packageJson.keywords, fixedPackageJson.keywords),
-  author: packConv.author(packageJson.author, fixedPackageJson.author),
-  version: packConv.version(packageJson.version, fixedPackageJson.version),
-  license: packConv.license(packageJson.license, fixedPackageJson.license),
-  homepage: packConv.homepage(packageJson.homepage, fixedPackageJson.homepage),
-  repository: packConv.repository(
-    packageJson.repository,
-    fixedPackageJson.repository
-  ),
-  main: packConv.main(packageJson.main, fixedPackageJson.main),
-  typings: packConv.typings(packageJson.typings, fixedPackageJson.typings),
-  files: packConv.files(packageJson.files, fixedPackageJson.files),
-  engines: packConv.engines(packageJson.engines, fixedPackageJson.engines),
-  scripts: packConv.scripts(packageJson.scripts, fixedPackageJson.scripts),
-  module: packConv.module(packageJson.module, fixedPackageJson.module),
-  devDependencies: packConv.devDependencies(
-    packageJson.devDependencies,
-    fixedPackageJson.devDependencies
-  ),
-  dependencies: packConv.dependencies(
-    packageJson.dependencies,
-    fixedPackageJson.dependencies
-  ),
-  peerDependencies: packConv.peerDependencies(
-    packageJson.peerDependencies,
-    fixedPackageJson.peerDependencies
-  ),
-});
 
 const fixAutomatically = (githubAccount: string, packageJson: PackageJson): PackageJson => {
   const trimmed = trimPackageJson(packageJson)
@@ -276,12 +158,7 @@ const suggestTasksToDo = (githubAccount: string, packageJson: PackageJson): Todo
 }
 
 export {
-  fromString,
-  toString,
-  packageToStats,
   packageToCoreProject,
-  defaultSizeLimit,
-  defaultPrettier,
   fixAutomatically,
   suggestTasksToDo
 };
