@@ -4,6 +4,7 @@ import {
   editableArrToStatus,
   editableToStatus,
   statusToTodo,
+  stringBetween,
   toCountItems,
   trimString,
   trimStringArray,
@@ -22,14 +23,13 @@ describe('Utility', () => {
     expect(trimStringArray(undefined)).toEqual([]);
   });
   it('Count the number of items', () => {
-    expect(toCountItems(null)).toEqual(0)
-    expect(toCountItems(undefined)).toEqual(0)
+    expect(toCountItems(null)).toEqual(0);
+    expect(toCountItems(undefined)).toEqual(0);
     expect(toCountItems('abc')).toEqual(1);
     expect(toCountItems('')).toEqual(1);
     expect(toCountItems([])).toEqual(0);
     expect(toCountItems(['a', 'b'])).toEqual(2);
-    expect(toCountItems({ a: 'alpha', b: 'beta'})).toEqual(2);
-
+    expect(toCountItems({ a: 'alpha', b: 'beta' })).toEqual(2);
   });
   it('Convert an editable field value to status', () => {
     expect(editableToStatus('long text', 'long text')).toEqual(FieldStatus.Ok);
@@ -51,5 +51,27 @@ describe('Utility', () => {
     expect(statusToTodo(FieldStatus.Ok)).toContain('OK');
     expect(statusToTodo(FieldStatus.Todo)).toContain('TODO');
     expect(statusToTodo(FieldStatus.Fixable)).toContain('FIX');
+  });
+
+  it('Extract string in between', () => {
+    expect(stringBetween('![', ']')('')).toEqual('');
+    expect(
+      stringBetween(
+        '![',
+        ']'
+      )('![npm](https://img.shields.io/npm/v/scratchbook)')
+    ).toEqual('npm');
+    expect(
+      stringBetween(
+        '(',
+        ')'
+      )('![npm](https://img.shields.io/npm/v/scratchbook)')
+    ).toEqual('https://img.shields.io/npm/v/scratchbook');
+    expect(
+      stringBetween('(', ')')('![npm]https://img.shields.io/npm/v/scratchbook)')
+    ).toEqual('');
+    expect(
+      stringBetween('(', ')')('![npm](https://img.shields.io/npm/v/scratchbook')
+    ).toEqual('');
   });
 });

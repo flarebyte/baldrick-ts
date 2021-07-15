@@ -14,7 +14,7 @@ import {
   Author,
   Todo,
 } from './model';
-import { autoToStatus, editableArrToStatus, editableToStatus, statusToTodo, toCountItems, toStringLength, trimString, trimStringArray } from './utils';
+import { alwaysObj, autoToStatus, editableArrToStatus, editableToStatus, statusToTodo, toCountItems, toStringLength, trimString, trimStringArray } from './utils';
 
 const minNodeVersion = 12;
 const fixme = 'fixme';
@@ -30,7 +30,7 @@ const copyScripts = (scripts: Scripts): Scripts =>
 const copyDependencies = (deps: Dependencies): Dependencies =>
   Object.fromEntries(
     Object.entries(
-      deps === null || deps === undefined ? {} : deps
+      alwaysObj(deps)
     ).map(keyVal => [trimString(keyVal[0]), trimString(keyVal[1])])
   );
 

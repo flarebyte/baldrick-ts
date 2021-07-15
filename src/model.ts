@@ -128,3 +128,20 @@ export interface PackageJsonStatus {
   dependencies: FieldStatus;
   peerDependencies: FieldStatus;
 }
+export interface Badge {
+  text: string;
+  url: string;
+}
+
+export interface MdSection {
+  title: string;
+  body: string;
+}
+
+export interface MdDocument {
+  title: string;
+  description: string;
+  badges: Badge[];
+  mainSection: string;
+  sections: MdSection[];
+}
