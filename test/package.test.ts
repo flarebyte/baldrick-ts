@@ -1,86 +1,15 @@
-import {
-  LicenseType,
-  PipelineType,
-  ProjectType,
-  ScaffoldingType,
-  Todo,
-} from '../src/model';
+import { Todo } from '../src/model';
 import { fixAutomatically, suggestTasksToDo } from '../src/package';
-import { packageToCoreProject } from '../src/package-copy';
-import { fromString, toString } from '../src/package-io';
+import { fromString } from '../src/package-io';
 import { writeFileSync } from '../src/barrel';
-import { defaultPrettier } from '../src/conf-prettier';
-import { defaultSizeLimit } from '../src/conf-size-limit';
-import { packageToStats } from '../src/package-stats';
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
   null,
   2
 );
 
-const notIncluded = (a: string[], b: string[]): string[] =>
-  a.filter(v => !b.includes(v));
-
-describe('Package.json analyzer', () => {
-  it('should convert package.json from a string', () => {
-    const initJson = JSON.parse(fixturePackageJsonString);
-    const actual = fromString(fixturePackageJsonString);
-    const stats = packageToStats(actual);
-    expect(actual.name.length).toBeGreaterThan(1);
-    expect(
-      stats
-        .filter(s => s.countItems === 0 && s.stringLength === 0)
-        .map(s => s.key)
-    ).toStrictEqual(['dependencies', 'peerDependencies']);
-    expect(
-      notIncluded(Object.keys(initJson), Object.keys(actual)).sort()
-    ).toStrictEqual(['husky', 'prettier', 'size-limit']);
-    expect(
-      notIncluded(Object.keys(actual), Object.keys(initJson)).sort()
-    ).toStrictEqual(['dependencies']);
-  });
-  it('should convert package.json to a string', () => {
-    const parsed = fromString(fixturePackageJsonString);
-    const actual = toString(parsed);
-    expect(actual.length).toBeGreaterThan(10);
-  });
-});
-
 const todoToKeys = (todos: Todo[]): string[] =>
   todos.map(v => v.description.replace(' of package.json', '')).sort();
-
-describe('Core project', () => {
-  const ref = fromString(fixturePackageJsonString);
-  it('it should understand MIT', () => {
-    const actual = packageToCoreProject('flarebyte', ref);
-    expect(actual.githubAccount).toBe('flarebyte');
-    expect(actual.licenseType).toBe(LicenseType.MIT);
-    expect(actual.name).toEqual('scratchbook');
-    expect(actual.pipelineType).toEqual(PipelineType.Github);
-    expect(actual.projectType).toEqual(ProjectType.TsLib);
-    expect(actual.scaffoldingType).toEqual(ScaffoldingType.TsDx);
-  });
-
-  it('it should understand other license', () => {
-    const modified = {
-      ...ref,
-      license: 'GPL',
-    };
-    const actual = packageToCoreProject('flarebyte', modified);
-    expect(actual.licenseType).toEqual(LicenseType.Other);
-  });
-
-  it('it should understand other scaffolding', () => {
-    const modified = {
-      ...ref,
-      devDependencies: {
-        typescript: '^4.3.5',
-      },
-    };
-    const actual = packageToCoreProject('flarebyte', modified);
-    expect(actual.scaffoldingType).toEqual(ScaffoldingType.Other);
-  });
-});
 
 describe('Suggestions', () => {
   const ref = fromString(fixturePackageJsonString);
@@ -181,16 +110,6 @@ describe('Suggestions', () => {
     expect(todoToKeys(todos)).toEqual(
       ['Key description', ...alwaysMissing].sort()
     );
-  });
-});
-
-describe('Move specific configuration outside of package.json', () => {
-  it('should provide reasonable defaults for prettier', () => {
-    expect(defaultPrettier).toBeDefined();
-  });
-
-  it('should provide reasonable defaults for size-limit', () => {
-    expect(defaultSizeLimit).toBeDefined();
   });
 });
 

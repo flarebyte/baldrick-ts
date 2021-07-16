@@ -6,13 +6,8 @@ import {
   parseMarkdown,
   toReadmeMd,
 } from '../src/markdown';
-import {
-  LicenseType,
-  MdDocument,
-  PipelineType,
-  ProjectType,
-  ScaffoldingType,
-} from '../src/model';
+import { MdDocument } from '../src/model';
+import { libCoreProject } from './fixture-core-project';
 describe('Markdown documentation', () => {
   it('normalizes CONTRIBUTING.md', () => {
     expect(contributingMd).toBeDefined();
@@ -25,18 +20,10 @@ describe('Markdown documentation', () => {
     expect(maintenanceMd).toBeDefined();
   });
   it('Updates README.md with standardized chapters', () => {
-    const coreProject = {
-      name: 'project123',
-      githubAccount: 'mycompany',
-      projectType: ProjectType.TsLib,
-      licenseType: LicenseType.MIT,
-      scaffoldingType: ScaffoldingType.TsDx,
-      pipelineType: PipelineType.Github,
-    };
     const existingReadme = `
     # About this doc
     `;
-    const actual = toReadmeMd(coreProject, existingReadme);
+    const actual = toReadmeMd(libCoreProject, existingReadme);
     expect(actual).toBeDefined();
   });
   it('parse a markdown document', () => {
