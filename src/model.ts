@@ -145,3 +145,43 @@ export interface MdDocument {
   mainSection: string;
   sections: MdSection[];
 }
+
+export enum InstallationType {
+  NpmDev,
+  NpmStandalone,
+  Brew,
+}
+
+export interface MdPackage {
+  name: string;
+  description: string;
+  homepage: string;
+  repository: Repository;
+  installationType: InstallationType;
+}
+
+export interface MdCommand {
+  name: string;
+  title: string;
+  /**
+   * What this tool is providing
+   */
+  description: string;
+  /**
+   * Why we should use this tool
+   */
+  motivation: string;
+  /**
+   * When we should use this tool
+   */
+  context: string;
+  partOf: MdPackage;
+  /**
+   * Main command to run this tool
+   */
+  run: string;
+  /**
+   * Ways to run this tools with additional parameters
+   */
+  examples: string[];
+}

@@ -1,31 +1,6 @@
-import {
-  codeOfConductMd,
-  contributingMd,
-  maintenanceMd,
-  markdownToString,
-  parseMarkdown,
-  toReadmeMd,
-} from '../src/markdown';
-import { MdDocument } from '../src/model';
-import { libCoreProject } from './fixture-core-project';
+import { commandToMd, markdownToString, parseMarkdown } from '../src/markdown';
+import { InstallationType, MdCommand, MdDocument } from '../src/model';
 describe('Markdown documentation', () => {
-  it('normalizes CONTRIBUTING.md', () => {
-    expect(contributingMd).toBeDefined();
-  });
-  it('normalizes CODE_OF_CONDUCT.md', () => {
-    expect(codeOfConductMd).toBeDefined();
-  });
-
-  it('normalizes MAINTENANCE.md', () => {
-    expect(maintenanceMd).toBeDefined();
-  });
-  it('Updates README.md with standardized chapters', () => {
-    const existingReadme = `
-    # About this doc
-    `;
-    const actual = toReadmeMd(libCoreProject, existingReadme);
-    expect(actual).toBeDefined();
-  });
   it('parse a markdown document', () => {
     const basicMarkdown = `
     # Main title
@@ -128,5 +103,30 @@ describe('Markdown documentation', () => {
     expect(actual).toContain(mdDoc.sections[0].body);
     expect(actual).toContain(mdDoc.sections[1].title);
     expect(actual).toContain(mdDoc.sections[1].body);
+  });
+
+  it('should produce some markdown for commands', () => {
+    const cmd: MdCommand = {
+      name: 'lint',
+      title: 'Static code analysis',
+      description: 'Analyse the code for syntax errors',
+      motivation: 'Prevent bugs',
+      context: 'Before compilation',
+      run: 'yarn lint',
+      partOf: {
+        name: 'tsdx',
+        installationType: InstallationType.NpmDev,
+        description: 'Zero-config CLI for TypeScript package development',
+        homepage: 'https://tsdx.io/',
+        repository: {
+          type: 'git',
+          url: 'https://github.com/formium/tsdx',
+        },
+      },
+      examples: ['yarn lint src', 'yarn lint --fix'],
+    };
+    const actual = commandToMd(cmd);
+    expect(actual).toContain('Static code analysis');
+    expect(actual).toContain('Zero-config CLI');
   });
 });
