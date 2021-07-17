@@ -14,6 +14,7 @@
   },
   "scripts": {
     "start": "tsdx watch",
+    "watch": "tsdx test --watch",
     "build": "tsdx build",
     "test": "tsdx test --config jest.config.json",
     "test:cov": "tsdx test --config jest.config.json --coverage",
