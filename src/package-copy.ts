@@ -4,6 +4,7 @@ import {
   LicenseType,
   PackageJson,
   PipelineType,
+  ProjectConfig,
   ProjectType,
   ScaffoldingType,
   Scripts,
@@ -30,11 +31,12 @@ const hasDependency = (name: string, dependencies: Dependencies): boolean =>
   Object.keys(dependencies).includes(name);
 
 export const packageToCoreProject = (
-  githubAccount: string,
+  projectConfig: ProjectConfig,
   packageJson: PackageJson
 ): CoreProject => ({
   name: packageJson.name,
-  githubAccount,
+  githubAccount: projectConfig.githubAccount,
+  sizeLimitKB: projectConfig.sizeLimitKB,
   licenseType:
     packageJson.license === 'MIT' ? LicenseType.MIT : LicenseType.Other,
   scaffoldingType: hasDependency('tsdx', packageJson.devDependencies)

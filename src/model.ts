@@ -70,10 +70,15 @@ export enum ProjectType {
 export interface CoreProject {
   name: string;
   githubAccount: string;
+  sizeLimitKB: number;
   licenseType: LicenseType;
   scaffoldingType: ScaffoldingType;
   pipelineType: PipelineType;
   projectType: ProjectType;
+}
+export interface ProjectConfig {
+  githubAccount: string;
+  sizeLimitKB: number;
 }
 
 export enum FieldStatus {
@@ -128,6 +133,7 @@ export interface PackageJsonStatus {
   dependencies: FieldStatus;
   peerDependencies: FieldStatus;
 }
+
 export interface Badge {
   text: string;
   url: string;

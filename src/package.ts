@@ -4,6 +4,7 @@ import {
   LicenseType,
   FieldStatus,
   Todo,
+  ProjectConfig,
 } from './model';
 import { copyDependencies, copyScripts, packageToCoreProject } from './package-copy';
 import { convertPackageToStatus } from './package-status';
@@ -96,9 +97,9 @@ const normalizePackage = (
 
 
 
-const fixAutomatically = (githubAccount: string, packageJson: PackageJson): PackageJson => {
+const fixAutomatically = (projectConfig: ProjectConfig, packageJson: PackageJson): PackageJson => {
   const trimmed = trimPackageJson(packageJson)
-  const coreProject = packageToCoreProject(githubAccount, packageJson)
+  const coreProject = packageToCoreProject(projectConfig, packageJson)
   const fixed = normalizePackage(coreProject, trimmed)
   return fixed;
 }
@@ -113,8 +114,8 @@ const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
 
 const keepNotOk = (keyStats: [string, FieldStatus]): boolean => keyStats[1] !== FieldStatus.Ok
 
-const suggestTasksToDo = (githubAccount: string, packageJson: PackageJson): Todo[] => {
-  const fixed = fixAutomatically(githubAccount, packageJson)
+const suggestTasksToDo = (projectConfig: ProjectConfig, packageJson: PackageJson): Todo[] => {
+  const fixed = fixAutomatically(projectConfig, packageJson)
   const packageStatus = convertPackageToStatus(packageJson, fixed)
   const results = Object.entries(packageStatus).filter(keepNotOk).map(keyStatsToTodo)
   return results

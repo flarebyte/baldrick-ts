@@ -6,6 +6,7 @@ import {
 } from '../src/model';
 import { packageToCoreProject } from '../src/package-copy';
 import { fromString } from '../src/package-io';
+import { libCoreProject } from './fixture-core-project';
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
   null,
@@ -15,8 +16,8 @@ const fixturePackageJsonString: string = JSON.stringify(
 describe('Copy elements from package.json to core project', () => {
   const ref = fromString(fixturePackageJsonString);
   it('it should understand MIT', () => {
-    const actual = packageToCoreProject('flarebyte', ref);
-    expect(actual.githubAccount).toBe('flarebyte');
+    const actual = packageToCoreProject(libCoreProject, ref);
+    expect(actual.githubAccount).toBe(libCoreProject.githubAccount);
     expect(actual.licenseType).toBe(LicenseType.MIT);
     expect(actual.name).toEqual('scratchbook');
     expect(actual.pipelineType).toEqual(PipelineType.Github);
@@ -29,7 +30,7 @@ describe('Copy elements from package.json to core project', () => {
       ...ref,
       license: 'GPL',
     };
-    const actual = packageToCoreProject('flarebyte', modified);
+    const actual = packageToCoreProject(libCoreProject, modified);
     expect(actual.licenseType).toEqual(LicenseType.Other);
   });
 
@@ -40,7 +41,7 @@ describe('Copy elements from package.json to core project', () => {
         typescript: '^4.3.5',
       },
     };
-    const actual = packageToCoreProject('flarebyte', modified);
+    const actual = packageToCoreProject(libCoreProject, modified);
     expect(actual.scaffoldingType).toEqual(ScaffoldingType.Other);
   });
 });

@@ -2,6 +2,7 @@ import { Todo } from '../src/model';
 import { fixAutomatically, suggestTasksToDo } from '../src/package';
 import { fromString } from '../src/package-io';
 import { writeFileSync } from '../src/barrel';
+import { myProjectConfig } from './fixture-core-project';
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
   null,
@@ -15,7 +16,7 @@ describe('Suggestions', () => {
   const ref = fromString(fixturePackageJsonString);
   const alwaysMissing = ['Key scripts'];
   it('Summarize what to be fixed and done', () => {
-    const todos = suggestTasksToDo('flarebyte', ref);
+    const todos = suggestTasksToDo(myProjectConfig, ref);
     expect(todos).toContainEqual({
       description: 'Key scripts of package.json',
       status: '🤖 FIX',
@@ -26,7 +27,7 @@ describe('Suggestions', () => {
       ...ref,
       author: 'Mathilde',
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     expect(todoToKeys(todos)).toEqual(['Key author', ...alwaysMissing].sort());
     expect(todos).toContainEqual({
       description: 'Key author of package.json',
@@ -42,7 +43,7 @@ describe('Suggestions', () => {
         url: 'https://github.com/fixme',
       },
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     expect(todoToKeys(todos)).toEqual(['Key author', ...alwaysMissing].sort());
     expect(todos).toContainEqual({
       description: 'Key author of package.json',
@@ -51,7 +52,11 @@ describe('Suggestions', () => {
   });
 
   it('Check the github name is propagated', () => {
-    const todos = suggestTasksToDo('byte', ref);
+    const byteConfig = {
+      ...myProjectConfig,
+      githubAccount: 'byte',
+    };
+    const todos = suggestTasksToDo(byteConfig, ref);
     expect(todoToKeys(todos)).toEqual(
       ['Key homepage', 'Key repository', ...alwaysMissing].sort()
     );
@@ -61,7 +66,7 @@ describe('Suggestions', () => {
       ...ref,
       description: 'A description with a trailing space ',
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     expect(todoToKeys(todos)).toEqual(
       ['Key description', ...alwaysMissing].sort()
     );
@@ -72,7 +77,7 @@ describe('Suggestions', () => {
       ...ref,
       keywords: ['A keyword with a trailing space '],
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     expect(todoToKeys(todos)).toEqual(
       ['Key keywords', ...alwaysMissing].sort()
     );
@@ -83,7 +88,7 @@ describe('Suggestions', () => {
       ...ref,
       name: `${ref.name} `,
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     // todo check why
     expect(todoToKeys(todos)).toEqual(
       ['Key homepage', 'Key module', 'Key repository', ...alwaysMissing].sort()
@@ -97,7 +102,7 @@ describe('Suggestions', () => {
         node: '12',
       },
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     expect(todoToKeys(todos)).toEqual(['Key engines', ...alwaysMissing].sort());
   });
 
@@ -106,7 +111,7 @@ describe('Suggestions', () => {
       ...ref,
       description: '',
     };
-    const todos = suggestTasksToDo('flarebyte', actual);
+    const todos = suggestTasksToDo(myProjectConfig, actual);
     expect(todoToKeys(todos)).toEqual(
       ['Key description', ...alwaysMissing].sort()
     );
@@ -117,7 +122,7 @@ const saveNormalizedPackage = () => {
   const actual = fromString(fixturePackageJsonString);
   writeFileSync(
     'test/fixture_fixed_package.json',
-    JSON.stringify(fixAutomatically('flarebyte', actual), null, 2),
+    JSON.stringify(fixAutomatically(myProjectConfig, actual), null, 2),
     'utf8'
   );
 };
@@ -130,7 +135,7 @@ describe('Normalize package.json', () => {
   it('Normalize scripts section', () => {
     const expected = require('./fixture_fixed_package.json');
     const ref = fromString(fixturePackageJsonString);
-    const actual = fixAutomatically('flarebyte', ref);
+    const actual = fixAutomatically(myProjectConfig, ref);
     expect(actual).toEqual(expected);
   });
 
@@ -140,7 +145,7 @@ describe('Normalize package.json', () => {
       ...ref,
       license: 'GPL',
     };
-    const actual = fixAutomatically('flarebyte', given);
+    const actual = fixAutomatically(myProjectConfig, given);
     expect(actual).toBeDefined();
   });
 });
