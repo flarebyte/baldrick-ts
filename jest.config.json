@@ -10,6 +10,7 @@
     },
     "coveragePathIgnorePatterns": [
       "src/barrel.ts",
-      "src/index.ts"
+      "src/index.ts",
+      "src/io-sfx.ts"
     ]
 }
