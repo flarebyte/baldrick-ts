@@ -73,7 +73,7 @@ const badgeToString = (badge: Badge): string =>
   `![${badge.text}](${badge.url})`;
 
 const sectionToString = (section: MdSection): string =>
-  [`## ${section.title}`, section.body].join('\n');
+  [`## ${section.title}`, section.body].join('\n\n');
 
 const markdownToString = (doc: MdDocument): string => {
   const parts = [
@@ -83,7 +83,7 @@ const markdownToString = (doc: MdDocument): string => {
     doc.mainSection,
     ...doc.sections.map(sectionToString),
   ];
-  return parts.join('\n');
+  return parts.join('\n\n');
 };
 
 const installationTypeToText = (installationType: InstallationType): string => {
