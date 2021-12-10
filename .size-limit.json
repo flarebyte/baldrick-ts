@@ -1,0 +1,10 @@
+[
+    {
+      "path": "dist/baldrick-ts.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/baldrick-ts.esm.js",
+      "limit": "10 KB"
+    }
+]

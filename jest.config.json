@@ -1,0 +1,16 @@
+{
+    "verbose": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 95,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "src/barrel.ts",
+      "src/index.ts",
+      "src/io-sfx.ts"
+    ]
+}
