@@ -13,26 +13,19 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "watch": "tsdx test --watch",
-    "build": "tsdx build",
-    "test": "tsdx test --config jest.config.json",
-    "test:cov": "tsdx test --config jest.config.json --coverage",
-    "lint": "tsdx lint",
-    "fix": "tsdx lint --fix",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
+    "build": "tsc --outDir dist",
+    "lint": "baldrick lint check",
+    "lint:fix": "baldrick lint fix",
+    "test": "baldrick test check",
+    "test:fix": "baldrick test fix",
+    "test:cov": "baldrick test cov"
+    },
   "peerDependencies": {},
   "module": "dist/baldrick-ts.esm.js",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.1",
     "@types/lodash.isequal": "^4.5.5",
-    "size-limit": "^5.0.1",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "baldrick-dev-ts": "^0.8.0",
+    "typescript": "^4.5.3"
   },
   "dependencies": {
     "just-compare": "^1.4.0",

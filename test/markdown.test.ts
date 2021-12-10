@@ -1,5 +1,13 @@
-import { commandToMd, markdownToString, parseMarkdown } from '../src/markdown';
-import { InstallationType, MdCommand, MdDocument } from '../src/model';
+import {
+  commandToMd,
+  markdownToString,
+  parseMarkdown,
+} from '../src/markdown';
+import {
+  InstallationType,
+  MdCommand,
+  MdDocument,
+} from '../src/model';
 describe('Markdown documentation', () => {
   it('parse a markdown document', () => {
     const basicMarkdown = `
@@ -41,14 +49,16 @@ describe('Markdown documentation', () => {
     ]);
     expect(actual.mainSection.trim()).toEqual('Some other info');
     expect(actual.sections).toHaveLength(2);
-    expect(actual.sections[0].title).toEqual('Section Alpha');
-    expect(actual.sections[1].title).toEqual('Section Bravo');
-    expect(actual.sections[0].body.split('\n')).toHaveLength(7);
-    expect(actual.sections[1].body.split('\n')).toHaveLength(6);
-    expect(actual.sections[0].body).toContain('Lorem ipsum dolor');
-    expect(actual.sections[0].body).toContain('nulla pariatur.');
-    expect(actual.sections[1].body).toContain('In eu mi bibendum');
-    expect(actual.sections[1].body).toContain('et sollicitudin.');
+    expect(actual.sections[0]).toHaveProperty('title', 'Section Alpha');
+    expect(actual.sections[1]).toHaveProperty('title', 'Section Bravo');
+    const body0 = actual?.sections[0]?.body || '';
+    const body1 = actual?.sections[1]?.body || '';
+    expect(body0.split('\n')).toHaveLength(7);
+    expect(body1.split('\n')).toHaveLength(6);
+    expect(body0).toContain('Lorem ipsum dolor');
+    expect(body0).toContain('nulla pariatur.');
+    expect(body1).toContain('In eu mi bibendum');
+    expect(body1).toContain('et sollicitudin.');
   });
 
   it('parse a markdown document without any secondary sections', () => {

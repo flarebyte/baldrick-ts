@@ -1,8 +1,8 @@
-import { markdownToString, parseMarkdown } from './markdown';
-import { Badge, CoreProject, MdSection } from './model';
+import { markdownToString,  parseMarkdown } from './markdown';
+import {  Badge, CoreProject, MdSection } from './model';
 
 const capitalize = (value: string) =>
-  value[0].toUpperCase() + value.substring(1);
+  (value[0]?.toUpperCase() || '') + value.substring(1);
 
 const libBadges = (core: CoreProject): Badge[] => [
   {
