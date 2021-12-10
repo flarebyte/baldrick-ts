@@ -103,16 +103,16 @@ describe('Markdown documentation', () => {
     const actual = markdownToString(mdDoc);
     expect(actual).toContain(`# ${mdDoc.title}`);
     expect(actual).toContain(`> ${mdDoc.description}`);
-    expect(actual).toContain(mdDoc.badges[0].text);
-    expect(actual).toContain(mdDoc.badges[0].url);
-    expect(actual).toContain(mdDoc.badges[1].text);
-    expect(actual).toContain(mdDoc.badges[1].url);
+    expect(actual).toContain(mdDoc?.badges[0]?.text);
+    expect(actual).toContain(mdDoc?.badges[0]?.url);
+    expect(actual).toContain(mdDoc?.badges[1]?.text);
+    expect(actual).toContain(mdDoc?.badges[1]?.url);
     expect(actual).toContain('main 1');
     expect(actual).toContain('main 3');
-    expect(actual).toContain(mdDoc.sections[0].title);
-    expect(actual).toContain(mdDoc.sections[0].body);
-    expect(actual).toContain(mdDoc.sections[1].title);
-    expect(actual).toContain(mdDoc.sections[1].body);
+    expect(actual).toContain(mdDoc?.sections[0]?.title);
+    expect(actual).toContain(mdDoc?.sections[0]?.body);
+    expect(actual).toContain(mdDoc?.sections[1]?.title);
+    expect(actual).toContain(mdDoc?.sections[1]?.body);
   });
 
   it('should produce some markdown for commands', () => {
