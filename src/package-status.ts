@@ -1,6 +1,5 @@
 import {
   Author,
-  Dependencies,
   FieldStatus,
   PackageJson,
   PackageJsonStatus,
@@ -30,9 +29,9 @@ const packConv: PackageJsonStatusConverter = {
   engines: autoToStatus,
   scripts: autoToStatus,
   module: autoToStatus,
-  devDependencies: (_: Dependencies) => FieldStatus.Ok,
-  dependencies: (_: Dependencies) => FieldStatus.Ok,
-  peerDependencies: (_: Dependencies) => FieldStatus.Ok,
+  devDependencies: () => FieldStatus.Ok,
+  dependencies: () => FieldStatus.Ok,
+  peerDependencies: () => FieldStatus.Ok,
 };
 
 export const convertPackageToStatus = (

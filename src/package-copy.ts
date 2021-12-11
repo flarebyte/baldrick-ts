@@ -13,7 +13,7 @@ import { alwaysObj, trimString } from './utils';
 
 export const copyScripts = (scripts: Scripts): Scripts =>
   Object.fromEntries(
-    Object.entries(scripts).map(keyVal => [
+    Object.entries(scripts).map((keyVal) => [
       trimString(keyVal[0]),
       trimString(keyVal[1]),
     ])
@@ -21,7 +21,7 @@ export const copyScripts = (scripts: Scripts): Scripts =>
 
 export const copyDependencies = (deps: Dependencies): Dependencies =>
   Object.fromEntries(
-    Object.entries(alwaysObj(deps)).map(keyVal => [
+    Object.entries(alwaysObj(deps)).map((keyVal) => [
       trimString(keyVal[0]),
       trimString(keyVal[1]),
     ])

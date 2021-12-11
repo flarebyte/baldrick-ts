@@ -44,13 +44,15 @@ const statusToTodo = (status: FieldStatus): string =>
     ? '❌ TODO'
     : '🤖 FIX';
 
-const stringBetween = (from: string, to: string) => (line: string): string => {
-  const start = line.indexOf(from);
-  const end = line.indexOf(to);
-  return start === -1 || end === -1
-    ? ''
-    : line.substring(start + from.length, end + 1 - to.length);
-};
+const stringBetween =
+  (from: string, to: string) =>
+  (line: string): string => {
+    const start = line.indexOf(from);
+    const end = line.indexOf(to);
+    return start === -1 || end === -1
+      ? ''
+      : line.substring(start + from.length, end + 1 - to.length);
+  };
 
 const alwaysObj = (value: null | undefined | object): object =>
   value === null || value === undefined ? {} : value;
@@ -59,7 +61,7 @@ const alwaysArray = (value: null | undefined | any[]): any[] =>
   value === null || value === undefined ? [] : value;
 
 const findHeader = (prefix: string) => (lines: string[]) =>
-  (lines.find(line => line.startsWith(prefix)) || prefix).substring(
+  (lines.find((line) => line.startsWith(prefix)) || prefix).substring(
     prefix.length
   );
 export {

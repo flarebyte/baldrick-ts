@@ -6,7 +6,11 @@ import {
   Todo,
   ProjectConfig,
 } from './model';
-import { copyDependencies, copyScripts, packageToCoreProject } from './package-copy';
+import {
+  copyDependencies,
+  copyScripts,
+  packageToCoreProject,
+} from './package-copy';
 import { convertPackageToStatus } from './package-status';
 import { statusToTodo, trimString, trimStringArray } from './utils';
 
@@ -85,7 +89,7 @@ const normalizeOpenSourcePackage = (
 const normalizeOtherPackage = (
   coreProject: CoreProject,
   packageJson: PackageJson
-): PackageJson =>({...normalizeOpenSourcePackage(coreProject, packageJson)})
+): PackageJson => ({ ...normalizeOpenSourcePackage(coreProject, packageJson) });
 
 const normalizePackage = (
   coreProject: CoreProject,
@@ -95,33 +99,37 @@ const normalizePackage = (
     ? normalizeOpenSourcePackage(coreProject, packageJson)
     : normalizeOtherPackage(coreProject, packageJson);
 
-
-
-const fixAutomatically = (projectConfig: ProjectConfig, packageJson: PackageJson): PackageJson => {
-  const trimmed = trimPackageJson(packageJson)
-  const coreProject = packageToCoreProject(projectConfig, packageJson)
-  const fixed = normalizePackage(coreProject, trimmed)
+const fixAutomatically = (
+  projectConfig: ProjectConfig,
+  packageJson: PackageJson
+): PackageJson => {
+  const trimmed = trimPackageJson(packageJson);
+  const coreProject = packageToCoreProject(projectConfig, packageJson);
+  const fixed = normalizePackage(coreProject, trimmed);
   return fixed;
-}
+};
 
 const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
-  const [key, stats] = keyStats
+  const [key, stats] = keyStats;
   return {
     description: `Key ${key} of package.json`,
-    status: statusToTodo(stats)
-  }
-}
-
-const keepNotOk = (keyStats: [string, FieldStatus]): boolean => keyStats[1] !== FieldStatus.Ok
-
-const suggestTasksToDo = (projectConfig: ProjectConfig, packageJson: PackageJson): Todo[] => {
-  const fixed = fixAutomatically(projectConfig, packageJson)
-  const packageStatus = convertPackageToStatus(packageJson, fixed)
-  const results = Object.entries(packageStatus).filter(keepNotOk).map(keyStatsToTodo)
-  return results
-}
-
-export {
-  fixAutomatically,
-  suggestTasksToDo
+    status: statusToTodo(stats),
+  };
 };
+
+const keepNotOk = (keyStats: [string, FieldStatus]): boolean =>
+  keyStats[1] !== FieldStatus.Ok;
+
+const suggestTasksToDo = (
+  projectConfig: ProjectConfig,
+  packageJson: PackageJson
+): Todo[] => {
+  const fixed = fixAutomatically(projectConfig, packageJson);
+  const packageStatus = convertPackageToStatus(packageJson, fixed);
+  const results = Object.entries(packageStatus)
+    .filter(keepNotOk)
+    .map(keyStatsToTodo);
+  return results;
+};
+
+export { fixAutomatically, suggestTasksToDo };
