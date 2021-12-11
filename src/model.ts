@@ -43,18 +43,12 @@ export interface Repository {
 }
 
 export interface Scripts {
-  build: string;
-  lint: string;
-  'lint:fix': string;
-  test: string;
-  'test:fix': string;
-  'test:cov': string;
   [key: string]: string;
 }
 
-export type LicenseType = "MIT" | "UNLICENSED"
+type LicenseType = "MIT" | "UNLICENSED"
  
-export type ProjectType = "lib" | "cli"
+type ProjectType = "lib" | "cli"
   
 export interface CoreProject {
   name: string;
@@ -72,45 +66,29 @@ export interface Todo {
 
 export type toFieldStatus = (value: any, fixed: any) => FieldStatus;
 
-export interface PackageJsonStatusConverter {
-  name: toFieldStatus;
-  description: toFieldStatus;
-  keywords: toFieldStatus;
-  author: toFieldStatus;
-  version: toFieldStatus;
-  license: toFieldStatus;
-  homepage: toFieldStatus;
-  repository: toFieldStatus;
-  main: toFieldStatus;
-  typings: toFieldStatus;
-  files: toFieldStatus;
-  engines: toFieldStatus;
-  scripts: toFieldStatus;
-  module: toFieldStatus;
-  devDependencies: toFieldStatus;
-  dependencies: toFieldStatus;
-  peerDependencies: toFieldStatus;
+ interface GenericPackageJson<T> {
+  name: T;
+  description: T;
+  keywords: T;
+  author: T;
+  version: T;
+  license: T;
+  homepage: T;
+  repository: T;
+  main: T;
+  typings: T;
+  files: T;
+  engines: T;
+  scripts: T;
+  module: T;
+  devDependencies: T;
+  dependencies: T;
+  peerDependencies: T;
 }
 
-export interface PackageJsonStatus {
-  name: FieldStatus;
-  description: FieldStatus;
-  keywords: FieldStatus;
-  author: FieldStatus;
-  version: FieldStatus;
-  license: FieldStatus;
-  homepage: FieldStatus;
-  repository: FieldStatus;
-  main: FieldStatus;
-  typings: FieldStatus;
-  files: FieldStatus;
-  engines: FieldStatus;
-  scripts: FieldStatus;
-  module: FieldStatus;
-  devDependencies: FieldStatus;
-  dependencies: FieldStatus;
-  peerDependencies: FieldStatus;
-}
+export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>
+  
+export type PackageJsonStatus = GenericPackageJson<FieldStatus>
 
 export interface Badge {
   text: string;
@@ -130,7 +108,7 @@ export interface MdDocument {
   sections: MdSection[];
 }
 
-export type InstallationType = "npm.dev" | "brew"
+type InstallationType = "npm.dev" | "brew"
 
 export interface MdPackage {
   name: string;

@@ -1,5 +1,4 @@
 import { isEqual } from './barrel';
-import { FieldStatus } from './model';
 
 const fixme = 'fixme';
 
@@ -22,10 +21,10 @@ const toCountItems = (
     : Object.keys(value).length;
 const editableToStatus = (value: string, fixed: string): FieldStatus =>
   value.length < 3
-    ? FieldStatus.Todo
+    ? 'todo'
     : value === fixed
-    ? FieldStatus.Ok
-    : FieldStatus.Fixable;
+    ? 'ok'
+    : 'fixable';
 
 const autoToStatus = (value: any, fixed: any): FieldStatus =>
   isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable;

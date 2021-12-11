@@ -1,6 +1,4 @@
 import {
-  LicenseType,
-  PipelineType,
   ProjectType,
   ScaffoldingType,
 } from '../src/model';

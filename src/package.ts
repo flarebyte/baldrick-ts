@@ -1,15 +1,12 @@
 import {
   PackageJson,
   CoreProject,
-  LicenseType,
   FieldStatus,
   Todo,
-  ProjectConfig,
 } from './model';
 import {
   copyDependencies,
   copyScripts,
-  packageToCoreProject,
 } from './package-copy';
 import { convertPackageToStatus } from './package-status';
 import { statusToTodo, trimString, trimStringArray } from './utils';
@@ -95,7 +92,7 @@ const normalizePackage = (
   coreProject: CoreProject,
   packageJson: PackageJson
 ): PackageJson =>
-  coreProject.licenseType === LicenseType.MIT
+  coreProject.licenseType === 'MIT'
     ? normalizeOpenSourcePackage(coreProject, packageJson)
     : normalizeOtherPackage(coreProject, packageJson);
 

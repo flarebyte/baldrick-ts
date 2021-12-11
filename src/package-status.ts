@@ -1,6 +1,5 @@
 import {
   Author,
-  FieldStatus,
   PackageJson,
   PackageJsonStatus,
   PackageJsonStatusConverter,
@@ -14,11 +13,11 @@ const packConv: PackageJsonStatusConverter = {
   keywords: editableArrToStatus,
   author: (value: Author | string) =>
     typeof value === 'string'
-      ? FieldStatus.Todo
+      ? 'todo'
       : (value as Author).name.includes(fixme) ||
         (value as Author).url.includes(fixme)
-      ? FieldStatus.Todo
-      : FieldStatus.Ok,
+      ? 'todo'
+      : 'ok',
   version: editableToStatus,
   license: editableToStatus,
   homepage: autoToStatus,
@@ -29,9 +28,9 @@ const packConv: PackageJsonStatusConverter = {
   engines: autoToStatus,
   scripts: autoToStatus,
   module: autoToStatus,
-  devDependencies: () => FieldStatus.Ok,
-  dependencies: () => FieldStatus.Ok,
-  peerDependencies: () => FieldStatus.Ok,
+  devDependencies: () => 'ok',
+  dependencies: () => 'ok',
+  peerDependencies: () => 'ok',
 };
 
 export const convertPackageToStatus = (
