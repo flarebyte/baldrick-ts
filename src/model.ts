@@ -43,50 +43,28 @@ export interface Repository {
 }
 
 export interface Scripts {
+  build: string;
+  lint: string;
+  'lint:fix': string;
+  test: string;
+  'test:fix': string;
+  'test:cov': string;
   [key: string]: string;
 }
 
-export enum LicenseType {
-  MIT,
-  Other,
-}
-
-export enum ScaffoldingType {
-  TsDx,
-  Other,
-}
-
-export enum PipelineType {
-  Github,
-  Other,
-}
-
-export enum ProjectType {
-  TsLib,
-  TsCli,
-  Other,
-}
-
+export type LicenseType = "MIT" | "UNLICENSED"
+ 
+export type ProjectType = "lib" | "cli"
+  
 export interface CoreProject {
   name: string;
   githubAccount: string;
-  sizeLimitKB: number;
   licenseType: LicenseType;
-  scaffoldingType: ScaffoldingType;
-  pipelineType: PipelineType;
   projectType: ProjectType;
 }
-export interface ProjectConfig {
-  githubAccount: string;
-  sizeLimitKB: number;
-}
 
-export enum FieldStatus {
-  Ok,
-  Todo,
-  Fixable,
-}
-
+export type FieldStatus = "ok" | "todo" | "fixable"
+ 
 export interface Todo {
   description: string;
   status: string;
@@ -152,11 +130,7 @@ export interface MdDocument {
   sections: MdSection[];
 }
 
-export enum InstallationType {
-  NpmDev,
-  NpmStandalone,
-  Brew,
-}
+export type InstallationType = "npm.dev" | "brew"
 
 export interface MdPackage {
   name: string;
