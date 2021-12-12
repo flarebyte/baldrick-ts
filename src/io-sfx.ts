@@ -7,12 +7,6 @@ import { fixAutomatically } from './package';
 import { packageToCoreProject } from './package-copy';
 import { fromString, toString } from './package-io';
 
-const readBaldrickConfig = (): ProjectConfig => {
-  const projectConfig: ProjectConfig = JSON.parse(
-    readFileSync('./baldrick.json', 'utf8')
-  );
-  return projectConfig;
-};
 
 const readPackageJson = (): PackageJson => {
   const packageJson = fromString(readFileSync('./package.json', 'utf8'));
@@ -43,7 +37,6 @@ const writeContributing = () => {
 
 export const updateAll = () => {
   const existingPackageJson = readPackageJson();
-  const projectConfig = readBaldrickConfig();
   const coreProject = packageToCoreProject(projectConfig, existingPackageJson);
   const newPackageJson = fixAutomatically(projectConfig, existingPackageJson);
   writePackageJson(newPackageJson);

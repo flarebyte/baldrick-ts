@@ -97,11 +97,10 @@ const normalizePackage = (
     : normalizeOtherPackage(coreProject, packageJson);
 
 const fixAutomatically = (
-  projectConfig: ProjectConfig,
+  coreProject: CoreProject,
   packageJson: PackageJson
 ): PackageJson => {
   const trimmed = trimPackageJson(packageJson);
-  const coreProject = packageToCoreProject(projectConfig, packageJson);
   const fixed = normalizePackage(coreProject, trimmed);
   return fixed;
 };
@@ -115,13 +114,13 @@ const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
 };
 
 const keepNotOk = (keyStats: [string, FieldStatus]): boolean =>
-  keyStats[1] !== FieldStatus.Ok;
+  keyStats[1] !== 'ok';
 
 const suggestTasksToDo = (
-  projectConfig: ProjectConfig,
+  coreProject: CoreProject,
   packageJson: PackageJson
 ): Todo[] => {
-  const fixed = fixAutomatically(projectConfig, packageJson);
+  const fixed = fixAutomatically(coreProject, packageJson);
   const packageStatus = convertPackageToStatus(packageJson, fixed);
   const results = Object.entries(packageStatus)
     .filter(keepNotOk)

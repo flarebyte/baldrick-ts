@@ -1,4 +1,10 @@
-import { Dependencies, Scripts } from './model';
+import {
+  CoreProject,
+  Dependencies,
+  GenerateOpts,
+  PackageJson,
+  Scripts,
+} from './model';
 import { alwaysObj, trimString } from './utils';
 
 export const copyScripts = (scripts: Scripts): Scripts =>
@@ -16,3 +22,13 @@ export const copyDependencies = (deps: Dependencies): Dependencies =>
       trimString(value),
     ])
   );
+
+export const packageToCoreProject = (
+  generateOpts: GenerateOpts,
+  packageJson: PackageJson
+): CoreProject => ({
+  name: packageJson.name,
+  githubAccount: generateOpts.githubAccount,
+  licenseType: 'MIT',
+  projectType: generateOpts.projectType,
+});

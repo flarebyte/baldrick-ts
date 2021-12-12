@@ -1,4 +1,5 @@
 import { isEqual } from './barrel';
+import { FieldStatus } from './model';
 
 const fixme = 'fixme';
 
@@ -27,19 +28,19 @@ const editableToStatus = (value: string, fixed: string): FieldStatus =>
     : 'fixable';
 
 const autoToStatus = (value: any, fixed: any): FieldStatus =>
-  isEqual(value, fixed) ? FieldStatus.Ok : FieldStatus.Fixable;
+  isEqual(value, fixed) ? 'ok' : 'fixable';
 
 const editableArrToStatus = (value: string[], fixed: string[]): FieldStatus =>
   value.length === 0
-    ? FieldStatus.Todo
+    ? 'todo'
     : isEqual(value, fixed)
-    ? FieldStatus.Ok
-    : FieldStatus.Fixable;
+    ? 'ok'
+    : 'fixable';
 
 const statusToTodo = (status: FieldStatus): string =>
-  status === FieldStatus.Ok
+  status === 'ok'
     ? 'OK'
-    : status === FieldStatus.Todo
+    : status === 'todo'
     ? '❌ TODO'
     : '🤖 FIX';
 

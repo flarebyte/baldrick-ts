@@ -49,12 +49,15 @@ export interface Scripts {
 type LicenseType = "MIT" | "UNLICENSED"
  
 type ProjectType = "lib" | "cli"
-  
-export interface CoreProject {
-  name: string;
-  githubAccount: string;
-  licenseType: LicenseType;
+
+export interface GenerateOpts {
   projectType: ProjectType;
+  githubAccount: string;
+}
+
+export interface CoreProject extends GenerateOpts{
+  name: string;
+  licenseType: LicenseType;
 }
 
 export type FieldStatus = "ok" | "todo" | "fixable"
@@ -108,7 +111,7 @@ export interface MdDocument {
   sections: MdSection[];
 }
 
-type InstallationType = "npm.dev" | "brew"
+export type InstallationType = "npm.dev" | "npm.bin" | "brew"
 
 export interface MdPackage {
   name: string;

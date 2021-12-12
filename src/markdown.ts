@@ -88,11 +88,11 @@ const markdownToString = (doc: MdDocument): string => {
 
 const installationTypeToText = (installationType: InstallationType): string => {
   switch (installationType) {
-    case InstallationType.NpmDev:
+    case 'npm.dev':
       return '[npm](https://www.npmjs.com/)';
-    case InstallationType.NpmStandalone:
+    case 'npm.bin':
       return '[npm bin](https://www.npmjs.com/)';
-    case InstallationType.Brew:
+    case 'brew':
       return '[brew](https://docs.brew.sh/)';
   }
 };
