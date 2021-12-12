@@ -4,7 +4,6 @@ import {
   parseMarkdown,
 } from '../src/markdown';
 import {
-  InstallationType,
   MdCommand,
   MdDocument,
 } from '../src/model';
@@ -125,7 +124,7 @@ describe('Markdown documentation', () => {
       run: 'yarn lint',
       partOf: {
         name: 'tsdx',
-        installationType: InstallationType.NpmDev,
+        installationType: 'npm.dev',
         description: 'Zero-config CLI for TypeScript package development',
         homepage: 'https://tsdx.io/',
         repository: {
