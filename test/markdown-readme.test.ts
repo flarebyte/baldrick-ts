@@ -1,5 +1,6 @@
 import { libCoreProject } from './fixture-core-project';
 import { toReadmeMd } from '../src/markdown-readme';
+import { CoreProject } from '../src/model';
 const ___ = '```';
 
 const exampleReadme = `
@@ -55,19 +56,22 @@ MIT © [2021 Flarebyte - Olivier Huin]()
 
 describe('Readme documentation', () => {
   it('Updates README.md with standardized chapters', () => {
-    const actual = toReadmeMd(libCoreProject, exampleReadme);
+    const project: CoreProject = {
+      ...libCoreProject
+    };
+    const actual = toReadmeMd(project, exampleReadme);
     expect(actual).toContain('# Project123');
-    expect(actual).toContain('(https://img.shields.io/npm/v/project123)');
+    expect(actual).toContain('(https://img.shields.io/npm/v/scratchbook)');
     expect(actual).toContain(
-      '(https://github.com/mycompany/project123/actions/workflows/main.yml/badge.svg)'
+      '(https://github.com/mycompany/scratchbook/actions/workflows/main.yml/badge.svg)'
     );
     expect(actual).toContain(
-      '(https://img.shields.io/bundlephobia/min/project123)'
+      '(https://img.shields.io/bundlephobia/min/scratchbook)'
     );
     expect(actual).toContain('## Usage');
     expect(actual).toContain('## Documentation and links');
     expect(actual).toContain('## Installation');
-    expect(actual).toContain('yarn add project123');
+    expect(actual).toContain('yarn add scratchbook');
     expect(actual).not.toContain('## License');
   });
 });

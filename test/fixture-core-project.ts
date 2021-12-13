@@ -3,7 +3,7 @@ import {
 } from '../src/model';
 
 export const libCoreProject: CoreProject = {
-  name: 'project123',
+  name: 'scratchbook',
   githubAccount: 'mycompany',
   projectType: 'lib',
   licenseType: 'MIT',

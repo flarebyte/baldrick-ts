@@ -16,7 +16,7 @@ describe('Copy elements from package.json to core project', () => {
     expect(actual.githubAccount).toBe(libCoreProject.githubAccount);
     expect(actual.licenseType).toBe('MIT');
     expect(actual.name).toEqual('scratchbook');
-    expect(actual.projectType).toEqual('tslib');
+    expect(actual.projectType).toEqual('lib');
   });
   
 });
