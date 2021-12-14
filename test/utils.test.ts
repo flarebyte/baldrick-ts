@@ -1,5 +1,4 @@
 import {
-  alwaysArray,
   alwaysObj,
   autoToStatus,
   editableArrToStatus,
@@ -84,12 +83,6 @@ describe('Utility', () => {
     expect(alwaysObj(obj1)).toEqual(obj1);
     expect(alwaysObj(null)).toEqual({});
     expect(alwaysObj(undefined)).toEqual({});
-  });
-  it('Default an array to empty array', () => {
-    const array1 = ['hello'];
-    expect(alwaysArray(array1)).toEqual(array1);
-    expect(alwaysArray(null)).toEqual([]);
-    expect(alwaysArray(undefined)).toEqual([]);
   });
   it('Find headers', () => {
     expect(

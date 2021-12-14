@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Normalize package.json Normalize scripts section 1`] = `
+Object {
+  "author": Object {
+    "name": "Olivier Huin",
+    "url": "https://github.com/olih",
+  },
+  "bin": Object {},
+  "dependencies": Object {},
+  "description": "Scratchbook is an annotation library written in Typescript that makes it easy to write documentation in a decentralized fashion",
+  "devDependencies": Object {
+    "@size-limit/preset-small-lib": "^5.0.1",
+    "husky": "^7.0.0",
+    "size-limit": "^5.0.1",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.0",
+    "typedoc": "^0.21.2",
+    "typescript": "^4.3.5",
+  },
+  "engines": Object {
+    "node": ">=14",
+  },
+  "exports": "./dist/src/cli.mjs",
+  "files": Array [
+    "dist",
+    "src",
+  ],
+  "homepage": "https://github.com/mycompany/scratchbook",
+  "keywords": Array [
+    "annotations",
+    "typescript",
+    "documentation",
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/scratchbook.esm.js",
+  "name": "scratchbook",
+  "peerDependencies": Object {},
+  "repository": Object {
+    "type": "git",
+    "url": "https://github.com/mycompany/scratchbook.git",
+  },
+  "scripts": Object {
+    "build": "tsc --outDir dist",
+    "lint": "baldrick lint check",
+    "lint:fix": "baldrick lint fix",
+    "start": "baldrick test check",
+    "test": "baldrick test check",
+    "test:cov": "baldrick test cov",
+    "test:fix": "baldrick test fix",
+  },
+  "type": "module",
+  "types": "dist/src",
+  "typings": "dist/index.d.ts",
+  "version": "0.4.1",
+}
+`;

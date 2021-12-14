@@ -1,17 +1,9 @@
-import {
-  PackageJson,
-  CoreProject,
-  FieldStatus,
-  Todo,
-} from './model';
-import {
-  copyDependencies,
-  copyScripts,
-} from './package-copy';
+import { PackageJson, CoreProject, FieldStatus, Todo } from './model';
+import { copyDependencies, copyScripts } from './package-copy';
 import { convertPackageToStatus } from './package-status';
 import { statusToTodo, trimString, trimStringArray } from './utils';
 
-const minNodeVersion = 12;
+const minNodeVersion = 14;
 const fixme = 'fixme';
 
 const trimPackageJson = (pj: PackageJson): PackageJson => ({
@@ -32,9 +24,13 @@ const trimPackageJson = (pj: PackageJson): PackageJson => ({
     type: trimString(pj.repository.type),
     url: trimString(pj.repository.url),
   },
+  type: 'module',
+  exports: trimString(pj.exports),
+  types: trimString(pj.types),
   main: trimString(pj.main),
   typings: trimString(pj.typings),
   files: trimStringArray(pj.files),
+  bin: pj.bin,
   engines: {
     node: trimString(pj.engines.node),
   },
@@ -56,29 +52,24 @@ const normalizeOpenSourcePackage = (
     type: 'git',
     url: `https://github.com/${coreProject.githubAccount}/${coreProject.name}.git`,
   },
+  type: 'module',
+  exports: './dist/src/cli.mjs',
   main: 'dist/index.js',
   typings: 'dist/index.d.ts',
+  types: 'dist/src',
   files: ['dist', 'src'],
+  bin: {},
   engines: {
     node: `>=${minNodeVersion}`,
   },
   scripts: {
-    start: 'tsdx watch',
-    build: 'tsdx build',
-    test: 'tsdx test',
-    'test:cov': 'tsdx test --coverage',
-    watch: 'tsdx watch',
-    lint: 'tsdx lint src test',
-    fix: 'tsdx lint src test --fix',
-    prepare: 'tsdx build',
-    size: 'size-limit',
-    analyze: 'size-limit --why',
-    docs: 'typedoc',
-    'fix:main': 'prettier --write *.md *.json .github/workflows/*.yml',
-    ready:
-      'yarn fix;yarn fix:main;yarn lint;yarn test:cov;yarn build;yarn size;yarn docs',
-    preversion: 'yarn lint;yarn test:cov;yarn size;',
-    postversion: 'git push --tags',
+    start: 'baldrick test check',
+    lint: 'baldrick lint check',
+    'lint:fix': 'baldrick lint fix',
+    test: 'baldrick test check',
+    'test:fix': 'baldrick test fix',
+    'test:cov': 'baldrick test cov',
+    build: 'tsc --outDir dist',
   },
   module: `dist/${coreProject.name}.esm.js`,
 });

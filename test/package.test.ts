@@ -91,7 +91,7 @@ describe('Suggestions', () => {
     const todos = suggestTasksToDo(libCoreProject, actual);
     // todo check why
     expect(todoToKeys(todos)).toEqual(
-      ['Key homepage', 'Key module', 'Key repository', ...alwaysMissing].sort()
+      ['Key name', ...alwaysMissing].sort()
     );
   });
 
@@ -133,10 +133,9 @@ describe('Normalize package.json', () => {
     saveNormalizedPackage();
   }
   it('Normalize scripts section', () => {
-    const expected = require('./fixture_fixed_package.json');
     const ref = fromString(fixturePackageJsonString);
     const actual = fixAutomatically(libCoreProject, ref);
-    expect(actual).toEqual(expected);
+    expect(actual).toMatchSnapshot()
   });
 
   it('Normalize for other cases', () => {

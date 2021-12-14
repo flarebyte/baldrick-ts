@@ -2,11 +2,10 @@ import { readFileSync, writeFileSync } from './barrel';
 import { codeOfConductMd } from './markdown-code-of-conduct';
 import { contributingMd } from './markdown-contributing';
 import { toReadmeMd } from './markdown-readme';
-import { CoreProject, PackageJson, ProjectConfig } from './model';
+import { CoreProject, GenerateOpts, PackageJson } from './model';
 import { fixAutomatically } from './package';
 import { packageToCoreProject } from './package-copy';
 import { fromString, toString } from './package-io';
-
 
 const readPackageJson = (): PackageJson => {
   const packageJson = fromString(readFileSync('./package.json', 'utf8'));
@@ -35,10 +34,10 @@ const writeContributing = () => {
   writeFileSync('./CONTRIBUTING.md', contributingMd, 'utf8');
 };
 
-export const updateAll = () => {
+export const updateAll = (opts: GenerateOpts) => {
   const existingPackageJson = readPackageJson();
-  const coreProject = packageToCoreProject(projectConfig, existingPackageJson);
-  const newPackageJson = fixAutomatically(projectConfig, existingPackageJson);
+  const coreProject = packageToCoreProject(opts, existingPackageJson);
+  const newPackageJson = fixAutomatically(coreProject, existingPackageJson);
   writePackageJson(newPackageJson);
   writeReadme(coreProject);
   writeCodeOfConducts();

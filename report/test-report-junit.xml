@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="34" failures="0" errors="0" time="11.743">
+  <testsuite name="IO and package stats" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:50" time="9.404" tests="2">
+    <testcase classname="IO and package stats should convert package.json from a string" name="IO and package stats should convert package.json from a string" time="0.005">
+    </testcase>
+    <testcase classname="IO and package stats should convert package.json to a string" name="IO and package stats should convert package.json to a string" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Markdown documentation" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:50" time="9.509" tests="4">
+    <testcase classname="Markdown documentation parse a markdown document" name="Markdown documentation parse a markdown document" time="0.017">
+    </testcase>
+    <testcase classname="Markdown documentation parse a markdown document without any secondary sections" name="Markdown documentation parse a markdown document without any secondary sections" time="0.01">
+    </testcase>
+    <testcase classname="Markdown documentation should produces a markdown document" name="Markdown documentation should produces a markdown document" time="0.002">
+    </testcase>
+    <testcase classname="Markdown documentation should produce some markdown for commands" name="Markdown documentation should produce some markdown for commands" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Suggestions" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:50" time="9.762" tests="11">
+    <testcase classname="Suggestions Summarize what to be fixed and done" name="Suggestions Summarize what to be fixed and done" time="0.005">
+    </testcase>
+    <testcase classname="Suggestions Check that the author is in obj format" name="Suggestions Check that the author is in obj format" time="0.003">
+    </testcase>
+    <testcase classname="Suggestions Check that the author does not contain fixme" name="Suggestions Check that the author does not contain fixme" time="0.001">
+    </testcase>
+    <testcase classname="Suggestions Check the github name is propagated" name="Suggestions Check the github name is propagated" time="0.001">
+    </testcase>
+    <testcase classname="Suggestions Trim spaces for description" name="Suggestions Trim spaces for description" time="0.002">
+    </testcase>
+    <testcase classname="Suggestions Trim spaces for keywords" name="Suggestions Trim spaces for keywords" time="0.001">
+    </testcase>
+    <testcase classname="Suggestions Trim spaces for name" name="Suggestions Trim spaces for name" time="0">
+    </testcase>
+    <testcase classname="Suggestions Check engines field" name="Suggestions Check engines field" time="0.001">
+    </testcase>
+    <testcase classname="Suggestions should detect empty string" name="Suggestions should detect empty string" time="0.009">
+    </testcase>
+    <testcase classname="Normalize package.json Normalize scripts section" name="Normalize package.json Normalize scripts section" time="0.004">
+    </testcase>
+    <testcase classname="Normalize package.json Normalize for other cases" name="Normalize package.json Normalize for other cases" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Utility" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:59" time="0.326" tests="11">
+    <testcase classname="Utility Trim a string" name="Utility Trim a string" time="0.003">
+    </testcase>
+    <testcase classname="Utility Trim a string array" name="Utility Trim a string array" time="0.001">
+    </testcase>
+    <testcase classname="Utility Count the number of items" name="Utility Count the number of items" time="0.009">
+    </testcase>
+    <testcase classname="Utility Convert an editable field value to status" name="Utility Convert an editable field value to status" time="0.005">
+    </testcase>
+    <testcase classname="Utility Convert an automatic field value to status" name="Utility Convert an automatic field value to status" time="0.001">
+    </testcase>
+    <testcase classname="Utility Convert an editable array field field value to status" name="Utility Convert an editable array field field value to status" time="0.022">
+    </testcase>
+    <testcase classname="Utility Convert a status to a todo string" name="Utility Convert a status to a todo string" time="0.012">
+    </testcase>
+    <testcase classname="Utility Extract string in between" name="Utility Extract string in between" time="0.002">
+    </testcase>
+    <testcase classname="Utility Default an object to empty object" name="Utility Default an object to empty object" time="0">
+    </testcase>
+    <testcase classname="Utility Default an array to empty array" name="Utility Default an array to empty array" time="0.001">
+    </testcase>
+    <testcase classname="Utility Find headers" name="Utility Find headers" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Readme documentation" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:59" time="0.489" tests="1">
+    <testcase classname="Readme documentation Updates README.md with standardized chapters" name="Readme documentation Updates README.md with standardized chapters" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="configuration for prettier" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:59" time="0.274" tests="1">
+    <testcase classname="configuration for prettier should provide reasonable defaults for prettier" name="configuration for prettier should provide reasonable defaults for prettier" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Code of conduct" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:59" time="0.369" tests="1">
+    <testcase classname="Code of conduct normalizes CODE_OF_CONDUCT.md" name="Code of conduct normalizes CODE_OF_CONDUCT.md" time="0.029">
+    </testcase>
+  </testsuite>
+  <testsuite name="Copy elements from package.json to core project" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:58:00" time="0.338" tests="1">
+    <testcase classname="Copy elements from package.json to core project it should understand MIT" name="Copy elements from package.json to core project it should understand MIT" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Maintenance documentation" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:57:59" time="0.555" tests="1">
+    <testcase classname="Maintenance documentation normalizes MAINTENANCE.md" name="Maintenance documentation normalizes MAINTENANCE.md" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Contributing" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:58:00" time="0.293" tests="1">
+    <testcase classname="Contributing normalizes CONTRIBUTING.md" name="Contributing normalizes CONTRIBUTING.md" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CLI features" errors="0" failures="0" skipped="0" timestamp="2021-12-14T08:58:00" time="0.164" tests="0">
+    <testcase classname="CLI features provide a list of suggested improvements and todo" name="CLI features provide a list of suggested improvements and todo" time="0">
+    </testcase>
+    <testcase classname="CLI features provide a standardized package json" name="CLI features provide a standardized package json" time="0">
+    </testcase>
+    <testcase classname="CLI features provide a standardized .gitignore" name="CLI features provide a standardized .gitignore" time="0">
+    </testcase>
+    <testcase classname="CLI features generate all the standard markdown files" name="CLI features generate all the standard markdown files" time="0">
+    </testcase>
+    <testcase classname="CLI features provide a standardized github workflow if needed" name="CLI features provide a standardized github workflow if needed" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>

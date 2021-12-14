@@ -1,4 +1,4 @@
-export interface PackageJson {
+export type PackageJson = {
   name: string;
   description: string;
   keywords: string[];
@@ -7,16 +7,20 @@ export interface PackageJson {
   license: string;
   homepage: string;
   repository: Repository;
+  type: string;
+  exports: string;
   main: string;
+  types: string;
   typings: string;
   files: string[];
+  bin: { [key: string]: string };
   engines: Engines;
   scripts: Scripts;
   module: string;
   devDependencies: Dependencies;
   dependencies: Dependencies;
   peerDependencies: Dependencies;
-}
+};
 
 export interface PackageKeyStats {
   key: string;
@@ -46,30 +50,35 @@ export interface Scripts {
   [key: string]: string;
 }
 
-type LicenseType = "MIT" | "UNLICENSED"
- 
-type ProjectType = "lib" | "cli"
+type LicenseType = 'MIT' | 'UNLICENSED';
+
+type ProjectType = 'lib' | 'cli';
 
 export interface GenerateOpts {
   projectType: ProjectType;
   githubAccount: string;
 }
 
-export interface CoreProject extends GenerateOpts{
+export interface CoreProject extends GenerateOpts {
   name: string;
   licenseType: LicenseType;
 }
 
-export type FieldStatus = "ok" | "todo" | "fixable"
- 
+export type FieldStatus = 'ok' | 'todo' | 'fixable';
+
 export interface Todo {
   description: string;
   status: string;
 }
 
-export type toFieldStatus = (value: any, fixed: any) => FieldStatus;
+export type SupportedPackageJsonFieldType = PackageJson[keyof PackageJson];
 
- interface GenericPackageJson<T> {
+export type toFieldStatus = (
+  value: SupportedPackageJsonFieldType,
+  fixed: SupportedPackageJsonFieldType
+) => FieldStatus;
+
+interface GenericPackageJson<T> {
   name: T;
   description: T;
   keywords: T;
@@ -78,9 +87,13 @@ export type toFieldStatus = (value: any, fixed: any) => FieldStatus;
   license: T;
   homepage: T;
   repository: T;
+  type: T;
+  exports: T;
   main: T;
+  types: T;
   typings: T;
   files: T;
+  bin: T;
   engines: T;
   scripts: T;
   module: T;
@@ -89,9 +102,9 @@ export type toFieldStatus = (value: any, fixed: any) => FieldStatus;
   peerDependencies: T;
 }
 
-export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>
-  
-export type PackageJsonStatus = GenericPackageJson<FieldStatus>
+export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>;
+
+export type PackageJsonStatus = GenericPackageJson<FieldStatus>;
 
 export interface Badge {
   text: string;
@@ -111,7 +124,7 @@ export interface MdDocument {
   sections: MdSection[];
 }
 
-export type InstallationType = "npm.dev" | "npm.bin" | "brew"
+export type InstallationType = 'npm.dev' | 'npm.bin' | 'brew';
 
 export interface MdPackage {
   name: string;

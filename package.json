@@ -12,11 +12,14 @@
   "engines": {
     "node": ">=10"
   },
+  "bin": {},
   "scripts": {
     "build": "tsc --outDir dist",
     "lint": "baldrick lint check",
+    "lint:ci": "baldrick lint ci",
     "lint:fix": "baldrick lint fix",
     "test": "baldrick test check",
+    "test:ci": "baldrick test ci",
     "test:fix": "baldrick test fix",
     "test:cov": "baldrick test cov"
     },

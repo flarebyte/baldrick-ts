@@ -57,21 +57,22 @@ MIT © [2021 Flarebyte - Olivier Huin]()
 describe('Readme documentation', () => {
   it('Updates README.md with standardized chapters', () => {
     const project: CoreProject = {
-      ...libCoreProject
+      ...libCoreProject,
+      name: 'project123'
     };
     const actual = toReadmeMd(project, exampleReadme);
     expect(actual).toContain('# Project123');
-    expect(actual).toContain('(https://img.shields.io/npm/v/scratchbook)');
+    expect(actual).toContain('(https://img.shields.io/npm/v/project123)');
     expect(actual).toContain(
-      '(https://github.com/mycompany/scratchbook/actions/workflows/main.yml/badge.svg)'
+      '(https://github.com/mycompany/project123/actions/workflows/main.yml/badge.svg)'
     );
     expect(actual).toContain(
-      '(https://img.shields.io/bundlephobia/min/scratchbook)'
+      '(https://img.shields.io/bundlephobia/min/project123)'
     );
     expect(actual).toContain('## Usage');
     expect(actual).toContain('## Documentation and links');
     expect(actual).toContain('## Installation');
-    expect(actual).toContain('yarn add scratchbook');
+    expect(actual).toContain('yarn add project123');
     expect(actual).not.toContain('## License');
   });
 });

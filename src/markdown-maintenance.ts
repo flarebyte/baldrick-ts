@@ -3,7 +3,7 @@ import { MdCommand, MdPackage } from './model';
 
 const baldrickDevPackage: MdPackage = {
   name: 'baldrick',
-  installationType: "npm.dev",
+  installationType: 'npm.dev',
   description: 'Zero-config CLI for TypeScript package development',
   homepage: 'https://github.com/flarebyte/baldrick-dev-ts',
   repository: {
@@ -14,7 +14,7 @@ const baldrickDevPackage: MdPackage = {
 
 const yarnPackage: MdPackage = {
   name: 'yarn',
-  installationType: "npm.dev",
+  installationType: 'npm.dev',
   description: 'Dependency management',
   homepage: 'https://classic.yarnpkg.com/en/',
   repository: {
@@ -25,7 +25,7 @@ const yarnPackage: MdPackage = {
 
 const actPackage: MdPackage = {
   name: 'act',
-  installationType: "brew",
+  installationType: 'brew',
   description: 'Run GitHub Actions locally',
   homepage: 'https://github.com/nektos/act',
   repository: {
