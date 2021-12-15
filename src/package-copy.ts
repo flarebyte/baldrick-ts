@@ -1,11 +1,12 @@
 import {
   CoreProject,
   Dependencies,
-  GenerateOpts,
-  PackageJson,
+  GenerateActionOpts,
+  RunnerContext,
   Scripts,
-} from './model';
-import { alwaysObj, trimString } from './utils';
+} from './model.js';
+import { alwaysObj, trimString } from './utils.js';
+import path from 'path';
 
 export const copyScripts = (scripts: Scripts): Scripts =>
   Object.fromEntries(
@@ -23,12 +24,12 @@ export const copyDependencies = (deps: Dependencies): Dependencies =>
     ])
   );
 
-export const packageToCoreProject = (
-  generateOpts: GenerateOpts,
-  packageJson: PackageJson
+export const computeCoreProject = (
+  ctx: RunnerContext,
+  generateOpts: GenerateActionOpts
 ): CoreProject => ({
-  name: packageJson.name,
+  name: path.basename(ctx.currentPath),
   githubAccount: generateOpts.githubAccount,
   licenseType: 'MIT',
-  projectType: generateOpts.projectType,
+  feature: generateOpts.feature,
 });

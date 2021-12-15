@@ -2,13 +2,13 @@ import {
   PackageJson,
   PackageJsonStatus,
   PackageJsonStatusConverter,
-} from './model';
+} from './model.js';
 import {
   authorToStatus,
   autoToStatus,
   editableArrToStatus,
   editableToStatus,
-} from './utils';
+} from './utils.js';
 
 const packConv: PackageJsonStatusConverter = {
   name: editableToStatus,

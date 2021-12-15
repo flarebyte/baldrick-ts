@@ -1,5 +1,5 @@
-import { PackageJson, PackageKeyStats } from './model';
-import { toCountItems, toStringLength } from './utils';
+import { PackageJson, PackageKeyStats } from './model.js';
+import { toCountItems, toStringLength } from './utils.js';
 
 export const packageToStats = (packageJson: PackageJson): PackageKeyStats[] =>
   Object.entries(packageJson).map((keyValue) => ({

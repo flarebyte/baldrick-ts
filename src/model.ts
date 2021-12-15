@@ -22,6 +22,18 @@ export type PackageJson = {
   peerDependencies: Dependencies;
 };
 
+export type CustomizedPackageJson = Pick<
+  PackageJson,
+  | 'description'
+  | 'keywords'
+  | 'version'
+  | 'author'
+  | 'scripts'
+  | 'devDependencies'
+  | 'dependencies'
+  | 'peerDependencies'
+>;
+
 export interface PackageKeyStats {
   key: string;
   countItems: number;
@@ -54,12 +66,24 @@ type LicenseType = 'MIT' | 'UNLICENSED';
 
 type ProjectType = 'lib' | 'cli';
 
-export interface GenerateOpts {
-  projectType: ProjectType;
+export type SupportedFeature = ProjectType;
+
+export interface GenerateActionOpts {
+  feature: SupportedFeature[];
   githubAccount: string;
 }
 
-export interface CoreProject extends GenerateOpts {
+export interface GenerateRawOpts {
+  feature: string[];
+  githubAccount: string;
+}
+
+export interface CmdOptionsGenerator {
+  feature: CmdOption;
+  githubAccount: CmdOption;
+}
+
+export interface CoreProject extends GenerateActionOpts {
   name: string;
   licenseType: LicenseType;
 }
@@ -159,3 +183,40 @@ export interface MdCommand {
    */
   examples: string[];
 }
+
+export interface CmdOption {
+  shortFlag: string;
+  longFlag: string;
+  description: string;
+  defaultValue: string | string[];
+  choices: string[];
+}
+type TermFormatterKind = 'intro' | 'info';
+export type TermFormatterFormat = 'default' | 'human';
+
+export interface TermFormatterParams {
+  title: string;
+  detail: string | object;
+  kind: TermFormatterKind;
+  format: TermFormatterFormat;
+}
+
+export interface ErrTermFormatterParams {
+  title: string;
+  detail: unknown;
+}
+
+export type TermFormatter = (params: TermFormatterParams) => void;
+
+export type ErrTermFormatter = (params: ErrTermFormatterParams) => void;
+
+export interface RunnerContext {
+  currentPath: string;
+  termFormatter: TermFormatter;
+  errTermFormatter: ErrTermFormatter;
+}
+
+export type GenerateAction = (
+  ctx: RunnerContext,
+  options: GenerateActionOpts
+) => Promise<void>;

@@ -1,7 +1,6 @@
 import { Todo } from '../src/model';
 import { fixAutomatically, suggestTasksToDo } from '../src/package';
 import { fromString } from '../src/package-io';
-import { writeFileSync } from '../src/barrel';
 import { libCoreProject } from './fixture-core-project';
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
@@ -118,20 +117,8 @@ describe('Suggestions', () => {
   });
 });
 
-const saveNormalizedPackage = () => {
-  const actual = fromString(fixturePackageJsonString);
-  writeFileSync(
-    'test/fixture_fixed_package.json',
-    JSON.stringify(fixAutomatically(libCoreProject, actual), null, 2),
-    'utf8'
-  );
-};
 
 describe('Normalize package.json', () => {
-  const resaveFixture = false;
-  if (resaveFixture) {
-    saveNormalizedPackage();
-  }
   it('Normalize scripts section', () => {
     const ref = fromString(fixturePackageJsonString);
     const actual = fixAutomatically(libCoreProject, ref);

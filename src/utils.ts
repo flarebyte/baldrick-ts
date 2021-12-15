@@ -1,5 +1,5 @@
-import { isEqual } from './barrel';
-import { Author, FieldStatus, SupportedPackageJsonFieldType } from './model';
+import { isEqual } from './barrel.js';
+import { Author, FieldStatus, SupportedPackageJsonFieldType } from './model.js';
 
 const fixme = 'fixme';
 

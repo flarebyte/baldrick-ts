@@ -5,7 +5,7 @@ import {
 export const libCoreProject: CoreProject = {
   name: 'scratchbook',
   githubAccount: 'mycompany',
-  projectType: 'lib',
+  feature: ['lib'],
   licenseType: 'MIT',
 };
 

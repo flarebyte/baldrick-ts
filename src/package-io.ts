@@ -1,4 +1,4 @@
-import { PackageJson } from './model';
+import { PackageJson } from './model.js';
 
 const simpleCopyPackageJson = (pj: PackageJson): PackageJson => ({
   name: pj.name,

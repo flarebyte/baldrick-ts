@@ -5,8 +5,8 @@ import {
   MdDocument,
   MdPackage,
   MdSection,
-} from './model';
-import { findHeader, stringBetween } from './utils';
+} from './model.js';
+import { findHeader, stringBetween } from './utils.js';
 
 const ___ = '```';
 

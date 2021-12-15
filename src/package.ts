@@ -1,13 +1,18 @@
-import { PackageJson, CoreProject, FieldStatus, Todo } from './model';
-import { copyDependencies, copyScripts } from './package-copy';
-import { convertPackageToStatus } from './package-status';
-import { statusToTodo, trimString, trimStringArray } from './utils';
+import {
+  PackageJson,
+  CoreProject,
+  FieldStatus,
+  Todo,
+  CustomizedPackageJson,
+} from './model.js';
+import { copyDependencies, copyScripts } from './package-copy.js';
+import { convertPackageToStatus } from './package-status.js';
+import { statusToTodo, trimString, trimStringArray } from './utils.js';
 
 const minNodeVersion = 14;
 const fixme = 'fixme';
 
-const trimPackageJson = (pj: PackageJson): PackageJson => ({
-  name: trimString(pj.name),
+const trimPackageJson = (pj: CustomizedPackageJson): CustomizedPackageJson => ({
   description: trimString(pj.description),
   keywords: trimStringArray(pj.keywords),
   author:
@@ -18,24 +23,7 @@ const trimPackageJson = (pj: PackageJson): PackageJson => ({
         }
       : pj.author,
   version: trimString(pj.version),
-  license: trimString(pj.license),
-  homepage: trimString(pj.homepage),
-  repository: {
-    type: trimString(pj.repository.type),
-    url: trimString(pj.repository.url),
-  },
-  type: 'module',
-  exports: trimString(pj.exports),
-  types: trimString(pj.types),
-  main: trimString(pj.main),
-  typings: trimString(pj.typings),
-  files: trimStringArray(pj.files),
-  bin: pj.bin,
-  engines: {
-    node: trimString(pj.engines.node),
-  },
   scripts: copyScripts(pj.scripts),
-  module: trimString(pj.module),
   dependencies: copyDependencies(pj.dependencies),
   devDependencies: copyDependencies(pj.devDependencies),
   peerDependencies: copyDependencies(pj.peerDependencies),
@@ -43,10 +31,14 @@ const trimPackageJson = (pj: PackageJson): PackageJson => ({
 
 const normalizeOpenSourcePackage = (
   coreProject: CoreProject,
-  packageJson: PackageJson
+  customized: CustomizedPackageJson
 ): PackageJson => ({
-  ...packageJson,
   name: coreProject.name,
+  description: customized.description,
+  keywords: customized.keywords,
+  version: customized.version,
+  author: customized.author,
+  license: coreProject.licenseType,
   homepage: `https://github.com/${coreProject.githubAccount}/${coreProject.name}`,
   repository: {
     type: 'git',
@@ -72,26 +64,40 @@ const normalizeOpenSourcePackage = (
     build: 'tsc --outDir dist',
   },
   module: `dist/${coreProject.name}.esm.js`,
+  dependencies: customized.dependencies,
+  devDependencies: customized.devDependencies,
+  peerDependencies: customized.peerDependencies,
 });
+
+export const defaultCustomizedPackageJson: CustomizedPackageJson = {
+  description: fixme,
+  keywords: [],
+  version: '0.1.0',
+  author: fixme,
+  scripts: {},
+  dependencies: {},
+  devDependencies: {},
+  peerDependencies: {},
+};
 
 const normalizeOtherPackage = (
   coreProject: CoreProject,
-  packageJson: PackageJson
-): PackageJson => ({ ...normalizeOpenSourcePackage(coreProject, packageJson) });
+  customized: CustomizedPackageJson
+): PackageJson => ({ ...normalizeOpenSourcePackage(coreProject, customized) });
 
 const normalizePackage = (
   coreProject: CoreProject,
-  packageJson: PackageJson
+  customized: CustomizedPackageJson
 ): PackageJson =>
   coreProject.licenseType === 'MIT'
-    ? normalizeOpenSourcePackage(coreProject, packageJson)
-    : normalizeOtherPackage(coreProject, packageJson);
+    ? normalizeOpenSourcePackage(coreProject, customized)
+    : normalizeOtherPackage(coreProject, customized);
 
 const fixAutomatically = (
   coreProject: CoreProject,
-  packageJson: PackageJson
+  customized: CustomizedPackageJson
 ): PackageJson => {
-  const trimmed = trimPackageJson(packageJson);
+  const trimmed = trimPackageJson(customized);
   const fixed = normalizePackage(coreProject, trimmed);
   return fixed;
 };
