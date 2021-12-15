@@ -1,40 +1,40 @@
 {
   "name": "baldrick-ts",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "author": "Olivier Huin",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "exports": "./dist/src/cli.mjs",
   "files": [
-    "dist",
-    "src"
+    "dist/src"
   ],
   "engines": {
     "node": ">=10"
   },
+  "bin": {
+    "baldrick-ts": "dist/src/cli.mjs"
+  },
   "scripts": {
-    "start": "tsdx watch",
-    "watch": "tsdx test --watch",
-    "build": "tsdx build",
-    "test": "tsdx test --config jest.config.json",
-    "test:cov": "tsdx test --config jest.config.json --coverage",
-    "lint": "tsdx lint",
-    "fix": "tsdx lint --fix",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
+    "build": "tsc --outDir dist",
+    "lint": "baldrick lint check",
+    "lint:ci": "baldrick lint ci",
+    "lint:fix": "baldrick lint fix",
+    "test": "baldrick test check",
+    "test:ci": "baldrick test ci",
+    "test:fix": "baldrick test fix",
+    "test:cov": "baldrick test cov"
   },
   "peerDependencies": {},
   "module": "dist/baldrick-ts.esm.js",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.1",
     "@types/lodash.isequal": "^4.5.5",
-    "size-limit": "^5.0.1",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "baldrick-dev-ts": "^0.8.0",
+    "typescript": "^4.5.3"
   },
   "dependencies": {
+    "commander": "^8.3.0",
     "just-compare": "^1.4.0",
     "lodash.isequal": "^4.5.0"
   }

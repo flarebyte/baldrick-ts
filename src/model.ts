@@ -1,4 +1,4 @@
-export interface PackageJson {
+export type PackageJson = {
   name: string;
   description: string;
   keywords: string[];
@@ -7,16 +7,32 @@ export interface PackageJson {
   license: string;
   homepage: string;
   repository: Repository;
+  type: string;
+  exports: string;
   main: string;
+  types: string;
   typings: string;
   files: string[];
+  bin: { [key: string]: string };
   engines: Engines;
   scripts: Scripts;
   module: string;
   devDependencies: Dependencies;
   dependencies: Dependencies;
   peerDependencies: Dependencies;
-}
+};
+
+export type CustomizedPackageJson = Pick<
+  PackageJson,
+  | 'description'
+  | 'keywords'
+  | 'version'
+  | 'author'
+  | 'scripts'
+  | 'devDependencies'
+  | 'dependencies'
+  | 'peerDependencies'
+>;
 
 export interface PackageKeyStats {
   key: string;
@@ -46,93 +62,73 @@ export interface Scripts {
   [key: string]: string;
 }
 
-export enum LicenseType {
-  MIT,
-  Other,
+type LicenseType = 'MIT' | 'UNLICENSED';
+
+type ProjectType = 'lib' | 'cli';
+
+export type SupportedFeature = ProjectType;
+
+export interface GenerateActionOpts {
+  feature: SupportedFeature[];
+  githubAccount: string;
 }
 
-export enum ScaffoldingType {
-  TsDx,
-  Other,
+export interface GenerateRawOpts {
+  feature: string[];
+  githubAccount: string;
 }
 
-export enum PipelineType {
-  Github,
-  Other,
+export interface CmdOptionsGenerator {
+  feature: CmdOption;
+  githubAccount: CmdOption;
 }
 
-export enum ProjectType {
-  TsLib,
-  TsCli,
-  Other,
-}
-
-export interface CoreProject {
+export interface CoreProject extends GenerateActionOpts {
   name: string;
-  githubAccount: string;
-  sizeLimitKB: number;
   licenseType: LicenseType;
-  scaffoldingType: ScaffoldingType;
-  pipelineType: PipelineType;
-  projectType: ProjectType;
-}
-export interface ProjectConfig {
-  githubAccount: string;
-  sizeLimitKB: number;
 }
 
-export enum FieldStatus {
-  Ok,
-  Todo,
-  Fixable,
-}
+export type FieldStatus = 'ok' | 'todo' | 'fixable';
 
 export interface Todo {
   description: string;
   status: string;
 }
 
-export type toFieldStatus = (value: any, fixed: any) => FieldStatus;
+export type SupportedPackageJsonFieldType = PackageJson[keyof PackageJson];
 
-export interface PackageJsonStatusConverter {
-  name: toFieldStatus;
-  description: toFieldStatus;
-  keywords: toFieldStatus;
-  author: toFieldStatus;
-  version: toFieldStatus;
-  license: toFieldStatus;
-  homepage: toFieldStatus;
-  repository: toFieldStatus;
-  main: toFieldStatus;
-  typings: toFieldStatus;
-  files: toFieldStatus;
-  engines: toFieldStatus;
-  scripts: toFieldStatus;
-  module: toFieldStatus;
-  devDependencies: toFieldStatus;
-  dependencies: toFieldStatus;
-  peerDependencies: toFieldStatus;
+export type toFieldStatus = (
+  value: SupportedPackageJsonFieldType,
+  fixed: SupportedPackageJsonFieldType
+) => FieldStatus;
+
+interface GenericPackageJson<T> {
+  name: T;
+  description: T;
+  keywords: T;
+  author: T;
+  version: T;
+  license: T;
+  homepage: T;
+  repository: T;
+  type: T;
+  exports: T;
+  main: T;
+  types: T;
+  typings: T;
+  files: T;
+  bin: T;
+  engines: T;
+  scripts: T;
+  module: T;
+  devDependencies: T;
+  dependencies: T;
+  peerDependencies: T;
 }
 
-export interface PackageJsonStatus {
-  name: FieldStatus;
-  description: FieldStatus;
-  keywords: FieldStatus;
-  author: FieldStatus;
-  version: FieldStatus;
-  license: FieldStatus;
-  homepage: FieldStatus;
-  repository: FieldStatus;
-  main: FieldStatus;
-  typings: FieldStatus;
-  files: FieldStatus;
-  engines: FieldStatus;
-  scripts: FieldStatus;
-  module: FieldStatus;
-  devDependencies: FieldStatus;
-  dependencies: FieldStatus;
-  peerDependencies: FieldStatus;
-}
+export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>;
+
+export type PackageJsonStatus = GenericPackageJson<FieldStatus>;
 
 export interface Badge {
   text: string;
@@ -152,11 +148,7 @@ export interface MdDocument {
   sections: MdSection[];
 }
 
-export enum InstallationType {
-  NpmDev,
-  NpmStandalone,
-  Brew,
-}
+export type InstallationType = 'npm.dev' | 'npm.bin' | 'brew';
 
 export interface MdPackage {
   name: string;
@@ -191,3 +183,40 @@ export interface MdCommand {
    */
   examples: string[];
 }
+
+export interface CmdOption {
+  shortFlag: string;
+  longFlag: string;
+  description: string;
+  defaultValue: string | string[];
+  choices: string[];
+}
+type TermFormatterKind = 'intro' | 'info';
+export type TermFormatterFormat = 'default' | 'human';
+
+export interface TermFormatterParams {
+  title: string;
+  detail: string | object;
+  kind: TermFormatterKind;
+  format: TermFormatterFormat;
+}
+
+export interface ErrTermFormatterParams {
+  title: string;
+  detail: unknown;
+}
+
+export type TermFormatter = (params: TermFormatterParams) => void;
+
+export type ErrTermFormatter = (params: ErrTermFormatterParams) => void;
+
+export interface RunnerContext {
+  currentPath: string;
+  termFormatter: TermFormatter;
+  errTermFormatter: ErrTermFormatter;
+}
+
+export type GenerateAction = (
+  ctx: RunnerContext,
+  options: GenerateActionOpts
+) => Promise<void>;

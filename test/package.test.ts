@@ -1,8 +1,7 @@
 import { Todo } from '../src/model';
 import { fixAutomatically, suggestTasksToDo } from '../src/package';
 import { fromString } from '../src/package-io';
-import { writeFileSync } from '../src/barrel';
-import { myProjectConfig } from './fixture-core-project';
+import { libCoreProject } from './fixture-core-project';
 const fixturePackageJsonString: string = JSON.stringify(
   require('./fixture_package.json'),
   null,
@@ -16,7 +15,7 @@ describe('Suggestions', () => {
   const ref = fromString(fixturePackageJsonString);
   const alwaysMissing = ['Key scripts'];
   it('Summarize what to be fixed and done', () => {
-    const todos = suggestTasksToDo(myProjectConfig, ref);
+    const todos = suggestTasksToDo(libCoreProject, ref);
     expect(todos).toContainEqual({
       description: 'Key scripts of package.json',
       status: '🤖 FIX',
@@ -27,7 +26,7 @@ describe('Suggestions', () => {
       ...ref,
       author: 'Mathilde',
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     expect(todoToKeys(todos)).toEqual(['Key author', ...alwaysMissing].sort());
     expect(todos).toContainEqual({
       description: 'Key author of package.json',
@@ -43,7 +42,7 @@ describe('Suggestions', () => {
         url: 'https://github.com/fixme',
       },
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     expect(todoToKeys(todos)).toEqual(['Key author', ...alwaysMissing].sort());
     expect(todos).toContainEqual({
       description: 'Key author of package.json',
@@ -53,7 +52,7 @@ describe('Suggestions', () => {
 
   it('Check the github name is propagated', () => {
     const byteConfig = {
-      ...myProjectConfig,
+      ...libCoreProject,
       githubAccount: 'byte',
     };
     const todos = suggestTasksToDo(byteConfig, ref);
@@ -66,7 +65,7 @@ describe('Suggestions', () => {
       ...ref,
       description: 'A description with a trailing space ',
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     expect(todoToKeys(todos)).toEqual(
       ['Key description', ...alwaysMissing].sort()
     );
@@ -77,7 +76,7 @@ describe('Suggestions', () => {
       ...ref,
       keywords: ['A keyword with a trailing space '],
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     expect(todoToKeys(todos)).toEqual(
       ['Key keywords', ...alwaysMissing].sort()
     );
@@ -88,10 +87,10 @@ describe('Suggestions', () => {
       ...ref,
       name: `${ref.name} `,
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     // todo check why
     expect(todoToKeys(todos)).toEqual(
-      ['Key homepage', 'Key module', 'Key repository', ...alwaysMissing].sort()
+      ['Key name', ...alwaysMissing].sort()
     );
   });
 
@@ -102,7 +101,7 @@ describe('Suggestions', () => {
         node: '12',
       },
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     expect(todoToKeys(todos)).toEqual(['Key engines', ...alwaysMissing].sort());
   });
 
@@ -111,32 +110,19 @@ describe('Suggestions', () => {
       ...ref,
       description: '',
     };
-    const todos = suggestTasksToDo(myProjectConfig, actual);
+    const todos = suggestTasksToDo(libCoreProject, actual);
     expect(todoToKeys(todos)).toEqual(
       ['Key description', ...alwaysMissing].sort()
     );
   });
 });
 
-const saveNormalizedPackage = () => {
-  const actual = fromString(fixturePackageJsonString);
-  writeFileSync(
-    'test/fixture_fixed_package.json',
-    JSON.stringify(fixAutomatically(myProjectConfig, actual), null, 2),
-    'utf8'
-  );
-};
 
 describe('Normalize package.json', () => {
-  const resaveFixture = false;
-  if (resaveFixture) {
-    saveNormalizedPackage();
-  }
   it('Normalize scripts section', () => {
-    const expected = require('./fixture_fixed_package.json');
     const ref = fromString(fixturePackageJsonString);
-    const actual = fixAutomatically(myProjectConfig, ref);
-    expect(actual).toEqual(expected);
+    const actual = fixAutomatically(libCoreProject, ref);
+    expect(actual).toMatchSnapshot()
   });
 
   it('Normalize for other cases', () => {
@@ -145,7 +131,7 @@ describe('Normalize package.json', () => {
       ...ref,
       license: 'GPL',
     };
-    const actual = fixAutomatically(myProjectConfig, given);
+    const actual = fixAutomatically(libCoreProject, given);
     expect(actual).toBeDefined();
   });
 });

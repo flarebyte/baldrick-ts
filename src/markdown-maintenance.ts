@@ -1,20 +1,20 @@
 import { commandToMd } from './markdown';
-import { InstallationType, MdCommand, MdPackage } from './model';
+import { MdCommand, MdPackage } from './model';
 
-const tsdxPackage: MdPackage = {
-  name: 'tsdx',
-  installationType: InstallationType.NpmDev,
+const baldrickDevPackage: MdPackage = {
+  name: 'baldrick',
+  installationType: 'npm.dev',
   description: 'Zero-config CLI for TypeScript package development',
-  homepage: 'https://tsdx.io/',
+  homepage: 'https://github.com/flarebyte/baldrick-dev-ts',
   repository: {
     type: 'git',
-    url: 'https://github.com/formium/tsdx',
+    url: 'https://github.com/flarebyte/baldrick-dev-ts',
   },
 };
 
 const yarnPackage: MdPackage = {
   name: 'yarn',
-  installationType: InstallationType.NpmDev,
+  installationType: 'npm.dev',
   description: 'Dependency management',
   homepage: 'https://classic.yarnpkg.com/en/',
   repository: {
@@ -25,7 +25,7 @@ const yarnPackage: MdPackage = {
 
 const actPackage: MdPackage = {
   name: 'act',
-  installationType: InstallationType.Brew,
+  installationType: 'brew',
   description: 'Run GitHub Actions locally',
   homepage: 'https://github.com/nektos/act',
   repository: {
@@ -41,7 +41,7 @@ const lintCmd: MdCommand = {
   motivation: 'Make the code more consistent and avoid bugs',
   context: 'Before compilation',
   run: 'yarn lint',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -52,7 +52,7 @@ const fixCmd: MdCommand = {
   motivation: 'Facilitate routine maintenance of code',
   context: 'Before compilation',
   run: 'yarn fix',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -63,7 +63,7 @@ const fixOtherCmd: MdCommand = {
   motivation: 'Facilitate routine maintenance of code',
   context: 'Before compilation',
   run: 'yarn fix:o',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -74,7 +74,7 @@ const testCmd: MdCommand = {
   motivation: 'Check that the units of code behave as intended',
   context: 'After compilation, before build',
   run: 'yarn test',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -86,7 +86,7 @@ const watchCmd: MdCommand = {
   motivation: 'Know if the latest changes still satisfies the tests',
   context: 'After compilation, before build',
   run: 'yarn watch',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -97,7 +97,7 @@ const testCovCmd: MdCommand = {
   motivation: 'Ensure that every code branch and function is executed ',
   context: 'After compilation, before build',
   run: 'yarn test:cov',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -110,7 +110,7 @@ const prepareCmd: MdCommand = {
     'Remove internal imports and exclude anything that is not actually used',
   context: 'Before publishing',
   run: 'yarn prepare',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -122,7 +122,7 @@ const sizeCmd: MdCommand = {
   motivation: 'Reduces the download time and execution time of the library',
   context: 'Before publishing',
   run: 'yarn size',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 
@@ -134,7 +134,7 @@ const analyzeCmd: MdCommand = {
   motivation: 'Identify dependencies that could be replaced by lighter options',
   context: 'Before publishing',
   run: 'yarn analyze',
-  partOf: tsdxPackage,
+  partOf: baldrickDevPackage,
   examples: [],
 };
 

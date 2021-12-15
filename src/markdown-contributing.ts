@@ -14,8 +14,6 @@ Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in
 
 ## Build the project locally
 
-The project mostly relies on the approach suggested by [ts-dx](TSDX.md).
-
 The following commands should get you started
 
 ${___}

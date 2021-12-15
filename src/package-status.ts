@@ -1,38 +1,37 @@
 import {
-  Author,
-  Dependencies,
-  FieldStatus,
   PackageJson,
   PackageJsonStatus,
   PackageJsonStatusConverter,
-} from './model';
-import { autoToStatus, editableArrToStatus, editableToStatus } from './utils';
-const fixme = 'fixme';
+} from './model.js';
+import {
+  authorToStatus,
+  autoToStatus,
+  editableArrToStatus,
+  editableToStatus,
+} from './utils.js';
 
 const packConv: PackageJsonStatusConverter = {
   name: editableToStatus,
   description: editableToStatus,
   keywords: editableArrToStatus,
-  author: (value: Author | string) =>
-    typeof value === 'string'
-      ? FieldStatus.Todo
-      : (value as Author).name.includes(fixme) ||
-        (value as Author).url.includes(fixme)
-      ? FieldStatus.Todo
-      : FieldStatus.Ok,
+  author: authorToStatus,
   version: editableToStatus,
   license: editableToStatus,
   homepage: autoToStatus,
   repository: autoToStatus,
   main: autoToStatus,
+  type: autoToStatus,
   typings: autoToStatus,
   files: autoToStatus,
   engines: autoToStatus,
   scripts: autoToStatus,
   module: autoToStatus,
-  devDependencies: (_: Dependencies) => FieldStatus.Ok,
-  dependencies: (_: Dependencies) => FieldStatus.Ok,
-  peerDependencies: (_: Dependencies) => FieldStatus.Ok,
+  devDependencies: () => 'ok',
+  dependencies: () => 'ok',
+  peerDependencies: () => 'ok',
+  exports: autoToStatus,
+  types: autoToStatus,
+  bin: autoToStatus,
 };
 
 export const convertPackageToStatus = (
@@ -53,9 +52,13 @@ export const convertPackageToStatus = (
     packageJson.repository,
     fixedPackageJson.repository
   ),
+  type: packConv.type(packageJson.type, fixedPackageJson.type),
+  exports: packConv.exports(packageJson.exports, fixedPackageJson.exports),
   main: packConv.main(packageJson.main, fixedPackageJson.main),
+  types: packConv.types(packageJson.types, fixedPackageJson.types),
   typings: packConv.typings(packageJson.typings, fixedPackageJson.typings),
   files: packConv.files(packageJson.files, fixedPackageJson.files),
+  bin: packConv.bin(packageJson.bin, fixedPackageJson.bin),
   engines: packConv.engines(packageJson.engines, fixedPackageJson.engines),
   scripts: packConv.scripts(packageJson.scripts, fixedPackageJson.scripts),
   module: packConv.module(packageJson.module, fixedPackageJson.module),

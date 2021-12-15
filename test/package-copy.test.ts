@@ -1,47 +1,23 @@
-import {
-  LicenseType,
-  PipelineType,
-  ProjectType,
-  ScaffoldingType,
-} from '../src/model';
-import { packageToCoreProject } from '../src/package-copy';
-import { fromString } from '../src/package-io';
-import { libCoreProject } from './fixture-core-project';
-const fixturePackageJsonString: string = JSON.stringify(
-  require('./fixture_package.json'),
-  null,
-  2
-);
+import { GenerateActionOpts, RunnerContext } from '../src/model';
+import { computeCoreProject } from '../src/package-copy';
 
 describe('Copy elements from package.json to core project', () => {
-  const ref = fromString(fixturePackageJsonString);
-  it('it should understand MIT', () => {
-    const actual = packageToCoreProject(libCoreProject, ref);
-    expect(actual.githubAccount).toBe(libCoreProject.githubAccount);
-    expect(actual.licenseType).toBe(LicenseType.MIT);
+  
+  it('it should compute the core project', () => {
+    const ctx: RunnerContext = {
+      currentPath: 'path/to/here/scratchbook',
+      termFormatter: jest.fn(),
+      errTermFormatter: jest.fn(),
+    }
+    const opts: GenerateActionOpts = {
+      feature: ['lib'],
+      githubAccount: 'myaccount'
+    }
+    const actual = computeCoreProject(ctx, opts);
+    expect(actual.githubAccount).toBe(opts.githubAccount);
+    expect(actual.licenseType).toBe('MIT');
     expect(actual.name).toEqual('scratchbook');
-    expect(actual.pipelineType).toEqual(PipelineType.Github);
-    expect(actual.projectType).toEqual(ProjectType.TsLib);
-    expect(actual.scaffoldingType).toEqual(ScaffoldingType.TsDx);
+    expect(actual.feature).toContain('lib');
   });
-
-  it('it should understand other license', () => {
-    const modified = {
-      ...ref,
-      license: 'GPL',
-    };
-    const actual = packageToCoreProject(libCoreProject, modified);
-    expect(actual.licenseType).toEqual(LicenseType.Other);
-  });
-
-  it('it should understand other scaffolding', () => {
-    const modified = {
-      ...ref,
-      devDependencies: {
-        typescript: '^4.3.5',
-      },
-    };
-    const actual = packageToCoreProject(libCoreProject, modified);
-    expect(actual.scaffoldingType).toEqual(ScaffoldingType.Other);
-  });
+  
 });

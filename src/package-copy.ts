@@ -1,47 +1,35 @@
 import {
   CoreProject,
   Dependencies,
-  LicenseType,
-  PackageJson,
-  PipelineType,
-  ProjectConfig,
-  ProjectType,
-  ScaffoldingType,
+  GenerateActionOpts,
+  RunnerContext,
   Scripts,
-} from './model';
-import { alwaysObj, trimString } from './utils';
+} from './model.js';
+import { alwaysObj, trimString } from './utils.js';
+import path from 'path';
 
 export const copyScripts = (scripts: Scripts): Scripts =>
   Object.fromEntries(
-    Object.entries(scripts).map(keyVal => [
-      trimString(keyVal[0]),
-      trimString(keyVal[1]),
+    Object.entries(scripts).map(([key, value]) => [
+      trimString(key),
+      trimString(value),
     ])
   );
 
 export const copyDependencies = (deps: Dependencies): Dependencies =>
   Object.fromEntries(
-    Object.entries(alwaysObj(deps)).map(keyVal => [
-      trimString(keyVal[0]),
-      trimString(keyVal[1]),
+    Object.entries(alwaysObj(deps)).map(([key, value]) => [
+      trimString(key),
+      trimString(value),
     ])
   );
 
-const hasDependency = (name: string, dependencies: Dependencies): boolean =>
-  Object.keys(dependencies).includes(name);
-
-export const packageToCoreProject = (
-  projectConfig: ProjectConfig,
-  packageJson: PackageJson
+export const computeCoreProject = (
+  ctx: RunnerContext,
+  generateOpts: GenerateActionOpts
 ): CoreProject => ({
-  name: packageJson.name,
-  githubAccount: projectConfig.githubAccount,
-  sizeLimitKB: projectConfig.sizeLimitKB,
-  licenseType:
-    packageJson.license === 'MIT' ? LicenseType.MIT : LicenseType.Other,
-  scaffoldingType: hasDependency('tsdx', packageJson.devDependencies)
-    ? ScaffoldingType.TsDx
-    : ScaffoldingType.Other,
-  pipelineType: PipelineType.Github,
-  projectType: ProjectType.TsLib,
+  name: path.basename(ctx.currentPath),
+  githubAccount: generateOpts.githubAccount,
+  licenseType: 'MIT',
+  feature: generateOpts.feature,
 });

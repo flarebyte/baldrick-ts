@@ -1,4 +1,4 @@
-import { PackageJson } from './model';
+import { PackageJson } from './model.js';
 
 const simpleCopyPackageJson = (pj: PackageJson): PackageJson => ({
   name: pj.name,
@@ -9,7 +9,11 @@ const simpleCopyPackageJson = (pj: PackageJson): PackageJson => ({
   license: pj.license,
   homepage: pj.homepage,
   repository: pj.repository,
+  type: pj.type,
+  exports: pj.exports,
   main: pj.main,
+  bin: pj.bin,
+  types: pj.types,
   typings: pj.typings,
   files: pj.files,
   engines: pj.engines,

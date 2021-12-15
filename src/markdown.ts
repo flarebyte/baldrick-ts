@@ -5,13 +5,13 @@ import {
   MdDocument,
   MdPackage,
   MdSection,
-} from './model';
-import { findHeader, stringBetween } from './utils';
+} from './model.js';
+import { findHeader, stringBetween } from './utils.js';
 
 const ___ = '```';
 
 const getMainSection = (lines: string[]): string[] => {
-  const idx = lines.findIndex(line => line.startsWith('## '));
+  const idx = lines.findIndex((line) => line.startsWith('## '));
   return idx === -1 ? lines : lines.slice(0, idx);
 };
 
@@ -32,10 +32,10 @@ const detectSecondaryHeader = (line: string, index: number): number =>
 const getSecondarySections = (lines: string[]): MdSection[] => {
   const foundIndexes = lines
     .map(detectSecondaryHeader)
-    .filter(index => index >= 0);
+    .filter((index) => index >= 0);
   const indexes = [...foundIndexes, lines.length - 1];
   const idxRange = Array.from(Array(foundIndexes.length).keys());
-  const sections = idxRange.map(idx =>
+  const sections = idxRange.map((idx) =>
     linesToSection(lines.slice(indexes[idx], indexes[idx + 1]))
   );
   return sections;
@@ -46,13 +46,13 @@ const extractBadge = (line: string): Badge => ({
   url: stringBetween('(', ')')(line),
 });
 const findBadges = (lines: string[]) =>
-  lines.filter(line => line.startsWith('![')).map(extractBadge);
+  lines.filter((line) => line.startsWith('![')).map(extractBadge);
 
 const keepHeaderBody = (line: string): boolean =>
   !(line.startsWith('# ') || line.startsWith('![') || line.startsWith('> '));
 
 const parseMarkdown = (content: string): MdDocument => {
-  const lines = content.split('\n').map(line => line.trim());
+  const lines = content.split('\n').map((line) => line.trim());
   const mainSect = getMainSection(lines);
 
   const title = findHeader('# ')(mainSect);
@@ -88,11 +88,11 @@ const markdownToString = (doc: MdDocument): string => {
 
 const installationTypeToText = (installationType: InstallationType): string => {
   switch (installationType) {
-    case InstallationType.NpmDev:
+    case 'npm.dev':
       return '[npm](https://www.npmjs.com/)';
-    case InstallationType.NpmStandalone:
+    case 'npm.bin':
       return '[npm bin](https://www.npmjs.com/)';
-    case InstallationType.Brew:
+    case 'brew':
       return '[brew](https://docs.brew.sh/)';
   }
 };

@@ -1,6 +1,8 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
+import { cmdGenerateAction } from './commanding-action.js';
+import { Commanding } from './commanding.js';
+
+const commanding = new Commanding();
+
+commanding.declareGenerateAction(cmdGenerateAction);
+
+export { commanding };

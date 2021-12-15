@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ['12.x', '14.x']
+        node: ['14.x', '16.x']
         os: [ubuntu-latest, macOS-latest]
 
     steps:
@@ -23,13 +23,7 @@ jobs:
         run: yarn install
 
       - name: Static code analysis
-        run: echo "skipping as it would fail for doubtful reasons yarn lint"
+        run: yarn lint:ci
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
-
-      - name: Build
-        run: yarn build
-
-      - name: Check the size limit
-        run: yarn size
+        run: yarn test:ci

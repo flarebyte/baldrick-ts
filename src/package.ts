@@ -1,20 +1,18 @@
 import {
   PackageJson,
   CoreProject,
-  LicenseType,
   FieldStatus,
   Todo,
-  ProjectConfig,
-} from './model';
-import { copyDependencies, copyScripts, packageToCoreProject } from './package-copy';
-import { convertPackageToStatus } from './package-status';
-import { statusToTodo, trimString, trimStringArray } from './utils';
+  CustomizedPackageJson,
+} from './model.js';
+import { copyDependencies, copyScripts } from './package-copy.js';
+import { convertPackageToStatus } from './package-status.js';
+import { statusToTodo, trimString, trimStringArray } from './utils.js';
 
-const minNodeVersion = 12;
+const minNodeVersion = 14;
 const fixme = 'fixme';
 
-const trimPackageJson = (pj: PackageJson): PackageJson => ({
-  name: trimString(pj.name),
+const trimPackageJson = (pj: CustomizedPackageJson): CustomizedPackageJson => ({
   description: trimString(pj.description),
   keywords: trimStringArray(pj.keywords),
   author:
@@ -25,20 +23,7 @@ const trimPackageJson = (pj: PackageJson): PackageJson => ({
         }
       : pj.author,
   version: trimString(pj.version),
-  license: trimString(pj.license),
-  homepage: trimString(pj.homepage),
-  repository: {
-    type: trimString(pj.repository.type),
-    url: trimString(pj.repository.url),
-  },
-  main: trimString(pj.main),
-  typings: trimString(pj.typings),
-  files: trimStringArray(pj.files),
-  engines: {
-    node: trimString(pj.engines.node),
-  },
   scripts: copyScripts(pj.scripts),
-  module: trimString(pj.module),
   dependencies: copyDependencies(pj.dependencies),
   devDependencies: copyDependencies(pj.devDependencies),
   peerDependencies: copyDependencies(pj.peerDependencies),
@@ -46,82 +31,98 @@ const trimPackageJson = (pj: PackageJson): PackageJson => ({
 
 const normalizeOpenSourcePackage = (
   coreProject: CoreProject,
-  packageJson: PackageJson
+  customized: CustomizedPackageJson
 ): PackageJson => ({
-  ...packageJson,
   name: coreProject.name,
+  description: customized.description,
+  keywords: customized.keywords,
+  version: customized.version,
+  author: customized.author,
+  license: coreProject.licenseType,
   homepage: `https://github.com/${coreProject.githubAccount}/${coreProject.name}`,
   repository: {
     type: 'git',
     url: `https://github.com/${coreProject.githubAccount}/${coreProject.name}.git`,
   },
+  type: 'module',
+  exports: './dist/src/cli.mjs',
   main: 'dist/index.js',
   typings: 'dist/index.d.ts',
+  types: 'dist/src',
   files: ['dist', 'src'],
+  bin: {},
   engines: {
     node: `>=${minNodeVersion}`,
   },
   scripts: {
-    start: 'tsdx watch',
-    build: 'tsdx build',
-    test: 'tsdx test',
-    'test:cov': 'tsdx test --coverage',
-    watch: 'tsdx watch',
-    lint: 'tsdx lint src test',
-    fix: 'tsdx lint src test --fix',
-    prepare: 'tsdx build',
-    size: 'size-limit',
-    analyze: 'size-limit --why',
-    docs: 'typedoc',
-    'fix:main': 'prettier --write *.md *.json .github/workflows/*.yml',
-    ready:
-      'yarn fix;yarn fix:main;yarn lint;yarn test:cov;yarn build;yarn size;yarn docs',
-    preversion: 'yarn lint;yarn test:cov;yarn size;',
-    postversion: 'git push --tags',
+    start: 'baldrick test check',
+    lint: 'baldrick lint check',
+    'lint:fix': 'baldrick lint fix',
+    test: 'baldrick test check',
+    'test:fix': 'baldrick test fix',
+    'test:cov': 'baldrick test cov',
+    build: 'tsc --outDir dist',
   },
   module: `dist/${coreProject.name}.esm.js`,
+  dependencies: customized.dependencies,
+  devDependencies: customized.devDependencies,
+  peerDependencies: customized.peerDependencies,
 });
+
+export const defaultCustomizedPackageJson: CustomizedPackageJson = {
+  description: fixme,
+  keywords: [],
+  version: '0.1.0',
+  author: fixme,
+  scripts: {},
+  dependencies: {},
+  devDependencies: {},
+  peerDependencies: {},
+};
 
 const normalizeOtherPackage = (
   coreProject: CoreProject,
-  packageJson: PackageJson
-): PackageJson =>({...normalizeOpenSourcePackage(coreProject, packageJson)})
+  customized: CustomizedPackageJson
+): PackageJson => ({ ...normalizeOpenSourcePackage(coreProject, customized) });
 
 const normalizePackage = (
   coreProject: CoreProject,
-  packageJson: PackageJson
+  customized: CustomizedPackageJson
 ): PackageJson =>
-  coreProject.licenseType === LicenseType.MIT
-    ? normalizeOpenSourcePackage(coreProject, packageJson)
-    : normalizeOtherPackage(coreProject, packageJson);
+  coreProject.licenseType === 'MIT'
+    ? normalizeOpenSourcePackage(coreProject, customized)
+    : normalizeOtherPackage(coreProject, customized);
 
-
-
-const fixAutomatically = (projectConfig: ProjectConfig, packageJson: PackageJson): PackageJson => {
-  const trimmed = trimPackageJson(packageJson)
-  const coreProject = packageToCoreProject(projectConfig, packageJson)
-  const fixed = normalizePackage(coreProject, trimmed)
+const fixAutomatically = (
+  coreProject: CoreProject,
+  customized: CustomizedPackageJson
+): PackageJson => {
+  const trimmed = trimPackageJson(customized);
+  const fixed = normalizePackage(coreProject, trimmed);
   return fixed;
-}
+};
 
 const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
-  const [key, stats] = keyStats
+  const [key, stats] = keyStats;
   return {
     description: `Key ${key} of package.json`,
-    status: statusToTodo(stats)
-  }
-}
-
-const keepNotOk = (keyStats: [string, FieldStatus]): boolean => keyStats[1] !== FieldStatus.Ok
-
-const suggestTasksToDo = (projectConfig: ProjectConfig, packageJson: PackageJson): Todo[] => {
-  const fixed = fixAutomatically(projectConfig, packageJson)
-  const packageStatus = convertPackageToStatus(packageJson, fixed)
-  const results = Object.entries(packageStatus).filter(keepNotOk).map(keyStatsToTodo)
-  return results
-}
-
-export {
-  fixAutomatically,
-  suggestTasksToDo
+    status: statusToTodo(stats),
+  };
 };
+
+const keepNotOk = (keyStats: [string, FieldStatus]): boolean =>
+  keyStats[1] !== 'ok';
+
+const suggestTasksToDo = (
+  coreProject: CoreProject,
+  packageJson: PackageJson
+): Todo[] => {
+  const fixed = fixAutomatically(coreProject, packageJson);
+  const packageStatus = convertPackageToStatus(packageJson, fixed);
+  const results = Object.entries(packageStatus)
+    .filter(keepNotOk)
+    .map(keyStatsToTodo);
+  return results;
+};
+
+export { fixAutomatically, suggestTasksToDo };
