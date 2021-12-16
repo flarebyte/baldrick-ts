@@ -1,5 +1,5 @@
-import { commandToMd } from './markdown';
-import { MdCommand, MdPackage } from './model';
+import { commandToMd } from './markdown.js';
+import { MdCommand, MdPackage } from './model.js';
 
 const baldrickDevPackage: MdPackage = {
   name: 'baldrick',

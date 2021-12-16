@@ -1,3 +1,5 @@
+export const minimumNodeVersion = 14;
+
 export type PackageJson = {
   name: string;
   description: string;

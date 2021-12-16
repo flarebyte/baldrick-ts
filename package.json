@@ -17,7 +17,8 @@
     "baldrick-ts": "dist/src/cli.mjs"
   },
   "scripts": {
-    "build": "tsc --outDir dist",
+    "reset": "rm -rf dist",
+    "build": "yarn reset;tsc --outDir dist",
     "lint": "baldrick lint check",
     "lint:ci": "baldrick lint ci",
     "lint:fix": "baldrick lint fix",

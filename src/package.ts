@@ -4,12 +4,12 @@ import {
   FieldStatus,
   Todo,
   CustomizedPackageJson,
+  minimumNodeVersion,
 } from './model.js';
 import { copyDependencies, copyScripts } from './package-copy.js';
 import { convertPackageToStatus } from './package-status.js';
 import { statusToTodo, trimString, trimStringArray } from './utils.js';
 
-const minNodeVersion = 14;
 const fixme = 'fixme';
 
 const trimPackageJson = (pj: CustomizedPackageJson): CustomizedPackageJson => ({
@@ -52,7 +52,7 @@ const normalizeOpenSourcePackage = (
   files: ['dist', 'src'],
   bin: {},
   engines: {
-    node: `>=${minNodeVersion}`,
+    node: `>=${minimumNodeVersion}`,
   },
   scripts: {
     start: 'baldrick test check',

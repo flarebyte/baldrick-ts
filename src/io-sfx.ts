@@ -12,6 +12,7 @@ import {
 import { defaultCustomizedPackageJson, fixAutomatically } from './package.js';
 import { computeCoreProject } from './package-copy.js';
 import { fromString, toString } from './package-io.js';
+import { maintenanceMd } from './markdown-maintenance.js';
 
 const readCustomizedPackageJson = async (): Promise<CustomizedPackageJson> => {
   try {
@@ -48,6 +49,10 @@ const writeContributing = async () => {
   await writeFile('./CONTRIBUTING.md', contributingMd, 'utf8');
 };
 
+const writeMaintenance = async () => {
+  await writeFile('./MAINTENANCE.md', maintenanceMd, 'utf8');
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -60,6 +65,7 @@ export const updateAll = async (
     await writeReadme(coreProject);
     await writeCodeOfConducts();
     await writeContributing();
+    await writeMaintenance();
   } catch (err) {
     ctx.errTermFormatter({
       title: 'Generating - update error',
