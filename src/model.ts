@@ -184,6 +184,11 @@ export interface MdCommand {
    * Ways to run this tools with additional parameters
    */
   examples: string[];
+  /**
+   * The npm script that should be run if any
+   * [name, command]
+   */
+  npmScript?: [string, string];
 }
 
 export interface CmdOption {

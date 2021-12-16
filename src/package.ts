@@ -1,3 +1,4 @@
+import { getNpmScripts } from './markdown-maintenance.js';
 import {
   PackageJson,
   CoreProject,
@@ -55,13 +56,7 @@ const normalizeOpenSourcePackage = (
     node: `>=${minimumNodeVersion}`,
   },
   scripts: {
-    start: 'baldrick test check',
-    lint: 'baldrick lint check',
-    'lint:fix': 'baldrick lint fix',
-    test: 'baldrick test check',
-    'test:fix': 'baldrick test fix',
-    'test:cov': 'baldrick test cov',
-    build: 'tsc --outDir dist',
+    ...getNpmScripts(coreProject),
   },
   module: `dist/${coreProject.name}.esm.js`,
   dependencies: customized.dependencies,

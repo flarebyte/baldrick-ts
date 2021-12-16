@@ -42,11 +42,11 @@ Object {
     "url": "https://github.com/mycompany/scratchbook.git",
   },
   "scripts": Object {
-    "build": "tsc --outDir dist",
     "lint": "baldrick lint check",
+    "lint:ci": "baldrick lint ci",
     "lint:fix": "baldrick lint fix",
-    "start": "baldrick test check",
     "test": "baldrick test check",
+    "test:ci": "baldrick test ci",
     "test:cov": "baldrick test cov",
     "test:fix": "baldrick test fix",
   },
