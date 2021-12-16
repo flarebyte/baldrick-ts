@@ -191,6 +191,17 @@ export interface MdCommand {
   npmScript?: [string, string];
 }
 
+export interface VsCodeSnippet {
+  scope: string;
+  prefix: string;
+  body: string;
+  description: string;
+}
+
+export interface VsCodeSnippetObj {
+  [key: string]: VsCodeSnippet;
+}
+
 export interface CmdOption {
   shortFlag: string;
   longFlag: string;

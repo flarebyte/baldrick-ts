@@ -22,6 +22,7 @@ import { pullRequestMd } from './markdown-pull-request.js';
 import { featureRequestMd } from './markdown-feature-request.js';
 import { bugReportMd } from './markdown-bug-report.js';
 import { editorConfig } from './conf-editor-config.js';
+import { vsCodeSnippets } from './conf-vscode-snippet.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, null, 2);
@@ -115,6 +116,23 @@ const writeBugReportMd = async () => {
   await writeFile('.github/ISSUE_TEMPLATE/bug_report.md', bugReportMd, 'utf8');
 };
 
+const createVisualCodeDir = async () => {
+  await mkdir('.vscode', { recursive: true });
+};
+
+const writeVsCodeSnippets = async () => {
+  await writeFile(
+    '.vscode/baldrick.code-snippets',
+    toJsonString(vsCodeSnippets),
+    'utf8'
+  );
+};
+
+const createSourceDir = async () => {
+  await mkdir('src', { recursive: true });
+  await mkdir('test', { recursive: true });
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -125,6 +143,7 @@ export const updateAll = async (
     const newPackageJson = fixAutomatically(coreProject, customizedPackageJson);
     await writePackageJson(newPackageJson);
     await writeReadme(coreProject);
+    await createSourceDir();
     await writeCodeOfConducts();
     await writeContributing();
     await writeMaintenance();
@@ -137,6 +156,8 @@ export const updateAll = async (
     await writePullRequestMd();
     await writeFeatureRequestMd();
     await writeBugReportMd();
+    await createVisualCodeDir();
+    await writeVsCodeSnippets();
   } catch (err) {
     ctx.errTermFormatter({
       title: 'Generating - update error',
