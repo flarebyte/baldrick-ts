@@ -120,6 +120,30 @@ const testCICmd: MdCommand = {
   npmScript: ['test:ci', 'baldrick test ci'],
 };
 
+const resetCmd: MdCommand = {
+  name: 'reset',
+  title: 'Reset distribution and report folders',
+  description: 'Delete the dist and report folder',
+  motivation: 'Start from a clean slate',
+  context: 'Before building',
+  run: 'yarn reset',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: ['reset', 'rm -rf dist; rm -rf report'],
+};
+
+const buildCmd: MdCommand = {
+  name: 'build',
+  title: 'Build the library',
+  description: 'Transpile all the typescript source code to javascript',
+  motivation: 'ESM library should be written in javascript',
+  context: 'Before building',
+  run: 'yarn build',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: ['build', 'yarn reset;tsc --outDir dist'],
+};
+
 const readyCmd: MdCommand = {
   name: 'ready',
   title: 'Ready for publishing',
@@ -162,6 +186,8 @@ const devCommands = [
   testFixCmd,
   testCovCmd,
   testCICmd,
+  resetCmd,
+  buildCmd,
   readyCmd,
   versionCmd,
   actCmd,
