@@ -1,3 +1,4 @@
+import { cmdOptionsGenerator } from './commanding-data.js';
 import { commandToMd } from './markdown.js';
 import { CoreProject, MdCommand, MdPackage, Scripts } from './model.js';
 
@@ -177,6 +178,34 @@ const actCmd: MdCommand = {
   partOf: actPackage,
   examples: [],
 };
+const og = cmdOptionsGenerator;
+const normCmd = (project: CoreProject): MdCommand => ({
+  name: 'norm',
+  title: 'Normalize the code structure',
+  description: 'Normalize the code structure using baldrick',
+  motivation: 'Create a consistent developer experience',
+  context: 'When changing github actions',
+  run: 'yarn norm',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: [
+    'norm',
+    [
+      'npx',
+      'baldrick-ts',
+      `-${og.feature.shortFlag}`,
+      project.feature.join(' '),
+      `-${og.githubAccount.shortFlag}`,
+      `'${project.githubAccount}'`,
+      `-${og.copyrightHolder.shortFlag}`,
+      `'${project.copyrightHolder}'`,
+      `-${og.copyrightStartYear.shortFlag}`,
+      project.copyrightStartYear,
+      `-${og.license.shortFlag}`,
+      project.license,
+    ].join(' '),
+  ],
+});
 
 const devCommands = [
   lintCmd,
@@ -193,17 +222,18 @@ const devCommands = [
   actCmd,
 ];
 
-export const maintenanceMd = [
-  '# Maintenance of the code',
-  '## Commands',
-  ...devCommands.map(commandToMd),
-].join('\n\n');
+export const maintenanceMd = (project: CoreProject) =>
+  [
+    '# Maintenance of the code',
+    '## Commands',
+    [...devCommands, normCmd(project)].map(commandToMd),
+  ].join('\n\n');
 
 const removeNulls = <S>(value: S | undefined): value is S => value != null;
 
 export const getNpmScripts = (project: CoreProject): Scripts => {
   if (project.feature.includes('lib')) {
-    const commands = devCommands
+    const commands = [...devCommands, normCmd(project)]
       .map((cmd) => cmd.npmScript)
       .filter(removeNulls);
     return Object.fromEntries(commands);

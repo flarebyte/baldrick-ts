@@ -39,7 +39,7 @@ const normalizeOpenSourcePackage = (
   keywords: customized.keywords,
   version: customized.version,
   author: customized.author,
-  license: coreProject.licenseType,
+  license: coreProject.license,
   homepage: `https://github.com/${coreProject.githubAccount}/${coreProject.name}`,
   repository: {
     type: 'git',
@@ -84,7 +84,7 @@ const normalizePackage = (
   coreProject: CoreProject,
   customized: CustomizedPackageJson
 ): PackageJson =>
-  coreProject.licenseType === 'MIT'
+  coreProject.license === 'MIT'
     ? normalizeOpenSourcePackage(coreProject, customized)
     : normalizeOtherPackage(coreProject, customized);
 

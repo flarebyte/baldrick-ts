@@ -1,11 +1,11 @@
-import {
-  CoreProject,
-} from '../src/model';
+import { CoreProject } from '../src/model';
 
 export const libCoreProject: CoreProject = {
   name: 'scratchbook',
   githubAccount: 'mycompany',
   feature: ['lib'],
-  licenseType: 'MIT',
+  license: 'MIT',
+  copyrightStartYear: 2020,
+  copyrightEndYear: 2021,
+  copyrightHolder: 'Great Company',
 };
-

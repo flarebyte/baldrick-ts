@@ -23,6 +23,7 @@ import { featureRequestMd } from './markdown-feature-request.js';
 import { bugReportMd } from './markdown-bug-report.js';
 import { editorConfig } from './conf-editor-config.js';
 import { vsCodeSnippets } from './conf-vscode-snippet.js';
+import { licenseMd } from './markdown-license.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, null, 2);
@@ -59,16 +60,16 @@ const writeReadme = async (core: CoreProject) => {
   await writeFile('./README.md', newReadme, 'utf8');
 };
 
-const writeCodeOfConducts = async () => {
-  await writeFile('./CODE_OF_CONDUCT.md', codeOfConductMd, 'utf8');
+const writeCodeOfConducts = async (proj: CoreProject) => {
+  await writeFile('./CODE_OF_CONDUCT.md', codeOfConductMd(proj), 'utf8');
 };
 
 const writeContributing = async () => {
   await writeFile('./CONTRIBUTING.md', contributingMd, 'utf8');
 };
 
-const writeMaintenance = async () => {
-  await writeFile('./MAINTENANCE.md', maintenanceMd, 'utf8');
+const writeMaintenance = async (proj: CoreProject) => {
+  await writeFile('./MAINTENANCE.md', maintenanceMd(proj), 'utf8');
 };
 
 const writePrettierConfig = async () => {
@@ -85,6 +86,10 @@ const writeEditorConfig = async () => {
 
 const writeTsConfig = async () => {
   await writeFile('./tsconfig.json', toJsonString(defaultTsConfig), 'utf8');
+};
+
+const writeLicense = async (proj: CoreProject) => {
+  await writeFile('./LICENSE', licenseMd(proj), 'utf8');
 };
 
 const createGithubWorkflowDir = async () => {
@@ -144,13 +149,14 @@ export const updateAll = async (
     await writePackageJson(newPackageJson);
     await writeReadme(coreProject);
     await createSourceDir();
-    await writeCodeOfConducts();
+    await writeCodeOfConducts(coreProject);
     await writeContributing();
-    await writeMaintenance();
+    await writeMaintenance(coreProject);
     await writePrettierConfig();
     await writeGitIgnore();
     await writeEditorConfig();
     await writeTsConfig();
+    await writeLicense(coreProject);
     await createGithubWorkflowDir();
     await writeWorkflowConfig();
     await writePullRequestMd();

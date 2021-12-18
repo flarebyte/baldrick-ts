@@ -24,12 +24,20 @@ export const copyDependencies = (deps: Dependencies): Dependencies =>
     ])
   );
 
+const capitalize = (value: string): string =>
+  value.length > 0 ? (value[0] || '').toUpperCase() + value.substring(1) : '';
+
 export const computeCoreProject = (
   ctx: RunnerContext,
   generateOpts: GenerateActionOpts
 ): CoreProject => ({
-  name: path.basename(ctx.currentPath),
+  name: generateOpts.name ? generateOpts.name : path.basename(ctx.currentPath),
   githubAccount: generateOpts.githubAccount,
-  licenseType: 'MIT',
+  license: generateOpts.license,
   feature: generateOpts.feature,
+  copyrightHolder: generateOpts.copyrightHolder
+    ? generateOpts.copyrightHolder
+    : capitalize(generateOpts.githubAccount),
+  copyrightStartYear: generateOpts.copyrightStartYear,
+  copyrightEndYear: ctx.currentYear,
 });

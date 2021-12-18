@@ -11,13 +11,15 @@ export const toCamelCase = (longFlag: string): string =>
   decapitalize(longFlag.split('-').map(capitalize).join(''));
 
 export const toCommanderOption = (option: CmdOption): Option => {
+  const dot3 = option.variadic ? '...' : '';
   const flags = `-${option.shortFlag}, --${option.longFlag} [${toCamelCase(
     option.longFlag
-  )}...]`;
+  )}${dot3}]`;
   const opts = new Option(flags, option.description);
   opts.defaultValue = option.defaultValue;
   if (option.choices.length > 0) {
     opts.choices(option.choices);
   }
+  opts.mandatory = option.mandatory;
   return opts;
 };

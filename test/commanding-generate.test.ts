@@ -19,12 +19,14 @@ describe('Command Generate', () => {
     ]);
     expect(secondParam).toMatchInlineSnapshot(`
       Object {
+        "copyrightHolder": undefined,
+        "copyrightStartYear": 2021,
         "feature": Array [
           "cli",
         ],
-        "githubAccount": Array [
-          "flarebyte",
-        ],
+        "githubAccount": "flarebyte",
+        "license": "MIT",
+        "name": undefined,
       }
     `);
   });

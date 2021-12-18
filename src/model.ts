@@ -64,30 +64,41 @@ export interface Scripts {
   [key: string]: string;
 }
 
-type LicenseType = 'MIT' | 'UNLICENSED';
-
 type ProjectType = 'lib' | 'cli';
 
 export type SupportedFeature = ProjectType;
 
 export interface GenerateActionOpts {
   feature: SupportedFeature[];
+  name?: string;
+  license: string;
   githubAccount: string;
+  copyrightHolder?: string;
+  copyrightStartYear: number;
 }
 
 export interface GenerateRawOpts {
   feature: string[];
+  name?: string;
+  license: string;
   githubAccount: string;
+  copyrightHolder?: string;
+  copyrightStartYear: string;
 }
 
 export interface CmdOptionsGenerator {
   feature: CmdOption;
+  name: CmdOption;
+  license: CmdOption;
   githubAccount: CmdOption;
+  copyrightHolder: CmdOption;
+  copyrightStartYear: CmdOption;
 }
 
 export interface CoreProject extends GenerateActionOpts {
   name: string;
-  licenseType: LicenseType;
+  copyrightHolder: string;
+  copyrightEndYear: number;
 }
 
 export type FieldStatus = 'ok' | 'todo' | 'fixable';
@@ -206,8 +217,10 @@ export interface CmdOption {
   shortFlag: string;
   longFlag: string;
   description: string;
-  defaultValue: string | string[];
+  defaultValue?: string | string[];
   choices: string[];
+  mandatory: boolean;
+  variadic: boolean;
 }
 type TermFormatterKind = 'intro' | 'info';
 export type TermFormatterFormat = 'default' | 'human';
@@ -230,6 +243,7 @@ export type ErrTermFormatter = (params: ErrTermFormatterParams) => void;
 
 export interface RunnerContext {
   currentPath: string;
+  currentYear: number;
   termFormatter: TermFormatter;
   errTermFormatter: ErrTermFormatter;
 }
