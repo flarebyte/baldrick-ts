@@ -1,3 +1,5 @@
+import { minimumNodeVersion } from './model.js';
+
 const _ = '`';
 const ___ = '```';
 
@@ -8,7 +10,7 @@ Welcome ! and many thanks for taking the time to contribute !
 
 First, you should have a look at the [Technical design documentation](TECHNICAL_DESIGN.md) to get an understanding of the design behind this project.
 
-From there, there are a few options dependending of which kind of contributions you have in mind: bug fix, documentation improvement, translation, testing, ...
+From there, there are a few options depending of which kind of contributions you have in mind: bug fix, documentation improvement, translation, testing, ...
 
 Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
@@ -29,7 +31,7 @@ yarn ready
 ${___}
 
 You can also simulate [Github actions](https://docs.github.com/en/actions) locally with [act](https://github.com/nektos/act). 
-You will need to setup ${_}.actrc${_} with the node.js docker image ${_}-P ubuntu-latest=node:12-buster${_}
+You will need to setup ${_}.actrc${_} with the node.js docker image ${_}-P ubuntu-latest=node:${minimumNodeVersion}-buster${_}
 
 To run the pipeline:
 

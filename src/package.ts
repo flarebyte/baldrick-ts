@@ -1,15 +1,16 @@
+import { getNpmScripts } from './markdown-maintenance.js';
 import {
   PackageJson,
   CoreProject,
   FieldStatus,
   Todo,
   CustomizedPackageJson,
+  minimumNodeVersion,
 } from './model.js';
 import { copyDependencies, copyScripts } from './package-copy.js';
 import { convertPackageToStatus } from './package-status.js';
 import { statusToTodo, trimString, trimStringArray } from './utils.js';
 
-const minNodeVersion = 14;
 const fixme = 'fixme';
 
 const trimPackageJson = (pj: CustomizedPackageJson): CustomizedPackageJson => ({
@@ -32,43 +33,46 @@ const trimPackageJson = (pj: CustomizedPackageJson): CustomizedPackageJson => ({
 const normalizeOpenSourcePackage = (
   coreProject: CoreProject,
   customized: CustomizedPackageJson
-): PackageJson => ({
-  name: coreProject.name,
-  description: customized.description,
-  keywords: customized.keywords,
-  version: customized.version,
-  author: customized.author,
-  license: coreProject.licenseType,
-  homepage: `https://github.com/${coreProject.githubAccount}/${coreProject.name}`,
-  repository: {
-    type: 'git',
-    url: `https://github.com/${coreProject.githubAccount}/${coreProject.name}.git`,
-  },
-  type: 'module',
-  exports: './dist/src/cli.mjs',
-  main: 'dist/index.js',
-  typings: 'dist/index.d.ts',
-  types: 'dist/src',
-  files: ['dist', 'src'],
-  bin: {},
-  engines: {
-    node: `>=${minNodeVersion}`,
-  },
-  scripts: {
-    start: 'baldrick test check',
-    lint: 'baldrick lint check',
-    'lint:fix': 'baldrick lint fix',
-    test: 'baldrick test check',
-    'test:fix': 'baldrick test fix',
-    'test:cov': 'baldrick test cov',
-    build: 'tsc --outDir dist',
-  },
-  module: `dist/${coreProject.name}.esm.js`,
-  dependencies: customized.dependencies,
-  devDependencies: customized.devDependencies,
-  peerDependencies: customized.peerDependencies,
-});
-
+): PackageJson => {
+  const isCli = coreProject.feature.includes('cli');
+  const mainExport = isCli ? 'cli' : 'index';
+  const bin: { [key: string]: string } = isCli
+    ? Object.fromEntries([[coreProject.bin, 'dist/src/cli.mjs']])
+    : {};
+  return {
+    name: coreProject.name,
+    description: customized.description,
+    keywords: customized.keywords,
+    version: customized.version,
+    author: customized.author,
+    license: coreProject.license,
+    homepage: `https://github.com/${coreProject.githubAccount}/${coreProject.name}`,
+    repository: {
+      type: 'git',
+      url: `https://github.com/${coreProject.githubAccount}/${coreProject.name}.git`,
+    },
+    type: 'module',
+    exports: {
+      '.': {
+        import: `./dist/src/${mainExport}.mjs`,
+        default: `./dist/src/${mainExport}.mjs`,
+        types: './dist/src',
+      },
+      './package.json': { default: './package.json' },
+    },
+    files: ['dist', 'src'],
+    bin,
+    engines: {
+      node: `>=${minimumNodeVersion}`,
+    },
+    scripts: {
+      ...getNpmScripts(coreProject),
+    },
+    dependencies: customized.dependencies,
+    devDependencies: customized.devDependencies,
+    peerDependencies: customized.peerDependencies,
+  };
+};
 export const defaultCustomizedPackageJson: CustomizedPackageJson = {
   description: fixme,
   keywords: [],
@@ -89,11 +93,11 @@ const normalizePackage = (
   coreProject: CoreProject,
   customized: CustomizedPackageJson
 ): PackageJson =>
-  coreProject.licenseType === 'MIT'
+  coreProject.license === 'MIT'
     ? normalizeOpenSourcePackage(coreProject, customized)
     : normalizeOtherPackage(coreProject, customized);
 
-const fixAutomatically = (
+export const fixAutomatically = (
   coreProject: CoreProject,
   customized: CustomizedPackageJson
 ): PackageJson => {
@@ -113,7 +117,7 @@ const keyStatsToTodo = (keyStats: [string, FieldStatus]): Todo => {
 const keepNotOk = (keyStats: [string, FieldStatus]): boolean =>
   keyStats[1] !== 'ok';
 
-const suggestTasksToDo = (
+export const suggestTasksToDo = (
   coreProject: CoreProject,
   packageJson: PackageJson
 ): Todo[] => {
@@ -124,5 +128,3 @@ const suggestTasksToDo = (
     .map(keyStatsToTodo);
   return results;
 };
-
-export { fixAutomatically, suggestTasksToDo };

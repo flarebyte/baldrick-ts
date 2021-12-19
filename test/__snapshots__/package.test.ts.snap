@@ -1,40 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Normalize package.json Normalize scripts section 1`] = `
+exports[`Suggestions Fix automatically 1`] = `
 Object {
   "author": Object {
-    "name": "Olivier Huin",
-    "url": "https://github.com/olih",
+    "name": "Olivier",
+    "url": "http://mywebsite.com",
   },
   "bin": Object {},
-  "dependencies": Object {},
-  "description": "Scratchbook is an annotation library written in Typescript that makes it easy to write documentation in a decentralized fashion",
+  "dependencies": Object {
+    "commander": "^8.3.0",
+  },
+  "description": "some description of the project",
   "devDependencies": Object {
-    "@size-limit/preset-small-lib": "^5.0.1",
-    "husky": "^7.0.0",
-    "size-limit": "^5.0.1",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typedoc": "^0.21.2",
-    "typescript": "^4.3.5",
+    "typescript": "^4.5.3",
   },
   "engines": Object {
     "node": ">=14",
   },
-  "exports": "./dist/src/cli.mjs",
+  "exports": Object {
+    ".": Object {
+      "default": "./dist/src/index.mjs",
+      "import": "./dist/src/index.mjs",
+      "types": "./dist/src",
+    },
+    "./package.json": Object {
+      "default": "./package.json",
+    },
+  },
   "files": Array [
     "dist",
     "src",
   ],
   "homepage": "https://github.com/mycompany/scratchbook",
   "keywords": Array [
-    "annotations",
-    "typescript",
-    "documentation",
+    "testing",
   ],
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/scratchbook.esm.js",
   "name": "scratchbook",
   "peerDependencies": Object {},
   "repository": Object {
@@ -42,17 +43,20 @@ Object {
     "url": "https://github.com/mycompany/scratchbook.git",
   },
   "scripts": Object {
-    "build": "tsc --outDir dist",
+    "build": "yarn reset;tsc --outDir dist",
     "lint": "baldrick lint check",
+    "lint:ci": "baldrick lint ci",
     "lint:fix": "baldrick lint fix",
-    "start": "baldrick test check",
+    "norm": "npx baldrick-ts -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT",
+    "reset": "rm -rf dist; rm -rf report",
     "test": "baldrick test check",
+    "test:ci": "baldrick test ci",
     "test:cov": "baldrick test cov",
     "test:fix": "baldrick test fix",
   },
   "type": "module",
-  "types": "dist/src",
-  "typings": "dist/index.d.ts",
-  "version": "0.4.1",
+  "version": "0.7.0",
 }
 `;
+
+exports[`Suggestions Suggest tasks to do 1`] = `Array []`;

@@ -22,15 +22,34 @@ export class Commanding {
       .command('generate')
       .description('Generate and standardize the source code files')
       .addOption(toCommanderOption(cmdOptionsGenerator.feature))
+      .addOption(toCommanderOption(cmdOptionsGenerator.name))
       .addOption(toCommanderOption(cmdOptionsGenerator.githubAccount))
+      .addOption(toCommanderOption(cmdOptionsGenerator.copyrightHolder))
+      .addOption(toCommanderOption(cmdOptionsGenerator.copyrightStartYear))
+      .addOption(toCommanderOption(cmdOptionsGenerator.license))
+      .addOption(toCommanderOption(cmdOptionsGenerator.bin))
       .action(async (options: GenerateRawOpts) => {
-        const { feature, githubAccount } = options;
+        const {
+          feature,
+          name,
+          githubAccount,
+          copyrightHolder,
+          license,
+          copyrightStartYear,
+          bin,
+        } = options;
         const generateOpts: GenerateActionOpts = {
           feature: toFeatures(feature),
+          name,
           githubAccount,
+          copyrightHolder,
+          license,
+          copyrightStartYear: parseInt(copyrightStartYear),
+          bin,
         };
         const ctx: RunnerContext = {
           currentPath: process.cwd(),
+          currentYear: new Date().getFullYear(),
           termFormatter: basicFormatter,
           errTermFormatter: errorFormatter,
         };

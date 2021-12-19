@@ -1,3 +1,15 @@
+export const minimumNodeVersion = 14;
+
+interface PackageJsonCondExports {
+  import?: string;
+  require?: string;
+  default: string;
+  types?: string;
+}
+interface PackageJsonExports {
+  [key: string]: PackageJsonCondExports;
+}
+
 export type PackageJson = {
   name: string;
   description: string;
@@ -7,16 +19,15 @@ export type PackageJson = {
   license: string;
   homepage: string;
   repository: Repository;
+  /** should be module or commonjs */
   type: string;
-  exports: string;
-  main: string;
-  types: string;
-  typings: string;
+  /** Modern public exports for CommonJS and ES modules*/
+  exports: PackageJsonExports;
+  /** Array of file patterns that describes the entries to be included when your package is installed as a dependency*/
   files: string[];
   bin: { [key: string]: string };
   engines: Engines;
   scripts: Scripts;
-  module: string;
   devDependencies: Dependencies;
   dependencies: Dependencies;
   peerDependencies: Dependencies;
@@ -62,30 +73,45 @@ export interface Scripts {
   [key: string]: string;
 }
 
-type LicenseType = 'MIT' | 'UNLICENSED';
-
 type ProjectType = 'lib' | 'cli';
 
 export type SupportedFeature = ProjectType;
 
 export interface GenerateActionOpts {
   feature: SupportedFeature[];
+  name?: string;
+  bin?: string;
+  license: string;
   githubAccount: string;
+  copyrightHolder?: string;
+  copyrightStartYear: number;
 }
 
 export interface GenerateRawOpts {
   feature: string[];
+  name?: string;
+  bin?: string;
+  license: string;
   githubAccount: string;
+  copyrightHolder?: string;
+  copyrightStartYear: string;
 }
 
 export interface CmdOptionsGenerator {
   feature: CmdOption;
+  name: CmdOption;
+  bin: CmdOption;
+  license: CmdOption;
   githubAccount: CmdOption;
+  copyrightHolder: CmdOption;
+  copyrightStartYear: CmdOption;
 }
 
 export interface CoreProject extends GenerateActionOpts {
   name: string;
-  licenseType: LicenseType;
+  bin: string;
+  copyrightHolder: string;
+  copyrightEndYear: number;
 }
 
 export type FieldStatus = 'ok' | 'todo' | 'fixable';
@@ -113,14 +139,10 @@ interface GenericPackageJson<T> {
   repository: T;
   type: T;
   exports: T;
-  main: T;
-  types: T;
-  typings: T;
   files: T;
   bin: T;
   engines: T;
   scripts: T;
-  module: T;
   devDependencies: T;
   dependencies: T;
   peerDependencies: T;
@@ -182,14 +204,32 @@ export interface MdCommand {
    * Ways to run this tools with additional parameters
    */
   examples: string[];
+  /**
+   * The npm script that should be run if any
+   * [name, command]
+   */
+  npmScript?: [string, string];
+}
+
+export interface VsCodeSnippet {
+  scope: string;
+  prefix: string;
+  body: string;
+  description: string;
+}
+
+export interface VsCodeSnippetObj {
+  [key: string]: VsCodeSnippet;
 }
 
 export interface CmdOption {
   shortFlag: string;
   longFlag: string;
   description: string;
-  defaultValue: string | string[];
+  defaultValue?: string | string[];
   choices: string[];
+  mandatory: boolean;
+  variadic: boolean;
 }
 type TermFormatterKind = 'intro' | 'info';
 export type TermFormatterFormat = 'default' | 'human';
@@ -212,6 +252,7 @@ export type ErrTermFormatter = (params: ErrTermFormatterParams) => void;
 
 export interface RunnerContext {
   currentPath: string;
+  currentYear: number;
   termFormatter: TermFormatter;
   errTermFormatter: ErrTermFormatter;
 }

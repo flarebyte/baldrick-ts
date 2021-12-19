@@ -119,6 +119,7 @@ const commandToMd = (command: MdCommand): string =>
     `__Run:__ ${___}${command.run}${___}`,
     ...examplesToMd(command.examples),
     packageCmdToMd(command.partOf),
+    '---',
   ].join('\n\n');
 
 export { parseMarkdown, markdownToString, commandToMd };
