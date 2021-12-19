@@ -28,7 +28,7 @@ Object {
     },
   },
   "files": Array [
-    "dist",
+    "dist/src",
     "src",
   ],
   "homepage": "https://github.com/mycompany/scratchbook",

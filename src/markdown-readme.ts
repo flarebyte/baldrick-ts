@@ -83,5 +83,6 @@ export const toReadmeMd = (core: CoreProject, existingMd: string): string => {
     badges,
     sections,
   };
-  return markdownToString(updated);
+  const rawReadme = markdownToString(updated);
+  return rawReadme.replace(/[\r\n]{3,}/gm, '\n\n');
 };
