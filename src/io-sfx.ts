@@ -10,7 +10,11 @@ import {
   PackageJson,
   RunnerContext,
 } from './model.js';
-import { defaultCustomizedPackageJson, fixAutomatically } from './package.js';
+import {
+  defaultCustomizedPackageJson,
+  fixAutomatically,
+  suggestTasksToDo,
+} from './package.js';
 import { computeCoreProject } from './package-copy.js';
 import { fromString, toString } from './package-io.js';
 import { maintenanceMd } from './markdown-maintenance.js';
@@ -164,6 +168,15 @@ export const updateAll = async (
     await writeBugReportMd();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
+    const todos = suggestTasksToDo(coreProject, newPackageJson);
+    todos.forEach((todo) =>
+      ctx.termFormatter({
+        title: todo.status,
+        detail: todo.description,
+        kind: 'info',
+        format: 'default',
+      })
+    );
   } catch (err) {
     ctx.errTermFormatter({
       title: 'Generating - update error',
