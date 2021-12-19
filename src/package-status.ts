@@ -19,18 +19,14 @@ const packConv: PackageJsonStatusConverter = {
   license: editableToStatus,
   homepage: autoToStatus,
   repository: autoToStatus,
-  main: autoToStatus,
   type: autoToStatus,
-  typings: autoToStatus,
   files: autoToStatus,
   engines: autoToStatus,
   scripts: autoToStatus,
-  module: autoToStatus,
   devDependencies: () => 'ok',
   dependencies: () => 'ok',
   peerDependencies: () => 'ok',
   exports: autoToStatus,
-  types: autoToStatus,
   bin: autoToStatus,
 };
 
@@ -54,14 +50,10 @@ export const convertPackageToStatus = (
   ),
   type: packConv.type(packageJson.type, fixedPackageJson.type),
   exports: packConv.exports(packageJson.exports, fixedPackageJson.exports),
-  main: packConv.main(packageJson.main, fixedPackageJson.main),
-  types: packConv.types(packageJson.types, fixedPackageJson.types),
-  typings: packConv.typings(packageJson.typings, fixedPackageJson.typings),
   files: packConv.files(packageJson.files, fixedPackageJson.files),
   bin: packConv.bin(packageJson.bin, fixedPackageJson.bin),
   engines: packConv.engines(packageJson.engines, fixedPackageJson.engines),
   scripts: packConv.scripts(packageJson.scripts, fixedPackageJson.scripts),
-  module: packConv.module(packageJson.module, fixedPackageJson.module),
   devDependencies: packConv.devDependencies(
     packageJson.devDependencies,
     fixedPackageJson.devDependencies

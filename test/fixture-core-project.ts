@@ -8,4 +8,5 @@ export const libCoreProject: CoreProject = {
   copyrightStartYear: 2020,
   copyrightEndYear: 2021,
   copyrightHolder: 'Great Company',
+  bin: 'scratch'
 };

@@ -32,6 +32,7 @@ export const computeCoreProject = (
   generateOpts: GenerateActionOpts
 ): CoreProject => ({
   name: generateOpts.name ? generateOpts.name : path.basename(ctx.currentPath),
+  bin: generateOpts.bin ? generateOpts.bin : path.basename(ctx.currentPath),
   githubAccount: generateOpts.githubAccount,
   license: generateOpts.license,
   feature: generateOpts.feature,

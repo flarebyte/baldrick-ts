@@ -18,6 +18,15 @@ const name: CmdOption = {
   variadic: false,
 };
 
+const bin: CmdOption = {
+  shortFlag: 'b',
+  longFlag: 'bin',
+  description: 'The binary command used for calling the CLI',
+  choices: [],
+  mandatory: false,
+  variadic: false,
+};
+
 const feature: CmdOption = {
   shortFlag: 'f',
   longFlag: 'feature',
@@ -63,4 +72,5 @@ export const cmdOptionsGenerator: CmdOptionsGenerator = {
   license,
   copyrightHolder,
   copyrightStartYear,
+  bin,
 };

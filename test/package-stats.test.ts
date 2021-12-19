@@ -1,16 +1,30 @@
+import { CustomizedPackageJson } from '../src/model';
+import { fixAutomatically } from '../src/package';
 import { fromString, toString } from '../src/package-io';
 import { packageToStats } from '../src/package-stats';
-
-const fixturePackageJsonString: string = JSON.stringify(
-  require('./fixture_package.json'),
-  null,
-  2
-);
+import { libCoreProject } from './fixture-core-project';
 
 describe('IO and package stats', () => {
+  const customizedPackageJson: CustomizedPackageJson = {
+    description: 'some description of the project',
+    keywords: ['testing'],
+    version: '0.7.0',
+    author: {
+      name: 'Olivier',
+      url: 'http://mywebsite.com',
+    },
+    scripts: {},
+    devDependencies: { typescript: '^4.5.3' },
+    dependencies: { commander: '^8.3.0' },
+    peerDependencies: {},
+  };
+  const refPackageJson = fixAutomatically(
+    { ...libCoreProject },
+    customizedPackageJson
+  );
+  const ref = fromString(JSON.stringify(refPackageJson));
   it('should convert package.json from a string', () => {
-    const actual = fromString(fixturePackageJsonString);
-    const stats = packageToStats(actual);
+    const stats = packageToStats(ref);
     expect(stats).toMatchInlineSnapshot(`
       Array [
         Object {
@@ -21,10 +35,10 @@ describe('IO and package stats', () => {
         Object {
           "countItems": 1,
           "key": "description",
-          "stringLength": 127,
+          "stringLength": 31,
         },
         Object {
-          "countItems": 3,
+          "countItems": 1,
           "key": "keywords",
           "stringLength": 0,
         },
@@ -59,29 +73,14 @@ describe('IO and package stats', () => {
           "stringLength": 6,
         },
         Object {
-          "countItems": 1,
+          "countItems": 2,
           "key": "exports",
-          "stringLength": 18,
-        },
-        Object {
-          "countItems": 1,
-          "key": "main",
-          "stringLength": 13,
+          "stringLength": 0,
         },
         Object {
           "countItems": 0,
           "key": "bin",
           "stringLength": 0,
-        },
-        Object {
-          "countItems": 1,
-          "key": "types",
-          "stringLength": 8,
-        },
-        Object {
-          "countItems": 1,
-          "key": "typings",
-          "stringLength": 15,
         },
         Object {
           "countItems": 2,
@@ -94,22 +93,17 @@ describe('IO and package stats', () => {
           "stringLength": 0,
         },
         Object {
-          "countItems": 15,
+          "countItems": 10,
           "key": "scripts",
           "stringLength": 0,
         },
         Object {
           "countItems": 1,
-          "key": "module",
-          "stringLength": 23,
-        },
-        Object {
-          "countItems": 0,
           "key": "dependencies",
           "stringLength": 0,
         },
         Object {
-          "countItems": 7,
+          "countItems": 1,
           "key": "devDependencies",
           "stringLength": 0,
         },
@@ -122,7 +116,7 @@ describe('IO and package stats', () => {
     `);
   });
   it('should convert package.json to a string', () => {
-    const parsed = fromString(fixturePackageJsonString);
+    const parsed = fromString(JSON.stringify(refPackageJson));
     const actual = toString(parsed);
     expect(actual.length).toBeGreaterThan(10);
   });

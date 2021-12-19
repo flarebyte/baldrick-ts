@@ -6,4 +6,10 @@ export const cmdGenerateAction: GenerateAction = async (
   options: GenerateActionOpts
 ) => {
   await updateAll(ctx, options);
+  ctx.termFormatter({
+    title: 'Normalized the project structure and documents',
+    detail: ['* Search for any fixme in your text editor'].join('\n'),
+    kind: 'info',
+    format: 'default',
+  });
 };
