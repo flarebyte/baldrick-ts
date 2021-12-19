@@ -8,7 +8,9 @@ export const cmdGenerateAction: GenerateAction = async (
   await updateAll(ctx, options);
   ctx.termFormatter({
     title: 'Normalized the project structure and documents',
-    detail: ['* Search for any fixme in your text editor'].join('\n'),
+    detail: [
+      'You may need to run: yarn add baldrick-dev-ts typescript --dev',
+    ].join('\n'),
     kind: 'info',
     format: 'default',
   });

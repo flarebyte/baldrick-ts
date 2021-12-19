@@ -33,6 +33,11 @@ ${___}
 yarn ready
 ${___}
 
+And please check that building is still working:
+${___}
+yarn build
+${___}
+
 You can also simulate [Github actions](https://docs.github.com/en/actions) locally with [act](https://github.com/nektos/act). 
 You will need to setup ${_}.actrc${_} with the node.js docker image ${_}-P ubuntu-latest=node:${minimumNodeVersion}-buster${_}
 
