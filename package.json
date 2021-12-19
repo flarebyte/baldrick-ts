@@ -29,7 +29,7 @@
     }
   },
   "files": [
-    "dist",
+    "dist/src",
     "src"
   ],
   "bin": {

@@ -24,6 +24,7 @@ const exampleReadme = `
 - **Simple model** for the notes that requires very little learning curve while still offering a lot of flexibility.
 - **extensive tests coverage**.
 
+
 ## Usage
 
 ${___}
@@ -58,21 +59,9 @@ describe('Readme documentation', () => {
   it('Updates README.md with standardized chapters', () => {
     const project: CoreProject = {
       ...libCoreProject,
-      name: 'project123'
+      name: 'project123',
     };
     const actual = toReadmeMd(project, exampleReadme);
-    expect(actual).toContain('# Project123');
-    expect(actual).toContain('(https://img.shields.io/npm/v/project123)');
-    expect(actual).toContain(
-      '(https://github.com/mycompany/project123/actions/workflows/main.yml/badge.svg)'
-    );
-    expect(actual).toContain(
-      '(https://img.shields.io/bundlephobia/min/project123)'
-    );
-    expect(actual).toContain('## Usage');
-    expect(actual).toContain('## Documentation and links');
-    expect(actual).toContain('## Installation');
-    expect(actual).toContain('yarn add project123');
-    expect(actual).not.toContain('## License');
+    expect(actual).toMatchSnapshot();
   });
 });

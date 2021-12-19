@@ -60,7 +60,7 @@ const normalizeOpenSourcePackage = (
       },
       './package.json': { default: './package.json' },
     },
-    files: ['dist', 'src'],
+    files: ['dist/src', 'src'],
     bin,
     engines: {
       node: `>=${minimumNodeVersion}`,
