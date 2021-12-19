@@ -146,6 +146,18 @@ __Run:__ ```act```
 
 __From package:__ [act](https://github.com/nektos/act) of [brew](https://docs.brew.sh/) :  Run GitHub Actions locally
 
+---,### Install the local project globally
+
+> Install this local project/script globally on the dev machine for development or testing purpose
+
+__Motivation:__ Test global project locally before publishing
+
+__When to use it:__ When testing locally
+
+__Run:__ ```yarn global add `pwd````
+
+__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+
 ---,### Normalize the code structure using latest
 
 > Normalize the code structure using baldrick (npx version)

@@ -166,6 +166,7 @@ const readyCmd: MdCommand = {
   run: 'yarn ready',
   partOf: yarnPackage,
   examples: [],
+  npmScript: ['ready', 'yarn lint && yarn test && yarn outdated'],
 };
 
 const versionCmd: MdCommand = {
@@ -207,7 +208,7 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
     npmScript: [
       global ? 'norm:g' : 'norm',
       [
-        global ? 'baldrick-ts' : 'npx baldrick-ts',
+        global ? 'baldrick-ts generate' : 'npx baldrick-ts generate',
         `-${og.feature.shortFlag}`,
         project.feature.join(' '),
         `-${og.githubAccount.shortFlag}`,
@@ -225,6 +226,18 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
   };
 };
 
+const yarnAddGlobalCmd: MdCommand = {
+  name: 'yarn-add-global',
+  title: 'Install the local project globally',
+  description:
+    'Install this local project/script globally on the dev machine for development or testing purpose',
+  motivation: 'Test global project locally before publishing',
+  context: 'When testing locally',
+  run: 'yarn global add `pwd`',
+  partOf: yarnPackage,
+  examples: [],
+};
+
 const devCommands = [
   lintCmd,
   lintFixCmd,
@@ -238,6 +251,7 @@ const devCommands = [
   readyCmd,
   versionCmd,
   actCmd,
+  yarnAddGlobalCmd,
 ];
 
 export const maintenanceMd = (project: CoreProject) =>

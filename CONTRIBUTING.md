@@ -19,7 +19,10 @@ yarn test
 
 ```
 
+A list of [most used commands](MAINTENANCE.md) is available.
+
 Please keep an eye on test coverage, bundle size and documentation.
+When you are ready for a pull request:
 
 ```
 yarn ready
