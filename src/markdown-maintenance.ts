@@ -232,7 +232,9 @@ export const maintenanceMd = (project: CoreProject) =>
 const removeNulls = <S>(value: S | undefined): value is S => value != null;
 
 export const getNpmScripts = (project: CoreProject): Scripts => {
-  if (project.feature.includes('lib')) {
+  const isCliOrLib =
+    project.feature.includes('lib') || project.feature.includes('cli');
+  if (isCliOrLib) {
     const commands = [...devCommands, normCmd(project)]
       .map((cmd) => cmd.npmScript)
       .filter(removeNulls);

@@ -1,11 +1,15 @@
 {
   "name": "baldrick-ts",
-  "description": "fixme",
-  "keywords": [],
+  "description": "Baldrick-ts is a Typescript assistant with a cunning plan that can be used for scaffolding",
+  "keywords": [
+    "cli",
+    "config",
+    "continuous-integration"
+  ],
   "version": "0.8.0",
   "author": {
     "name": "Olivier Huin",
-    "url": "https://github.com/fixme"
+    "url": "https://github.com/olih"
   },
   "license": "MIT",
   "homepage": "https://github.com/flarebyte/baldrick-ts",
@@ -34,7 +38,18 @@
   "engines": {
     "node": ">=14"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "baldrick lint check",
+    "lint:fix": "baldrick lint fix",
+    "lint:ci": "baldrick lint ci",
+    "test": "baldrick test check",
+    "test:fix": "baldrick test fix",
+    "test:cov": "baldrick test cov",
+    "test:ci": "baldrick test ci",
+    "reset": "rm -rf dist; rm -rf report",
+    "build": "yarn reset;tsc --outDir dist",
+    "norm": "npx baldrick-ts -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT"
+  },
   "dependencies": {
     "commander": "^8.3.0",
     "just-compare": "^1.4.0",
