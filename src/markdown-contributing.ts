@@ -24,10 +24,18 @@ yarn test
 
 ${___}
 
+A list of [most used commands](MAINTENANCE.md) is available.
+
 Please keep an eye on test coverage, bundle size and documentation.
+When you are ready for a pull request:
 
 ${___}
 yarn ready
+${___}
+
+And please check that building is still working:
+${___}
+yarn build
 ${___}
 
 You can also simulate [Github actions](https://docs.github.com/en/actions) locally with [act](https://github.com/nektos/act). 

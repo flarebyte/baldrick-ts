@@ -13,6 +13,17 @@ const baldrickDevPackage: MdPackage = {
   },
 };
 
+const baldrickScaffoldingPackage: MdPackage = {
+  name: 'baldrick-ts',
+  installationType: 'npm.dev',
+  description: 'Typescript scaffolding assistant',
+  homepage: 'https://github.com/flarebyte/baldrick-ts',
+  repository: {
+    type: 'git',
+    url: 'https://github.com/flarebyte/baldrick-ts',
+  },
+};
+
 const yarnPackage: MdPackage = {
   name: 'yarn',
   installationType: 'npm.dev',
@@ -155,6 +166,7 @@ const readyCmd: MdCommand = {
   run: 'yarn ready',
   partOf: yarnPackage,
   examples: [],
+  npmScript: ['ready', 'yarn lint && yarn test:cov && yarn outdated'],
 };
 
 const versionCmd: MdCommand = {
@@ -179,33 +191,52 @@ const actCmd: MdCommand = {
   examples: [],
 };
 const og = cmdOptionsGenerator;
-const normCmd = (project: CoreProject): MdCommand => ({
-  name: 'norm',
-  title: 'Normalize the code structure',
-  description: 'Normalize the code structure using baldrick',
-  motivation: 'Create a consistent developer experience',
-  context: 'When changing github actions',
-  run: 'yarn norm',
+const normCmd = (project: CoreProject, global: boolean): MdCommand => {
+  return {
+    name: global ? 'norm:global' : 'norm',
+    title: global
+      ? 'Normalize the code structure'
+      : 'Normalize the code structure using latest',
+    description: global
+      ? 'Normalize the code structure using baldrick (global version)'
+      : 'Normalize the code structure using baldrick (npx version)',
+    motivation: 'Create a consistent developer experience',
+    context: 'When changing github actions',
+    run: global ? 'yarn norm:g' : 'yarn norm',
+    partOf: baldrickScaffoldingPackage,
+    examples: [],
+    npmScript: [
+      global ? 'norm:g' : 'norm',
+      [
+        global ? 'baldrick-ts generate' : 'npx baldrick-ts generate',
+        `-${og.feature.shortFlag}`,
+        project.feature.join(' '),
+        `-${og.githubAccount.shortFlag}`,
+        `'${project.githubAccount}'`,
+        `-${og.copyrightHolder.shortFlag}`,
+        `'${project.copyrightHolder}'`,
+        `-${og.copyrightStartYear.shortFlag}`,
+        project.copyrightStartYear,
+        `-${og.license.shortFlag}`,
+        project.license,
+        `-${og.bin.shortFlag}`,
+        project.bin,
+      ].join(' '),
+    ],
+  };
+};
+
+const yarnAddGlobalCmd: MdCommand = {
+  name: 'yarn-add-global',
+  title: 'Install the local project globally',
+  description:
+    'Install this local project/script globally on the dev machine for development or testing purpose',
+  motivation: 'Test global project locally before publishing',
+  context: 'When testing locally',
+  run: 'yarn global add `pwd`',
   partOf: yarnPackage,
   examples: [],
-  npmScript: [
-    'norm',
-    [
-      'npx',
-      'baldrick-ts',
-      `-${og.feature.shortFlag}`,
-      project.feature.join(' '),
-      `-${og.githubAccount.shortFlag}`,
-      `'${project.githubAccount}'`,
-      `-${og.copyrightHolder.shortFlag}`,
-      `'${project.copyrightHolder}'`,
-      `-${og.copyrightStartYear.shortFlag}`,
-      project.copyrightStartYear,
-      `-${og.license.shortFlag}`,
-      project.license,
-    ].join(' '),
-  ],
-});
+};
 
 const devCommands = [
   lintCmd,
@@ -220,20 +251,29 @@ const devCommands = [
   readyCmd,
   versionCmd,
   actCmd,
+  yarnAddGlobalCmd,
 ];
 
 export const maintenanceMd = (project: CoreProject) =>
   [
     '# Maintenance of the code',
     '## Commands',
-    [...devCommands, normCmd(project)].map(commandToMd),
+    [...devCommands, normCmd(project, false), normCmd(project, true)].map(
+      commandToMd
+    ),
   ].join('\n\n');
 
 const removeNulls = <S>(value: S | undefined): value is S => value != null;
 
 export const getNpmScripts = (project: CoreProject): Scripts => {
-  if (project.feature.includes('lib')) {
-    const commands = [...devCommands, normCmd(project)]
+  const isCliOrLib =
+    project.feature.includes('lib') || project.feature.includes('cli');
+  if (isCliOrLib) {
+    const commands = [
+      ...devCommands,
+      normCmd(project, false),
+      normCmd(project, true),
+    ]
       .map((cmd) => cmd.npmScript)
       .filter(removeNulls);
     return Object.fromEntries(commands);

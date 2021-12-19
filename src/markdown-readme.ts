@@ -47,10 +47,26 @@ const docAndLinks: MdSection = {
   ].join('\n'),
 };
 
-const installSection = (core: CoreProject): MdSection => ({
-  title: 'Installation',
-  body: ['```', `yarn add ${core.name}`, '```'].join('\n'),
-});
+const installSection = (core: CoreProject): MdSection => {
+  const isCli = core.feature.includes('cli');
+  const bodyLib = ['```', `yarn add ${core.name}`, '```'];
+  const bodyCli = [
+    '```',
+    `yarn global add ${core.name}`,
+    `${core.bin} --help`,
+    '```',
+    'Or alternatively run it:',
+    '```',
+    `npx ${core.name} --help`,
+    '```',
+  ];
+  const body = isCli ? bodyCli : bodyLib;
+
+  return {
+    title: 'Installation',
+    body: body.join('\n'),
+  };
+};
 
 export const toReadmeMd = (core: CoreProject, existingMd: string): string => {
   const existing = parseMarkdown(existingMd);

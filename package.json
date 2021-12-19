@@ -1,43 +1,67 @@
 {
   "name": "baldrick-ts",
-  "version": "0.8.0",
-  "author": "Olivier Huin",
-  "license": "MIT",
-  "type": "module",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "exports": "./dist/src/cli.mjs",
-  "files": [
-    "dist/src"
+  "description": "Baldrick-ts is a Typescript assistant with a cunning plan that can be used for scaffolding",
+  "keywords": [
+    "cli",
+    "config",
+    "continuous-integration"
   ],
-  "engines": {
-    "node": ">=10"
+  "version": "0.8.0",
+  "author": {
+    "name": "Olivier Huin",
+    "url": "https://github.com/olih"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/flarebyte/baldrick-ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flarebyte/baldrick-ts.git"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/src/cli.mjs",
+      "default": "./dist/src/cli.mjs",
+      "types": "./dist/src"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "bin": {
     "baldrick-ts": "dist/src/cli.mjs"
   },
-  "scripts": {
-    "reset": "rm -rf dist",
-    "build": "yarn reset;tsc --outDir dist",
-    "lint": "baldrick lint check",
-    "lint:ci": "baldrick lint ci",
-    "lint:fix": "baldrick lint fix",
-    "test": "baldrick test check",
-    "test:ci": "baldrick test ci",
-    "test:fix": "baldrick test fix",
-    "test:cov": "baldrick test cov"
+  "engines": {
+    "node": ">=14"
   },
-  "peerDependencies": {},
-  "module": "dist/baldrick-ts.esm.js",
+  "scripts": {
+    "lint": "baldrick lint check",
+    "lint:fix": "baldrick lint fix",
+    "lint:ci": "baldrick lint ci",
+    "test": "baldrick test check",
+    "test:fix": "baldrick test fix",
+    "test:cov": "baldrick test cov",
+    "test:ci": "baldrick test ci",
+    "reset": "rm -rf dist; rm -rf report",
+    "build": "yarn reset;tsc --outDir dist",
+    "ready": "yarn lint && yarn test:cov && yarn outdated",
+    "norm": "npx baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts",
+    "norm:g": "baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts"
+  },
+  "dependencies": {
+    "commander": "^8.3.0",
+    "just-compare": "^2.0.1",
+    "lodash.isequal": "^4.5.0",
+    "yaml": "^1.10.2"
+  },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.5",
     "baldrick-dev-ts": "^0.8.0",
     "typescript": "^4.5.3"
   },
-  "dependencies": {
-    "commander": "^8.3.0",
-    "just-compare": "^1.4.0",
-    "lodash.isequal": "^4.5.0",
-    "yaml": "^1.10.2"
-  }
+  "peerDependencies": {}
 }
