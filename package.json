@@ -48,7 +48,8 @@
     "test:ci": "baldrick test ci",
     "reset": "rm -rf dist; rm -rf report",
     "build": "yarn reset;tsc --outDir dist",
-    "norm": "npx baldrick-ts -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT"
+    "norm": "npx baldrick-ts -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts",
+    "norm:g": "baldrick-ts -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts"
   },
   "dependencies": {
     "commander": "^8.3.0",
