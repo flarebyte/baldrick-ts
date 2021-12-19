@@ -166,7 +166,7 @@ const readyCmd: MdCommand = {
   run: 'yarn ready',
   partOf: yarnPackage,
   examples: [],
-  npmScript: ['ready', 'yarn lint && yarn test && yarn outdated'],
+  npmScript: ['ready', 'yarn lint && yarn test:cov && yarn outdated'],
 };
 
 const versionCmd: MdCommand = {

@@ -43,6 +43,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 The main motivation is to streamline the development process for node.js libraries and CLI written in Typescript. It supports the following features.
 
 -   **Typescript** the strongly typed alternative to Javascript.
@@ -55,7 +64,9 @@ The main motivation is to streamline the development process for node.js librari
 
 
 
+
 ## Usage
+
 
 
 
@@ -73,6 +84,7 @@ Generate and standardize the source code files
 * `-l, --license [license]` Open source license if any (choices: "MIT", "UNLICENSED", default: "MIT")
 * `-b, --bin [bin]` The binary command used for calling the CLI
 * `-h, --help` display help for command
+
 
 
 
