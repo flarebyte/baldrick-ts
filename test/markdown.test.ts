@@ -1,12 +1,5 @@
-import {
-  commandToMd,
-  markdownToString,
-  parseMarkdown,
-} from '../src/markdown';
-import {
-  MdCommand,
-  MdDocument,
-} from '../src/model';
+import { commandToMd, markdownToString, parseMarkdown } from '../src/markdown';
+import { MdCommand, MdDocument } from '../src/model';
 describe('Markdown documentation', () => {
   it('parse a markdown document', () => {
     const basicMarkdown = `
@@ -42,22 +35,52 @@ describe('Markdown documentation', () => {
       { text: 'npm', url: 'https://img.shields.io/npm/v/scratchbook' },
       {
         text: 'Build status',
-        url:
-          'https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg',
+        url: 'https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg',
       },
     ]);
-    expect(actual.mainSection.trim()).toEqual('Some other info');
-    expect(actual.sections).toHaveLength(2);
-    expect(actual.sections[0]).toHaveProperty('title', 'Section Alpha');
-    expect(actual.sections[1]).toHaveProperty('title', 'Section Bravo');
-    const body0 = actual?.sections[0]?.body || '';
-    const body1 = actual?.sections[1]?.body || '';
-    expect(body0.split('\n')).toHaveLength(7);
-    expect(body1.split('\n')).toHaveLength(6);
-    expect(body0).toContain('Lorem ipsum dolor');
-    expect(body0).toContain('nulla pariatur.');
-    expect(body1).toContain('In eu mi bibendum');
-    expect(body1).toContain('et sollicitudin.');
+    expect(actual).toMatchInlineSnapshot(`
+      Object {
+        "badges": Array [
+          Object {
+            "text": "npm",
+            "url": "https://img.shields.io/npm/v/scratchbook",
+          },
+          Object {
+            "text": "Build status",
+            "url": "https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg",
+          },
+        ],
+        "description": "main description",
+        "mainSection": "
+
+
+
+      Some other info
+      ",
+        "sections": Array [
+          Object {
+            "body": "
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      ",
+            "title": "Section Alpha",
+          },
+          Object {
+            "body": "
+      In eu mi bibendum neque egestas congue quisque.
+
+      Sed risus ultricies tristique nulla aliquet enim tortor at.
+      Auctor augue mauris augue neque gravida in fermentum et sollicitudin.
+      ",
+            "title": "Section Bravo",
+          },
+        ],
+        "title": "Main title",
+      }
+    `);
   });
 
   it('parse a markdown document without any secondary sections', () => {
@@ -72,11 +95,29 @@ describe('Markdown documentation', () => {
     Some other info
     `;
     const actual = parseMarkdown(basicMarkdown);
-    expect(actual.title).toEqual('Main title');
-    expect(actual.description).toEqual('main description');
-    expect(actual.badges).toHaveLength(2);
-    expect(actual.mainSection.trim()).toEqual('Some other info');
-    expect(actual.sections).toHaveLength(0);
+    expect(actual).toMatchInlineSnapshot(`
+      Object {
+        "badges": Array [
+          Object {
+            "text": "npm",
+            "url": "https://img.shields.io/npm/v/scratchbook",
+          },
+          Object {
+            "text": "Build status",
+            "url": "https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg",
+          },
+        ],
+        "description": "main description",
+        "mainSection": "
+
+
+
+      Some other info
+      ",
+        "sections": Array [],
+        "title": "Main title",
+      }
+    `);
   });
 
   it('should produces a markdown document', () => {
@@ -100,18 +141,27 @@ describe('Markdown documentation', () => {
       ],
     };
     const actual = markdownToString(mdDoc);
-    expect(actual).toContain(`# ${mdDoc.title}`);
-    expect(actual).toContain(`> ${mdDoc.description}`);
-    expect(actual).toContain(mdDoc?.badges[0]?.text);
-    expect(actual).toContain(mdDoc?.badges[0]?.url);
-    expect(actual).toContain(mdDoc?.badges[1]?.text);
-    expect(actual).toContain(mdDoc?.badges[1]?.url);
-    expect(actual).toContain('main 1');
-    expect(actual).toContain('main 3');
-    expect(actual).toContain(mdDoc?.sections[0]?.title);
-    expect(actual).toContain(mdDoc?.sections[0]?.body);
-    expect(actual).toContain(mdDoc?.sections[1]?.title);
-    expect(actual).toContain(mdDoc?.sections[1]?.body);
+    expect(actual).toMatchInlineSnapshot(`
+      "# The Title
+
+      ![badge text](http://site.com/badge)
+
+      ![badge 2 text](http://othersite.com/badge)
+
+      > The description
+
+      main 1
+      main 2
+      main 3
+
+      ## Alpha
+
+      Lorem ipsum dolor sit amet
+
+      ## Bravo
+
+      In eu mi bibendum neque egestas congue quisque."
+    `);
   });
 
   it('should produce some markdown for commands', () => {
@@ -135,7 +185,28 @@ describe('Markdown documentation', () => {
       examples: ['yarn lint src', 'yarn lint --fix'],
     };
     const actual = commandToMd(cmd);
-    expect(actual).toContain('Static code analysis');
-    expect(actual).toContain('Zero-config CLI');
+    expect(actual).toMatchInlineSnapshot(`
+      "### Static code analysis
+
+      > Analyse the code for syntax errors
+
+      __Motivation:__ Prevent bugs
+
+      __When to use it:__ Before compilation
+
+      __Run:__ \`\`\`yarn lint\`\`\`
+
+      __Examples:__
+
+      \`\`\`yarn lint src\`\`\`
+
+      \`\`\`yarn lint --fix\`\`\`
+
+      __From package:__ [tsdx](https://tsdx.io/) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+
+      ---
+
+      "
+    `);
   });
 });

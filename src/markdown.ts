@@ -51,7 +51,7 @@ const findBadges = (lines: string[]) =>
 const keepHeaderBody = (line: string): boolean =>
   !(line.startsWith('# ') || line.startsWith('![') || line.startsWith('> '));
 
-const parseMarkdown = (content: string): MdDocument => {
+export const parseMarkdown = (content: string): MdDocument => {
   const lines = content.split('\n').map((line) => line.trim());
   const mainSect = getMainSection(lines);
 
@@ -75,7 +75,7 @@ const badgeToString = (badge: Badge): string =>
 const sectionToString = (section: MdSection): string =>
   [`## ${section.title}`, section.body].join('\n\n');
 
-const markdownToString = (doc: MdDocument): string => {
+export const markdownToString = (doc: MdDocument): string => {
   const parts = [
     `# ${doc.title}`,
     ...doc.badges.map(badgeToString),
@@ -110,7 +110,7 @@ const exampleToMd = (example: string) => `${___}${example}${___}`;
 const examplesToMd = (examples: string[]): string[] =>
   examples.length === 0 ? [] : ['__Examples:__', ...examples.map(exampleToMd)];
 
-const commandToMd = (command: MdCommand): string =>
+export const commandToMd = (command: MdCommand): string =>
   [
     `### ${command.title}`,
     `> ${command.description}`,
@@ -120,6 +120,5 @@ const commandToMd = (command: MdCommand): string =>
     ...examplesToMd(command.examples),
     packageCmdToMd(command.partOf),
     '---',
+    '',
   ].join('\n\n');
-
-export { parseMarkdown, markdownToString, commandToMd };

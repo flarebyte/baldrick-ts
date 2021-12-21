@@ -214,7 +214,7 @@ export interface MdCommand {
 export interface VsCodeSnippet {
   scope: string;
   prefix: string;
-  body: string;
+  body: string | string[];
   description: string;
 }
 
