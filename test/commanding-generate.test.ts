@@ -1,11 +1,13 @@
-import { Commanding } from '../src/commanding';
+import { Commanding } from '../src/commanding.js';
+import { jest } from '@jest/globals';
+import { GenerateAction } from '../src/model.js';
 
 const actAndGetSecondParam = async (given: string[]) => {
   const commanding = new Commanding();
   const mockedAction = jest.fn();
-  commanding.declareGenerateAction(mockedAction);
+  commanding.declareGenerateAction(mockedAction as GenerateAction);
   await commanding.parseAsync(['node', 'baldrick-ts', 'generate', ...given]);
-  const secondParam = mockedAction.mock.calls[0][1];
+  const secondParam = mockedAction.mock.calls[0] && mockedAction.mock.calls[0][1];
   return secondParam;
 };
 

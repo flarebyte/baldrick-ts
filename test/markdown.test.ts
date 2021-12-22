@@ -1,5 +1,5 @@
-import { commandToMd, markdownToString, parseMarkdown } from '../src/markdown';
-import { MdCommand, MdDocument } from '../src/model';
+import { commandToMd, markdownToString, parseMarkdown } from '../src/markdown.js';
+import { MdCommand, MdDocument } from '../src/model.js';
 describe('Markdown documentation', () => {
   it('parse a markdown document', () => {
     const basicMarkdown = `

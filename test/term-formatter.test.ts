@@ -1,5 +1,7 @@
-import { ErrTermFormatterParams, TermFormatterParams } from '../src/model';
-import { basicFormatter, errorFormatter } from '../src/term-formatter';
+import { ErrTermFormatterParams, TermFormatterParams } from '../src/model.js';
+import { basicFormatter, errorFormatter } from '../src/term-formatter.js';
+import {jest} from '@jest/globals';
+
 jest.spyOn(global.console, 'info').mockImplementation(() => {});
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 

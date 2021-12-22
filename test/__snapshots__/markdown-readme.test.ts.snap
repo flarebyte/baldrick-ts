@@ -55,9 +55,12 @@ yarn add scratchbook
 * [Code Maintenance](MAINTENANCE.md)
 * [Code Of Conduct](CODE_OF_CONDUCT.md)
 * [Contributing](CONTRIBUTING.md)
+* [Contributors](https://github.com/mycompany/project123/graphs/contributors)
+* [Dependencies](https://github.com/mycompany/project123/network/dependencies)
 
 ## Installation
 
+This package is [ESM only][esm].
 \`\`\`
 yarn add project123
 \`\`\`"

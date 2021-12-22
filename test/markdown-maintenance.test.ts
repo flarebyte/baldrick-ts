@@ -1,5 +1,5 @@
-import { getNpmScripts, maintenanceMd } from '../src/markdown-maintenance';
-import { libCoreProject } from './fixture-core-project';
+import { getNpmScripts, maintenanceMd } from '../src/markdown-maintenance.js';
+import { libCoreProject } from './fixture-core-project.js';
 
 describe('Maintenance documentation', () => {
   it('normalizes MAINTENANCE.md', () => {

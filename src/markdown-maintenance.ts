@@ -1,3 +1,4 @@
+import { markdownTable } from 'markdown-table';
 import { cmdOptionsGenerator } from './commanding-data.js';
 import { commandToMd } from './markdown.js';
 import { CoreProject, MdCommand, MdPackage, Scripts } from './model.js';
@@ -254,6 +255,31 @@ const devCommands = [
   yarnAddGlobalCmd,
 ];
 
+const maintenanceOverview = markdownTable([
+  ['Mode', 'Code analysis', 'Testing', 'Building', 'Publishing'],
+  [
+    'Checking',
+    lintCmd.run,
+    `${testCmd.run} or ${testCovCmd.run}`,
+    buildCmd.run,
+    readyCmd.run,
+  ],
+  [
+    'Fixing',
+    lintFixCmd.run,
+    testFixCmd.run,
+    'Fix the code',
+    'Update dependencies',
+  ],
+  [
+    'Continuous integration',
+    lintCICmd.run,
+    testCICmd.run,
+    'Not available yet',
+    'Not available yet',
+  ],
+]);
+
 export const maintenanceMd = (project: CoreProject): string => {
   const cmds = [
     ...devCommands,
@@ -261,9 +287,14 @@ export const maintenanceMd = (project: CoreProject): string => {
     normCmd(project, true),
   ];
   const cmdSections: string[] = cmds.map(commandToMd);
-  return ['# Maintenance of the code', '## Commands', ...cmdSections].join(
-    '\n\n'
-  );
+  return [
+    '# Maintenance of the code',
+    '## Overall workflow',
+    'The typical developer workflow goes as follow:',
+    maintenanceOverview,
+    '## Commands',
+    ...cmdSections,
+  ].join('\n\n');
 };
 
 const removeNulls = <S>(value: S | undefined): value is S => value != null;

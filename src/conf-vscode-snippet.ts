@@ -5,7 +5,7 @@ const scope = 'javascript,typescript';
 const snippets: VsCodeSnippet[] = [
   {
     scope,
-    prefix: 'b-rm-nulls',
+    prefix: 'filter-no-null',
     body: 'const removeNulls = <S>(value: S | undefined): value is S => value != null;',
     description: 'Filter out undefined values',
   },
@@ -43,6 +43,15 @@ const snippets: VsCodeSnippet[] = [
     prefix: 'mock-console',
     body: 'jest.spyOn(global.console, "${1|log,info,warn,error|}").mockImplementation(() => {});',
     description: 'Mock console in unit tests',
+  },
+  {
+    scope,
+    prefix: 'stringify',
+    body: [
+      'const toJsonString = (value: object): string =>',
+      '  JSON.stringify(value, null, 2);',
+    ],
+    description: 'stringify an object',
   },
 ];
 
