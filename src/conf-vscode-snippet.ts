@@ -41,7 +41,7 @@ const snippets: VsCodeSnippet[] = [
   {
     scope,
     prefix: 'mock-console',
-    body: 'jest.spyOn(global.console, "${1|log,info,warn,error|}")',
+    body: 'jest.spyOn(global.console, "${1|log,info,warn,error|}").mockImplementation(() => {});',
     description: 'Mock console in unit tests',
   },
 ];

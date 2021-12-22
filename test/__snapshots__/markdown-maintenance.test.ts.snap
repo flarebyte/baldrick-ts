@@ -19,7 +19,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Fix static code analysis
+### Fix static code analysis
 
 > Fix problems in Typescript code
 
@@ -33,7 +33,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Static code analysis for continuous integration
+### Static code analysis for continuous integration
 
 > Find problems in Typescript code
 
@@ -47,7 +47,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Unit testing
+### Unit testing
 
 > Run the unit tests
 
@@ -61,7 +61,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Fix unit testing snapshots
+### Fix unit testing snapshots
 
 > Run the unit tests and update the snapshots
 
@@ -75,7 +75,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Unit testing code coverage
+### Unit testing code coverage
 
 > Verify the extent to which the code has been executed. This does not include any threshold, but it is recommended to maximize the coverage
 
@@ -89,7 +89,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Unit testing code and coverage for continuous integration
+### Unit testing code and coverage for continuous integration
 
 > Test and verify the coverage of the code
 
@@ -103,7 +103,7 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-,### Reset distribution and report folders
+### Reset distribution and report folders
 
 > Delete the dist and report folder
 
@@ -117,7 +117,7 @@ __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.n
 
 ---
 
-,### Build the library
+### Build the library
 
 > Transpile all the typescript source code to javascript
 
@@ -131,7 +131,7 @@ __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.n
 
 ---
 
-,### Ready for publishing
+### Ready for publishing
 
 > Run a sequence of commands to check that the library is ready to be published
 
@@ -145,7 +145,7 @@ __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.n
 
 ---
 
-,### Versioning
+### Versioning
 
 > Checks that the code is ready for versioning and version it
 
@@ -159,7 +159,7 @@ __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.n
 
 ---
 
-,### Run GitHub Actions locally
+### Run GitHub Actions locally
 
 > Run GitHub Actions inside a docker container
 
@@ -173,7 +173,7 @@ __From package:__ [act](https://github.com/nektos/act) of [brew](https://docs.br
 
 ---
 
-,### Install the local project globally
+### Install the local project globally
 
 > Install this local project/script globally on the dev machine for development or testing purpose
 
@@ -187,7 +187,7 @@ __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.n
 
 ---
 
-,### Normalize the code structure using latest
+### Normalize the code structure using latest
 
 > Normalize the code structure using baldrick (npx version)
 
@@ -201,7 +201,7 @@ __From package:__ [baldrick-ts](https://github.com/flarebyte/baldrick-ts) of [np
 
 ---
 
-,### Normalize the code structure
+### Normalize the code structure
 
 > Normalize the code structure using baldrick (global version)
 
@@ -213,9 +213,7 @@ __Run:__ \`\`\`yarn norm:g\`\`\`
 
 __From package:__ [baldrick-ts](https://github.com/flarebyte/baldrick-ts) of [npm](https://www.npmjs.com/) :  Typescript scaffolding assistant
 
----
-
-"
+---"
 `;
 
 exports[`Maintenance documentation produces a list of npm scripts 1`] = `

@@ -204,9 +204,7 @@ describe('Markdown documentation', () => {
 
       __From package:__ [tsdx](https://tsdx.io/) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
-      ---
-
-      "
+      ---"
     `);
   });
 });

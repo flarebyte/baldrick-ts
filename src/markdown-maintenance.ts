@@ -254,14 +254,17 @@ const devCommands = [
   yarnAddGlobalCmd,
 ];
 
-export const maintenanceMd = (project: CoreProject) =>
-  [
-    '# Maintenance of the code',
-    '## Commands',
-    [...devCommands, normCmd(project, false), normCmd(project, true)].map(
-      commandToMd
-    ),
-  ].join('\n\n');
+export const maintenanceMd = (project: CoreProject): string => {
+  const cmds = [
+    ...devCommands,
+    normCmd(project, false),
+    normCmd(project, true),
+  ];
+  const cmdSections: string[] = cmds.map(commandToMd);
+  return ['# Maintenance of the code', '## Commands', ...cmdSections].join(
+    '\n\n'
+  );
+};
 
 const removeNulls = <S>(value: S | undefined): value is S => value != null;
 

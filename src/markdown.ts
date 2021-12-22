@@ -120,5 +120,4 @@ export const commandToMd = (command: MdCommand): string =>
     ...examplesToMd(command.examples),
     packageCmdToMd(command.partOf),
     '---',
-    '',
   ].join('\n\n');
