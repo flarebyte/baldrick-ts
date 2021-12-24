@@ -1,7 +1,5 @@
 # Technical Design
 
-> 
-
 ## Overview
 
 ### Audience
@@ -10,10 +8,6 @@
 
 ### Code structure
 
-### Useful links
-
-* Guideline for [Clean Code in Typescript](https://labs42io.github.io/clean-code-typescript/)
-
 ## Code structure
 
 * __src__: Typescript source code
@@ -21,7 +15,7 @@
 * __dist__: Temporary folder for building distribution code
 * __report__: Temporary folder for reporting; usually for continuous integration
 * __.github__: Folder for github pipeline
-* __.vscode: Folder for visual code snippets
+* __.vscode__: Folder for visual code snippets
 
 ## Useful links
 

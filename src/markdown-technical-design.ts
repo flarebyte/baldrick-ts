@@ -12,7 +12,7 @@ const codeStructure: MdSection = {
     '* __dist__: Temporary folder for building distribution code',
     '* __report__: Temporary folder for reporting; usually for continuous integration',
     '* __.github__: Folder for github pipeline',
-    '* __.vscode: Folder for visual code snippets',
+    '* __.vscode__: Folder for visual code snippets',
   ].join('\n'),
 };
 

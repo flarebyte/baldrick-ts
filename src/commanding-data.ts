@@ -31,7 +31,7 @@ const feature: CmdOption = {
   shortFlag: 'f',
   longFlag: 'feature',
   description: 'List of features',
-  choices: ['lib', 'cli', 'gen'],
+  choices: ['lib', 'cli', 'npx', 'gen'],
   mandatory: true,
   variadic: true,
 };

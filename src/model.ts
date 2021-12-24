@@ -75,7 +75,7 @@ export interface Scripts {
 
 type ProjectType = 'lib' | 'cli';
 
-export type SupportedFeature = ProjectType;
+export type SupportedFeature = ProjectType | 'npx';
 
 export interface GenerateActionOpts {
   feature: SupportedFeature[];

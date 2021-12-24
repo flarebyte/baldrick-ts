@@ -47,7 +47,10 @@ const actPackage: MdPackage = {
   },
 };
 
-const lintCmd: MdCommand = {
+const runBaldrick = (project: CoreProject): string =>
+  project.feature.includes('npx') ? 'npx baldrick-dev-ts' : 'baldrick';
+
+const lintCmd = (project: CoreProject): MdCommand => ({
   name: 'lint',
   title: 'Static code analysis',
   description: 'Find problems in Typescript code',
@@ -56,10 +59,10 @@ const lintCmd: MdCommand = {
   run: 'yarn lint',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['lint', 'baldrick lint check'],
-};
+  npmScript: ['lint', `${runBaldrick(project)} lint check`],
+});
 
-const lintFixCmd: MdCommand = {
+const lintFixCmd = (project: CoreProject): MdCommand => ({
   name: 'lint:fix',
   title: 'Fix static code analysis',
   description: 'Fix problems in Typescript code',
@@ -68,10 +71,10 @@ const lintFixCmd: MdCommand = {
   run: 'yarn lint:fix',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['lint:fix', 'baldrick lint fix'],
-};
+  npmScript: ['lint:fix', `${runBaldrick(project)} lint fix`],
+});
 
-const lintCICmd: MdCommand = {
+const lintCICmd = (project: CoreProject): MdCommand => ({
   name: 'lint:ci',
   title: 'Static code analysis for continuous integration',
   description: 'Find problems in Typescript code',
@@ -80,10 +83,10 @@ const lintCICmd: MdCommand = {
   run: 'yarn lint:ci',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['lint:ci', 'baldrick lint ci'],
-};
+  npmScript: ['lint:ci', `${runBaldrick(project)} lint ci`],
+});
 
-const testCmd: MdCommand = {
+const testCmd = (project: CoreProject): MdCommand => ({
   name: 'test',
   title: 'Unit testing',
   description: 'Run the unit tests',
@@ -92,10 +95,10 @@ const testCmd: MdCommand = {
   run: 'yarn test',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['test', 'baldrick test check'],
-};
+  npmScript: ['test', `${runBaldrick(project)} test check`],
+});
 
-const testFixCmd: MdCommand = {
+const testFixCmd = (project: CoreProject): MdCommand => ({
   name: 'test:fix',
   title: 'Fix unit testing snapshots',
   description: 'Run the unit tests and update the snapshots',
@@ -104,10 +107,10 @@ const testFixCmd: MdCommand = {
   run: 'yarn test:fix',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['test:fix', 'baldrick test fix'],
-};
+  npmScript: ['test:fix', `${runBaldrick(project)} test fix`],
+});
 
-const testCovCmd: MdCommand = {
+const testCovCmd = (project: CoreProject): MdCommand => ({
   name: 'test:cov',
   title: 'Unit testing code coverage',
   description:
@@ -117,10 +120,10 @@ const testCovCmd: MdCommand = {
   run: 'yarn test:cov',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['test:cov', 'baldrick test cov'],
-};
+  npmScript: ['test:cov', `${runBaldrick(project)} test cov`],
+});
 
-const testCICmd: MdCommand = {
+const testCICmd = (project: CoreProject): MdCommand => ({
   name: 'test:ci',
   title: 'Unit testing code and coverage for continuous integration',
   description: 'Test and verify the coverage of the code',
@@ -130,8 +133,8 @@ const testCICmd: MdCommand = {
   run: 'yarn test:ci',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['test:ci', 'baldrick test ci'],
-};
+  npmScript: ['test:ci', `${runBaldrick(project)} test ci`],
+});
 
 const resetCmd: MdCommand = {
   name: 'reset',
@@ -239,14 +242,14 @@ const yarnAddGlobalCmd: MdCommand = {
   examples: [],
 };
 
-const devCommands = [
-  lintCmd,
-  lintFixCmd,
-  lintCICmd,
-  testCmd,
-  testFixCmd,
-  testCovCmd,
-  testCICmd,
+const devCommands = (project: CoreProject): MdCommand[] => [
+  lintCmd(project),
+  lintFixCmd(project),
+  lintCICmd(project),
+  testCmd(project),
+  testFixCmd(project),
+  testCovCmd(project),
+  testCICmd(project),
   resetCmd,
   buildCmd,
   readyCmd,
@@ -255,34 +258,35 @@ const devCommands = [
   yarnAddGlobalCmd,
 ];
 
-const maintenanceOverview = markdownTable([
-  ['Mode', 'Code analysis', 'Testing', 'Building', 'Publishing'],
-  [
-    'Checking',
-    lintCmd.run,
-    `${testCmd.run} or ${testCovCmd.run}`,
-    buildCmd.run,
-    readyCmd.run,
-  ],
-  [
-    'Fixing',
-    lintFixCmd.run,
-    testFixCmd.run,
-    'Fix the code',
-    'Update dependencies',
-  ],
-  [
-    'Continuous integration',
-    lintCICmd.run,
-    testCICmd.run,
-    'Not available yet',
-    'Not available yet',
-  ],
-]);
+const maintenanceOverview = (project: CoreProject) =>
+  markdownTable([
+    ['Mode', 'Code analysis', 'Testing', 'Building', 'Publishing'],
+    [
+      'Checking',
+      lintCmd(project).run,
+      `${testCmd(project).run} or ${testCovCmd(project).run}`,
+      buildCmd.run,
+      readyCmd.run,
+    ],
+    [
+      'Fixing',
+      lintFixCmd(project).run,
+      testFixCmd(project).run,
+      'Fix the code',
+      'Update dependencies',
+    ],
+    [
+      'Continuous integration',
+      lintCICmd(project).run,
+      testCICmd(project).run,
+      'Not available yet',
+      'Not available yet',
+    ],
+  ]);
 
 export const maintenanceMd = (project: CoreProject): string => {
   const cmds = [
-    ...devCommands,
+    ...devCommands(project),
     normCmd(project, false),
     normCmd(project, true),
   ];
@@ -291,7 +295,7 @@ export const maintenanceMd = (project: CoreProject): string => {
     '# Maintenance of the code',
     '## Overall workflow',
     'The typical developer workflow goes as follow:',
-    maintenanceOverview,
+    maintenanceOverview(project),
     '## Commands',
     ...cmdSections,
   ].join('\n\n');
@@ -304,7 +308,7 @@ export const getNpmScripts = (project: CoreProject): Scripts => {
     project.feature.includes('lib') || project.feature.includes('cli');
   if (isCliOrLib) {
     const commands = [
-      ...devCommands,
+      ...devCommands(project),
       normCmd(project, false),
       normCmd(project, true),
     ]

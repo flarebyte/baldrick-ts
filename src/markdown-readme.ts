@@ -36,7 +36,7 @@ const libBadges = (core: CoreProject): Badge[] => [
 ];
 
 const keepSections = (section: MdSection): boolean =>
-  ['Usage', 'Acknowledgements'].includes(section.title);
+  ['Usage', 'Advanced use', 'Acknowledgements'].includes(section.title);
 
 const docAndLinks = (core: CoreProject): MdSection => ({
   title: 'Documentation and links',
