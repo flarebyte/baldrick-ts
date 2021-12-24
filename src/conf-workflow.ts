@@ -35,6 +35,10 @@ export const defaultGithubWorkflow = {
           name: 'Test',
           run: 'yarn test:ci',
         },
+        {
+          name: 'Build',
+          run: 'yarn build',
+        },
       ],
     },
   },
