@@ -1,5 +1,7 @@
 # Technical Design
 
+> 
+
 ## Overview
 
 ### Audience
@@ -20,3 +22,4 @@
 ## Useful links
 
 * Guideline for [Clean Code in Typescript](https://labs42io.github.io/clean-code-typescript/)
+* [Supporting node.js ESM](https://the-guild.dev/blog/support-nodejs-esm)
