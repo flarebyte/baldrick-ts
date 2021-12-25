@@ -19,6 +19,7 @@ export type PackageJson = {
   license: string;
   homepage: string;
   repository: Repository;
+  bugs: string;
   /** should be module or commonjs */
   type: string;
   /** Modern public exports for CommonJS and ES modules*/
@@ -75,7 +76,7 @@ export interface Scripts {
 
 type ProjectType = 'lib' | 'cli';
 
-export type SupportedFeature = ProjectType;
+export type SupportedFeature = ProjectType | 'npx';
 
 export interface GenerateActionOpts {
   feature: SupportedFeature[];
@@ -214,7 +215,7 @@ export interface MdCommand {
 export interface VsCodeSnippet {
   scope: string;
   prefix: string;
-  body: string;
+  body: string | string[];
   description: string;
 }
 

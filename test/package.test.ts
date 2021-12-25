@@ -1,7 +1,7 @@
-import { CustomizedPackageJson } from '../src/model';
-import { fixAutomatically, suggestTasksToDo } from '../src/package';
-import { fromString } from '../src/package-io';
-import { libCoreProject } from './fixture-core-project';
+import { CustomizedPackageJson } from '../src/model.js';
+import { fixAutomatically, suggestTasksToDo } from '../src/package.js';
+import { fromString } from '../src/package-io.js';
+import { libCoreProject } from './fixture-core-project.js';
 
 describe('Suggestions', () => {
   const customizedPackageJson: CustomizedPackageJson = {

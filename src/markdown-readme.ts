@@ -36,16 +36,18 @@ const libBadges = (core: CoreProject): Badge[] => [
 ];
 
 const keepSections = (section: MdSection): boolean =>
-  ['Usage'].includes(section.title);
+  ['Usage', 'Advanced use', 'Acknowledgements'].includes(section.title);
 
-const docAndLinks: MdSection = {
+const docAndLinks = (core: CoreProject): MdSection => ({
   title: 'Documentation and links',
   body: [
     '* [Code Maintenance](MAINTENANCE.md)',
     '* [Code Of Conduct](CODE_OF_CONDUCT.md)',
     '* [Contributing](CONTRIBUTING.md)',
+    `* [Contributors](https://github.com/${core.githubAccount}/${core.name}/graphs/contributors)`,
+    `* [Dependencies](https://github.com/${core.githubAccount}/${core.name}/network/dependencies)`,
   ].join('\n'),
-};
+});
 
 const installSection = (core: CoreProject): MdSection => {
   const isCli = core.feature.includes('cli');
@@ -64,7 +66,7 @@ const installSection = (core: CoreProject): MdSection => {
 
   return {
     title: 'Installation',
-    body: body.join('\n'),
+    body: ['This package is [ESM only][esm].', ...body].join('\n'),
   };
 };
 
@@ -74,7 +76,7 @@ export const toReadmeMd = (core: CoreProject, existingMd: string): string => {
   const badges = libBadges(core);
   const sections = [
     ...existing.sections.filter(keepSections),
-    docAndLinks,
+    docAndLinks(core),
     installSection(core),
   ];
   const updated = {

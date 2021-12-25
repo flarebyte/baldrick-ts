@@ -9,7 +9,7 @@ import {
   toCountItems,
   trimString,
   trimStringArray,
-} from '../src/utils';
+} from '../src/utils.js';
 describe('Utility', () => {
   it('Trim a string', () => {
     expect(trimString(' center ')).toEqual('center');

@@ -1,6 +1,6 @@
-import { libCoreProject } from './fixture-core-project';
-import { toReadmeMd } from '../src/markdown-readme';
-import { CoreProject } from '../src/model';
+import { libCoreProject } from './fixture-core-project.js';
+import { toReadmeMd } from '../src/markdown-readme.js';
+import { CoreProject } from '../src/model.js';
 const ___ = '```';
 
 const exampleReadme = `

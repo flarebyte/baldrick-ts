@@ -1,4 +1,7 @@
-# Technical Design
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Technical Design documentation Updates TECHNICAL_DESIGN.md with standardized chapters 1`] = `
+"# Technical Design
 
 > 
 
@@ -9,6 +12,8 @@
 ### Purpose
 
 ### Code structure
+
+### Useful links
 
 ## Code structure
 
@@ -22,4 +27,5 @@
 ## Useful links
 
 * Guideline for [Clean Code in Typescript](https://labs42io.github.io/clean-code-typescript/)
-* [Supporting node.js ESM](https://the-guild.dev/blog/support-nodejs-esm)
+* [Supporting node.js ESM](https://the-guild.dev/blog/support-nodejs-esm)"
+`;

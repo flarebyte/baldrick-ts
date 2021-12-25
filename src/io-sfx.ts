@@ -28,6 +28,7 @@ import { bugReportMd } from './markdown-bug-report.js';
 import { editorConfig } from './conf-editor-config.js';
 import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
+import { toTechnicalDesignMd } from './markdown-technical-design.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, null, 2);
@@ -62,6 +63,20 @@ const writeReadme = async (core: CoreProject) => {
   const existingReadme = await readReadme();
   const newReadme = toReadmeMd(core, existingReadme);
   await writeFile('./README.md', newReadme, 'utf8');
+};
+
+const readTechnicalDesign = async (): Promise<string> => {
+  try {
+    return await readFile('./TECHNICAL_DESIGN.md', 'utf8');
+  } catch (err) {
+    return Promise.resolve('');
+  }
+};
+
+const writeTechnicalDesign = async (core: CoreProject) => {
+  const existingTechnicalDesign = await readTechnicalDesign();
+  const newTechnicalDesign = toTechnicalDesignMd(core, existingTechnicalDesign);
+  await writeFile('./TECHNICAL_DESIGN.md', newTechnicalDesign, 'utf8');
 };
 
 const writeCodeOfConducts = async (proj: CoreProject) => {
@@ -156,6 +171,7 @@ export const updateAll = async (
     await writeCodeOfConducts(coreProject);
     await writeContributing();
     await writeMaintenance(coreProject);
+    await writeTechnicalDesign(coreProject);
     await writePrettierConfig();
     await writeGitIgnore();
     await writeEditorConfig();

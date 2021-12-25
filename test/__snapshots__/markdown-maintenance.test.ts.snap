@@ -1,4 +1,7 @@
-# Maintenance of the code
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Maintenance documentation normalizes MAINTENANCE.md 1`] = `
+"# Maintenance of the code
 
 ## Overall workflow
 
@@ -20,7 +23,7 @@ __Motivation:__ Make the code more consistent and avoid bugs
 
 __When to use it:__ Before compilation
 
-__Run:__ ```yarn lint```
+__Run:__ \`\`\`yarn lint\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -34,7 +37,7 @@ __Motivation:__ Facilitate routine maintenance of code
 
 __When to use it:__ Before compilation
 
-__Run:__ ```yarn lint:fix```
+__Run:__ \`\`\`yarn lint:fix\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -48,7 +51,7 @@ __Motivation:__ Make the code more consistent and avoid bugs
 
 __When to use it:__ When pushing code to github, before testing
 
-__Run:__ ```yarn lint:ci```
+__Run:__ \`\`\`yarn lint:ci\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -62,7 +65,7 @@ __Motivation:__ Check that the units of code behave as intended
 
 __When to use it:__ After compilation, before build
 
-__Run:__ ```yarn test```
+__Run:__ \`\`\`yarn test\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -76,7 +79,7 @@ __Motivation:__ Facilitate routine maintenance of unit test snapshots
 
 __When to use it:__ After compilation, before build
 
-__Run:__ ```yarn test:fix```
+__Run:__ \`\`\`yarn test:fix\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -90,7 +93,7 @@ __Motivation:__ Ensure that every code branch and function is executed
 
 __When to use it:__ After compilation, before build
 
-__Run:__ ```yarn test:cov```
+__Run:__ \`\`\`yarn test:cov\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -104,7 +107,7 @@ __Motivation:__ Check that the units of code behave as intended and ensure that 
 
 __When to use it:__ When pushing code to github
 
-__Run:__ ```yarn test:ci```
+__Run:__ \`\`\`yarn test:ci\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
@@ -118,7 +121,7 @@ __Motivation:__ Start from a clean slate
 
 __When to use it:__ Before building
 
-__Run:__ ```yarn reset```
+__Run:__ \`\`\`yarn reset\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -132,7 +135,7 @@ __Motivation:__ ESM library should be written in javascript
 
 __When to use it:__ Before building
 
-__Run:__ ```yarn build```
+__Run:__ \`\`\`yarn build\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -146,7 +149,7 @@ __Motivation:__ Detect quality flaws before pushing the code
 
 __When to use it:__ Before pushing a branch
 
-__Run:__ ```yarn ready```
+__Run:__ \`\`\`yarn ready\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -160,7 +163,7 @@ __Motivation:__ Normalize the steps involved in versioning
 
 __When to use it:__ Before publishing
 
-__Run:__ ```yarn version```
+__Run:__ \`\`\`yarn version\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -174,7 +177,7 @@ __Motivation:__ Test GitHub Actions locally
 
 __When to use it:__ When changing github actions
 
-__Run:__ ```act```
+__Run:__ \`\`\`act\`\`\`
 
 __From package:__ [act](https://github.com/nektos/act) of [brew](https://docs.brew.sh/) :  Run GitHub Actions locally
 
@@ -188,7 +191,7 @@ __Motivation:__ Test global project locally before publishing
 
 __When to use it:__ When testing locally
 
-__Run:__ ```yarn global add `pwd````
+__Run:__ \`\`\`yarn global add \`pwd\`\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -202,7 +205,7 @@ __Motivation:__ Create a consistent developer experience
 
 __When to use it:__ When changing github actions
 
-__Run:__ ```yarn norm```
+__Run:__ \`\`\`yarn norm\`\`\`
 
 __From package:__ [baldrick-ts](https://github.com/flarebyte/baldrick-ts) of [npm](https://www.npmjs.com/) :  Typescript scaffolding assistant
 
@@ -216,8 +219,26 @@ __Motivation:__ Create a consistent developer experience
 
 __When to use it:__ When changing github actions
 
-__Run:__ ```yarn norm:g```
+__Run:__ \`\`\`yarn norm:g\`\`\`
 
 __From package:__ [baldrick-ts](https://github.com/flarebyte/baldrick-ts) of [npm](https://www.npmjs.com/) :  Typescript scaffolding assistant
 
----
+---"
+`;
+
+exports[`Maintenance documentation produces a list of npm scripts 1`] = `
+Object {
+  "build": "yarn reset;tsc --outDir dist",
+  "lint": "baldrick lint check",
+  "lint:ci": "baldrick lint ci",
+  "lint:fix": "baldrick lint fix",
+  "norm": "npx baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch",
+  "norm:g": "baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch",
+  "ready": "yarn lint && yarn test:cov && yarn outdated",
+  "reset": "rm -rf dist; rm -rf report",
+  "test": "baldrick test check",
+  "test:ci": "baldrick test ci",
+  "test:cov": "baldrick test cov",
+  "test:fix": "baldrick test fix",
+}
+`;

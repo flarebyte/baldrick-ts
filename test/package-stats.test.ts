@@ -1,8 +1,8 @@
-import { CustomizedPackageJson } from '../src/model';
-import { fixAutomatically } from '../src/package';
-import { fromString, toString } from '../src/package-io';
-import { packageToStats } from '../src/package-stats';
-import { libCoreProject } from './fixture-core-project';
+import { CustomizedPackageJson } from '../src/model.js';
+import { fixAutomatically } from '../src/package.js';
+import { fromString, toString } from '../src/package-io.js';
+import { packageToStats } from '../src/package-stats.js';
+import { libCoreProject } from './fixture-core-project.js';
 
 describe('IO and package stats', () => {
   const customizedPackageJson: CustomizedPackageJson = {
@@ -61,6 +61,11 @@ describe('IO and package stats', () => {
           "countItems": 1,
           "key": "homepage",
           "stringLength": 40,
+        },
+        Object {
+          "countItems": 1,
+          "key": "bugs",
+          "stringLength": 47,
         },
         Object {
           "countItems": 2,

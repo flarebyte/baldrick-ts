@@ -5,7 +5,6 @@ export const defaultTsConfig = {
     moduleResolution: 'node',
     allowSyntheticDefaultImports: true,
     diagnostics: true,
-    listFiles: true,
     extendedDiagnostics: true,
   },
   'ts-node': {

@@ -1,5 +1,6 @@
-import { GenerateActionOpts, RunnerContext } from '../src/model';
-import { computeCoreProject } from '../src/package-copy';
+import { GenerateActionOpts, RunnerContext } from '../src/model.js';
+import { computeCoreProject } from '../src/package-copy.js';
+import { jest } from '@jest/globals';
 
 describe('Copy elements from package.json to core project', () => {
   it('it should compute the core project', () => {
@@ -15,7 +16,7 @@ describe('Copy elements from package.json to core project', () => {
       license: 'MIT',
       copyrightHolder: 'My Company',
       copyrightStartYear: 2020,
-      name: ''
+      name: '',
     };
     const actual = computeCoreProject(ctx, opts);
     expect(actual.githubAccount).toBe(opts.githubAccount);

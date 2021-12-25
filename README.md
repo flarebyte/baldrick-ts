@@ -46,9 +46,12 @@ Generate and standardize the source code files
 * [Code Maintenance](MAINTENANCE.md)
 * [Code Of Conduct](CODE_OF_CONDUCT.md)
 * [Contributing](CONTRIBUTING.md)
+* [Contributors](https://github.com/flarebyte/baldrick-ts/graphs/contributors)
+* [Dependencies](https://github.com/flarebyte/baldrick-ts/network/dependencies)
 
 ## Installation
 
+This package is [ESM only][esm].
 ```
 yarn global add baldrick-ts
 baldrick-ts --help

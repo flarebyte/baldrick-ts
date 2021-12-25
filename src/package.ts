@@ -51,6 +51,7 @@ const normalizeOpenSourcePackage = (
       type: 'git',
       url: `https://github.com/${coreProject.githubAccount}/${coreProject.name}.git`,
     },
+    bugs: `https://github.com/${coreProject.githubAccount}/${coreProject.name}/issues`,
     type: 'module',
     exports: {
       '.': {
