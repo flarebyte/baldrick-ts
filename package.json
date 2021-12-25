@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "commander": "^8.3.0",
-    "just-compare": "^2.0.1",
     "lodash.isequal": "^4.5.0",
     "markdown-table": "^3.0.2",
     "yaml": "^1.10.2"
