@@ -63,6 +63,11 @@ describe('IO and package stats', () => {
           "stringLength": 40,
         },
         Object {
+          "countItems": 1,
+          "key": "bugs",
+          "stringLength": 47,
+        },
+        Object {
           "countItems": 2,
           "key": "repository",
           "stringLength": 0,

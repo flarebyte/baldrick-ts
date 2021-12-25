@@ -19,6 +19,7 @@ export type PackageJson = {
   license: string;
   homepage: string;
   repository: Repository;
+  bugs: string;
   /** should be module or commonjs */
   type: string;
   /** Modern public exports for CommonJS and ES modules*/
