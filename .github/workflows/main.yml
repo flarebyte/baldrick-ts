@@ -11,8 +11,8 @@ jobs:
           - 14.x
           - 16.x
         os:
-          - ubuntu-latest
           - macOS-latest
+          - ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
