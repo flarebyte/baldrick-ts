@@ -6,7 +6,7 @@
     "config",
     "continuous-integration"
   ],
-  "version": "0.8.3",
+  "version": "0.9.0",
   "author": {
     "name": "Olivier Huin",
     "url": "https://github.com/olih"
