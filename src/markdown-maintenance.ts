@@ -36,6 +36,17 @@ const yarnPackage: MdPackage = {
   },
 };
 
+const githubPackage: MdPackage = {
+  name: 'gh',
+  installationType: 'brew',
+  description: 'GitHub CLI brings GitHub to your terminal',
+  homepage: 'https://cli.github.com/',
+  repository: {
+    type: 'git',
+    url: 'https://github.com/cli/cli',
+  },
+};
+
 const actPackage: MdPackage = {
   name: 'act',
   installationType: 'brew',
@@ -148,6 +159,18 @@ const resetCmd: MdCommand = {
   npmScript: ['reset', 'rm -rf dist; rm -rf report'],
 };
 
+const prebuildCmd: MdCommand = {
+  name: 'prebuild',
+  title: 'Clear previous build',
+  description: 'Delete the dist and report folder',
+  motivation: 'Start from a clean slate',
+  context: 'Before building',
+  run: 'yarn prebuild',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: ['prebuild', 'yarn reset'],
+};
+
 const buildCmd: MdCommand = {
   name: 'build',
   title: 'Build the library',
@@ -157,7 +180,37 @@ const buildCmd: MdCommand = {
   run: 'yarn build',
   partOf: yarnPackage,
   examples: [],
-  npmScript: ['build', 'yarn reset;tsc --outDir dist'],
+  npmScript: ['build', 'tsc --outDir dist'],
+};
+
+const docCmd: MdCommand = {
+  name: 'doc',
+  title: 'Generate the documentation',
+  description: 'Generate the markdown documentation for the typescript project',
+  motivation: 'Good documentation is essential for developer experience',
+  context: 'Before publishing',
+  run: 'yarn doc',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: [
+    'doc',
+    'npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json',
+  ],
+};
+
+const githubCmd: MdCommand = {
+  name: 'github',
+  title: 'Update github repository',
+  description: 'Enable useful features for the github project repository',
+  motivation: 'Create consistent settings',
+  context: 'After creating',
+  run: 'yarn github',
+  partOf: githubPackage,
+  examples: [],
+  npmScript: [
+    'github',
+    'gh repo edit --delete-branch-on-merge --enable-squash-merge',
+  ],
 };
 
 const readyCmd: MdCommand = {
@@ -251,10 +304,13 @@ const devCommands = (project: CoreProject): MdCommand[] => [
   testCovCmd(project),
   testCICmd(project),
   resetCmd,
+  prebuildCmd,
   buildCmd,
+  docCmd,
   readyCmd,
   versionCmd,
   actCmd,
+  githubCmd,
   yarnAddGlobalCmd,
 ];
 
@@ -273,13 +329,13 @@ const maintenanceOverview = (project: CoreProject) =>
       lintFixCmd(project).run,
       testFixCmd(project).run,
       'Fix the code',
-      'Update dependencies',
+      `Update dependencies and ${docCmd.run}`,
     ],
     [
       'Continuous integration',
       lintCICmd(project).run,
       testCICmd(project).run,
-      'Not available yet',
+      buildCmd.run,
       'Not available yet',
     ],
   ]);

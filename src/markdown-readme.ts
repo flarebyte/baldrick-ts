@@ -43,6 +43,7 @@ const docAndLinks = (core: CoreProject): MdSection => ({
   body: [
     '* [Code Maintenance](MAINTENANCE.md)',
     '* [Code Of Conduct](CODE_OF_CONDUCT.md)',
+    `* [Api for ${core.name}](API.md)`,
     '* [Contributing](CONTRIBUTING.md)',
     `* [Contributors](https://github.com/${core.githubAccount}/${core.name}/graphs/contributors)`,
     `* [Dependencies](https://github.com/${core.githubAccount}/${core.name}/network/dependencies)`,
