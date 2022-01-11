@@ -18,10 +18,9 @@ Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in
 
 The following commands should get you started
 
-${___}
+${___}bash
 yarn install
 yarn test
-
 ${___}
 
 A list of [most used commands](MAINTENANCE.md) is available.
@@ -29,12 +28,12 @@ A list of [most used commands](MAINTENANCE.md) is available.
 Please keep an eye on test coverage, bundle size and documentation.
 When you are ready for a pull request:
 
-${___}
+${___}bash
 yarn ready
 ${___}
 
 And please check that building is still working:
-${___}
+${___}bash
 yarn build
 ${___}
 
@@ -43,7 +42,7 @@ You will need to setup ${_}.actrc${_} with the node.js docker image ${_}-P ubunt
 
 To run the pipeline:
 
-${___}
+${___}bash
 act
 ${___}
 
@@ -56,7 +55,7 @@ ${___}
 
 This would be done by the main maintainers of the project. Locally for now as updates are pretty infrequent.
 
-${___}
+${___}bash
 yarn version
 ${___}
 `;

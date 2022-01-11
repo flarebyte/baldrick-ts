@@ -1,20 +1,30 @@
-const pullRequestMd = `
+const _ = '`';
+
+export const pullRequestMd = `
 
 # Summary of the change 
 
 Fixes # (issue)
 
-# Type of change
+## Code check
+
+- [ ] ${_}yarn ready${_} does not show any concerning issues
+- [ ] the project can be built
+- [ ] the documentation has been updated
+- [ ] the version has been updated in ${_}package.json${_}
+
+
+## Type of change
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
-# Motivation and context
+## Motivation and context
 
 
-# How Has This Been Tested?
+## How Has This Been Tested?
 
+- [ ] Unit tests
+- [ ] Manual tests
 `;
-
-export { pullRequestMd };

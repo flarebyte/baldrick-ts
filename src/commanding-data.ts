@@ -64,6 +64,14 @@ const copyrightStartYear: CmdOption = {
   mandatory: false,
   variadic: false,
 };
+const codacyId: CmdOption = {
+  shortFlag: 'cod',
+  longFlag: 'codacy-id',
+  description: 'The codacy id used for the badge',
+  choices: [],
+  mandatory: false,
+  variadic: false,
+};
 
 export const cmdOptionsGenerator: CmdOptionsGenerator = {
   feature,
@@ -73,4 +81,5 @@ export const cmdOptionsGenerator: CmdOptionsGenerator = {
   copyrightHolder,
   copyrightStartYear,
   bin,
+  codacyId,
 };

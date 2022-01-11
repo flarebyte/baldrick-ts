@@ -11,8 +11,8 @@ jobs:
           - 14.x
           - 16.x
         os:
-          - macOS-latest
           - ubuntu-latest
+          - macOS-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -21,9 +21,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
-        run: yarn install --frozen-lockfile
-      - name: Info
-        run: yarn versions
+        run: yarn install
       - name: Static code analysis
         run: yarn lint:ci
       - name: Test

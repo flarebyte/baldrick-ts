@@ -86,6 +86,7 @@ export interface GenerateActionOpts {
   githubAccount: string;
   copyrightHolder?: string;
   copyrightStartYear: number;
+  codacyId?: string;
 }
 
 export interface GenerateRawOpts {
@@ -96,6 +97,7 @@ export interface GenerateRawOpts {
   githubAccount: string;
   copyrightHolder?: string;
   copyrightStartYear: string;
+  codacyId?: string;
 }
 
 export interface CmdOptionsGenerator {
@@ -106,6 +108,7 @@ export interface CmdOptionsGenerator {
   githubAccount: CmdOption;
   copyrightHolder: CmdOption;
   copyrightStartYear: CmdOption;
+  codacyId: CmdOption;
 }
 
 export interface CoreProject extends GenerateActionOpts {
@@ -113,6 +116,7 @@ export interface CoreProject extends GenerateActionOpts {
   bin: string;
   copyrightHolder: string;
   copyrightEndYear: number;
+  codacyId?: string;
 }
 
 export type FieldStatus = 'ok' | 'todo' | 'fixable';
@@ -153,9 +157,13 @@ export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>;
 
 export type PackageJsonStatus = GenericPackageJson<FieldStatus>;
 
+type BadgePosition = 'top' | 'bottom';
+
 export interface Badge {
   text: string;
-  url: string;
+  imageUrl: string;
+  position: BadgePosition;
+  refUrl?: string;
 }
 
 export interface MdSection {

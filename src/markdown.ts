@@ -43,22 +43,79 @@ const getSecondarySections = (lines: string[]): MdSection[] => {
 
 const extractBadge = (line: string): Badge => ({
   text: stringBetween('![', ']')(line),
-  url: stringBetween('(', ')')(line),
+  imageUrl: stringBetween('(', ')')(line),
+  position: 'top',
 });
-const findBadges = (lines: string[]) =>
-  lines.filter((line) => line.startsWith('![')).map(extractBadge);
 
-const keepHeaderBody = (line: string): boolean =>
-  !(line.startsWith('# ') || line.startsWith('![') || line.startsWith('> '));
+interface BadgeLine {
+  line: string;
+  starting: number;
+  closing: number;
+}
+
+interface CumulBadgeLine {
+  lines: string[];
+  badgeLine: BadgeLine;
+}
+const countBadgeParts = (line: string): CumulBadgeLine => ({
+  badgeLine: {
+    line,
+    starting: (line.match(/!\[/g) || []).length,
+    closing: (line.match(/\)/g) || []).length,
+  },
+  lines: [],
+});
+
+const foldBadgePart = (
+  cumul: CumulBadgeLine,
+  current: CumulBadgeLine
+): CumulBadgeLine => {
+  const starting = cumul.badgeLine.starting + current.badgeLine.starting;
+  const closing = current.badgeLine.closing;
+  const diff = starting >= closing ? starting - closing : 0;
+  const addition = starting > 0 ? [current.badgeLine.line] : [];
+  const newCumul = {
+    badgeLine: {
+      line: current.badgeLine.line,
+      starting: diff,
+      closing: 0,
+    },
+    lines: [...cumul.lines, ...addition],
+  };
+  return newCumul;
+};
+
+const locateBadgeZone = (lines: string[]): string[] => {
+  const badgeLines = lines.map(countBadgeParts);
+  const reduced = badgeLines.reduce(foldBadgePart);
+  return reduced.lines;
+};
+const isWithinBadgeZone =
+  (badgeZoneLines: string[]) =>
+  (line: string): boolean =>
+    badgeZoneLines.includes(line);
+
+const findBadges = (lines: string[]) =>
+  lines.join(' ').split(') !').join(')\n!').split('\n').map(extractBadge);
+
+const keepHeaderBody =
+  (badgeZoneLines: string[]) =>
+  (line: string): boolean =>
+    !(
+      line.startsWith('# ') ||
+      isWithinBadgeZone(badgeZoneLines)(line) ||
+      line.startsWith('> ')
+    );
 
 export const parseMarkdown = (content: string): MdDocument => {
   const lines = content.split('\n').map((line) => line.trim());
   const mainSect = getMainSection(lines);
+  const badgeZone = locateBadgeZone(mainSect);
 
   const title = findHeader('# ')(mainSect);
   const description = findHeader('> ')(mainSect);
-  const mainSection = mainSect.filter(keepHeaderBody).join('\n');
-  const badges = findBadges(mainSect);
+  const mainSection = mainSect.filter(keepHeaderBody(badgeZone)).join('\n');
+  const badges = findBadges(badgeZone);
   const sections = getSecondarySections(lines);
   return {
     title,
@@ -70,15 +127,24 @@ export const parseMarkdown = (content: string): MdDocument => {
 };
 
 const badgeToString = (badge: Badge): string =>
-  `![${badge.text}](${badge.url})`;
+  `![${badge.text}](${badge.imageUrl})`;
 
 const sectionToString = (section: MdSection): string =>
   [`## ${section.title}`, section.body].join('\n\n');
 
 export const markdownToString = (doc: MdDocument): string => {
+  const topBadges = doc.badges
+    .filter((b) => b.position === 'top')
+    .map(badgeToString)
+    .join(' ');
+  const bottomBadges = doc.badges
+    .filter((b) => b.position === 'bottom')
+    .map(badgeToString)
+    .join(' ');
   const parts = [
     `# ${doc.title}`,
-    ...doc.badges.map(badgeToString),
+    topBadges,
+    bottomBadges,
     `> ${doc.description}`,
     doc.mainSection,
     ...doc.sections.map(sectionToString),

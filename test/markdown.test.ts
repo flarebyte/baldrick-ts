@@ -1,12 +1,19 @@
-import { commandToMd, markdownToString, parseMarkdown } from '../src/markdown.js';
+import {
+  commandToMd,
+  markdownToString,
+  parseMarkdown,
+} from '../src/markdown.js';
 import { MdCommand, MdDocument } from '../src/model.js';
 describe('Markdown documentation', () => {
   it('parse a markdown document', () => {
     const basicMarkdown = `
     # Main title
     
-    ![npm](https://img.shields.io/npm/v/scratchbook)
-    ![Build status](https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg)
+    ![npm](https://img.shields.io/npm/v/baldrick-ts) ![Build
+    status](https://github.com/flarebyte/baldrick-ts/actions/workflows/main.yml/badge.svg)
+    ![npm bundle size](https://img.shields.io/bundlephobia/min/baldrick-ts)
+
+    ![npm type definitions](https://img.shields.io/npm/types/baldrick-ts)
 
     > main description
 
@@ -31,27 +38,57 @@ describe('Markdown documentation', () => {
     const actual = parseMarkdown(basicMarkdown);
     expect(actual.title).toEqual('Main title');
     expect(actual.description).toEqual('main description');
-    expect(actual.badges).toEqual([
-      { text: 'npm', url: 'https://img.shields.io/npm/v/scratchbook' },
-      {
-        text: 'Build status',
-        url: 'https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg',
-      },
-    ]);
+    expect(actual.badges).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "imageUrl": "https://img.shields.io/npm/v/baldrick-ts",
+          "position": "top",
+          "text": "npm",
+        },
+        Object {
+          "imageUrl": "https://github.com/flarebyte/baldrick-ts/actions/workflows/main.yml/badge.svg",
+          "position": "top",
+          "text": "Build status",
+        },
+        Object {
+          "imageUrl": "https://img.shields.io/bundlephobia/min/baldrick-ts",
+          "position": "top",
+          "text": "npm bundle size",
+        },
+        Object {
+          "imageUrl": "https://img.shields.io/npm/types/baldrick-ts",
+          "position": "top",
+          "text": "npm type definitions",
+        },
+      ]
+    `);
     expect(actual).toMatchInlineSnapshot(`
       Object {
         "badges": Array [
           Object {
+            "imageUrl": "https://img.shields.io/npm/v/baldrick-ts",
+            "position": "top",
             "text": "npm",
-            "url": "https://img.shields.io/npm/v/scratchbook",
           },
           Object {
+            "imageUrl": "https://github.com/flarebyte/baldrick-ts/actions/workflows/main.yml/badge.svg",
+            "position": "top",
             "text": "Build status",
-            "url": "https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg",
+          },
+          Object {
+            "imageUrl": "https://img.shields.io/bundlephobia/min/baldrick-ts",
+            "position": "top",
+            "text": "npm bundle size",
+          },
+          Object {
+            "imageUrl": "https://img.shields.io/npm/types/baldrick-ts",
+            "position": "top",
+            "text": "npm type definitions",
           },
         ],
         "description": "main description",
         "mainSection": "
+
 
 
 
@@ -99,12 +136,14 @@ describe('Markdown documentation', () => {
       Object {
         "badges": Array [
           Object {
+            "imageUrl": "https://img.shields.io/npm/v/scratchbook",
+            "position": "top",
             "text": "npm",
-            "url": "https://img.shields.io/npm/v/scratchbook",
           },
           Object {
+            "imageUrl": "https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg",
+            "position": "top",
             "text": "Build status",
-            "url": "https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg",
           },
         ],
         "description": "main description",
@@ -125,8 +164,21 @@ describe('Markdown documentation', () => {
       title: 'The Title',
       description: 'The description',
       badges: [
-        { text: 'badge text', url: 'http://site.com/badge' },
-        { text: 'badge 2 text', url: 'http://othersite.com/badge' },
+        {
+          text: 'badge text',
+          imageUrl: 'http://site.com/badge',
+          position: 'top',
+        },
+        {
+          text: 'badge 2 text',
+          imageUrl: 'http://othersite.com/badge',
+          position: 'top',
+        },
+        {
+          text: 'badge 3 text',
+          imageUrl: 'http://bottomsite.com/badge',
+          position: 'bottom',
+        },
       ],
       mainSection: 'main 1\nmain 2\nmain 3',
       sections: [
@@ -144,9 +196,9 @@ describe('Markdown documentation', () => {
     expect(actual).toMatchInlineSnapshot(`
       "# The Title
 
-      ![badge text](http://site.com/badge)
+      ![badge text](http://site.com/badge) ![badge 2 text](http://othersite.com/badge)
 
-      ![badge 2 text](http://othersite.com/badge)
+      ![badge 3 text](http://bottomsite.com/badge)
 
       > The description
 
