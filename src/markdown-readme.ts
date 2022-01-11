@@ -5,37 +5,45 @@ const capitalize = (value: string) =>
   (value[0]?.toUpperCase() || '') + value.substring(1);
 
 const libBadges = (core: CoreProject): Badge[] => {
-  const always = [
+  const always: Badge[] = [
     {
       text: 'npm',
-      url: `https://img.shields.io/npm/v/${core.name}`,
+      imageUrl: `https://img.shields.io/npm/v/${core.name}`,
+      position: 'top',
     },
     {
       text: 'Build status',
-      url: `https://github.com/${core.githubAccount}/${core.name}/actions/workflows/main.yml/badge.svg`,
+      imageUrl: `https://github.com/${core.githubAccount}/${core.name}/actions/workflows/main.yml/badge.svg`,
+      position: 'top',
     },
     {
       text: 'npm bundle size',
-      url: `https://img.shields.io/bundlephobia/min/${core.name}`,
+      imageUrl: `https://img.shields.io/bundlephobia/min/${core.name}`,
+      position: 'top',
     },
     {
       text: 'npm type definitions',
-      url: `https://img.shields.io/npm/types/${core.name}`,
+      imageUrl: `https://img.shields.io/npm/types/${core.name}`,
+      position: 'bottom',
     },
     {
       text: 'node-current',
-      url: `https://img.shields.io/node/v/${core.name}`,
+      imageUrl: `https://img.shields.io/node/v/${core.name}`,
+      position: 'bottom',
     },
     {
       text: 'NPM',
-      url: `https://img.shields.io/npm/l/${core.name}`,
+      imageUrl: `https://img.shields.io/npm/l/${core.name}`,
+      position: 'bottom',
     },
   ];
-  const codacy = core.codacyId
+  const codacy: Badge[] = core.codacyId
     ? [
         {
           text: 'Codacy Badge',
-          url: `https://app.codacy.com/project/badge/Grade/${core.codacyId}`,
+          imageUrl: `https://app.codacy.com/project/badge/Grade/${core.codacyId}`,
+          position: 'top',
+          refUrl: `https://www.codacy.com/gh/${core.githubAccount}/${core.name}/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=${core.githubAccount}/${core.name}&amp;utm_campaign=Badge_Grade`,
         },
       ]
     : [];

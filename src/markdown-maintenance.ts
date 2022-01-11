@@ -254,7 +254,7 @@ const mdCmd = (project: CoreProject): MdCommand => ({
     'md',
     `${runBaldrick(project)} markdown check && ${runBaldrick(
       project
-    )} markdown check -s .github/`,
+    )} markdown check -s .github`,
   ],
 });
 
@@ -272,7 +272,7 @@ const mdFixCmd = (project: CoreProject): MdCommand => ({
     'md:fix',
     `${runBaldrick(project)} markdown fix && ${runBaldrick(
       project
-    )} markdown fix -s .github/`,
+    )} markdown fix -s .github`,
   ],
 });
 
@@ -309,7 +309,7 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
     `-${og.copyrightHolder.shortFlag}`,
     `'${project.copyrightHolder}'`,
     `-${og.copyrightStartYear.shortFlag}`,
-    project.copyrightStartYear,
+    `${project.copyrightStartYear}`,
     `-${og.license.shortFlag}`,
     project.license,
     `-${og.bin.shortFlag}`,
@@ -320,7 +320,7 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
     ? [`-${og.codacyId.shortFlag}`, project.codacyId]
     : [];
 
-  const npmScript = [...npmMandatoryScript, codacyScript];
+  const npmScript = [...npmMandatoryScript, ...codacyScript, '&& yarn md:fix'];
 
   return {
     name: global ? 'norm:global' : 'norm',

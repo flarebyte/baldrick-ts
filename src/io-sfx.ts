@@ -23,8 +23,8 @@ import { gitIgnoreConfig } from './conf-git-ignore.js';
 import { defaultTsConfig } from './conf-tsconfig.js';
 import { defaultGithubWorkflow } from './conf-workflow.js';
 import { pullRequestMd } from './markdown-pull-request.js';
-import { featureRequestMd } from './markdown-feature-request.js';
-import { bugReportMd } from './markdown-bug-report.js';
+import { featureRequest } from './yaml-feature-request.js';
+import { bugReport } from './yaml-bug-report.js';
 import { editorConfig } from './conf-editor-config.js';
 import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
@@ -128,16 +128,20 @@ const writePullRequestMd = async () => {
   await writeFile('.github/pull_request_template.md', pullRequestMd, 'utf8');
 };
 
-const writeFeatureRequestMd = async () => {
+const writeFeatureRequestYaml = async () => {
   await writeFile(
-    '.github/ISSUE_TEMPLATE/feature_request.md',
-    featureRequestMd,
+    '.github/ISSUE_TEMPLATE/feature_request.yaml',
+    toYamlString(featureRequest),
     'utf8'
   );
 };
 
-const writeBugReportMd = async () => {
-  await writeFile('.github/ISSUE_TEMPLATE/bug_report.md', bugReportMd, 'utf8');
+const writeBugReportYaml = async () => {
+  await writeFile(
+    '.github/ISSUE_TEMPLATE/bug_report.yaml',
+    toYamlString(bugReport),
+    'utf8'
+  );
 };
 
 const createVisualCodeDir = async () => {
@@ -180,8 +184,8 @@ export const updateAll = async (
     await createGithubWorkflowDir();
     await writeWorkflowConfig();
     await writePullRequestMd();
-    await writeFeatureRequestMd();
-    await writeBugReportMd();
+    await writeFeatureRequestYaml();
+    await writeBugReportYaml();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
     const todos = suggestTasksToDo(coreProject, newPackageJson);

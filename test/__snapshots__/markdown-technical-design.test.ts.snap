@@ -3,6 +3,8 @@
 exports[`Technical Design documentation Updates TECHNICAL_DESIGN.md with standardized chapters 1`] = `
 "# Technical Design
 
+![]()
+
 > Guide for the implementation, including detailed design, priorities, coding conventions, and testing
 
 ## Overview

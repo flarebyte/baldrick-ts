@@ -1,8 +1,18 @@
-const pullRequestMd = `
+const _ = '`';
+
+export const pullRequestMd = `
 
 # Summary of the change 
 
 Fixes # (issue)
+
+## Code check
+
+- [ ] ${_}yarn ready${_} does not show any concerning issues
+- [ ] the project can be built
+- [ ] the documentation has been updated
+- [ ] the version has been updated in ${_}package.json${_}
+
 
 ## Type of change
 
@@ -15,6 +25,6 @@ Fixes # (issue)
 
 ## How Has This Been Tested?
 
+- [ ] Unit tests
+- [ ] Manual tests
 `;
-
-export { pullRequestMd };

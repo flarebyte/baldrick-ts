@@ -157,9 +157,13 @@ export type PackageJsonStatusConverter = GenericPackageJson<toFieldStatus>;
 
 export type PackageJsonStatus = GenericPackageJson<FieldStatus>;
 
+type BadgePosition = 'top' | 'bottom';
+
 export interface Badge {
   text: string;
-  url: string;
+  imageUrl: string;
+  position: BadgePosition;
+  refUrl?: string;
 }
 
 export interface MdSection {

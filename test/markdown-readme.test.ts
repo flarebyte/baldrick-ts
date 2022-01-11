@@ -6,15 +6,13 @@ const ___ = '```';
 const exampleReadme = `
 # Scratch Book
 
-![npm](https://img.shields.io/npm/v/scratchbook)
-![Build status](https://github.com/flarebyte/scratchbook/actions/workflows/main.yml/badge.svg)
+![npm](https://img.shields.io/npm/v/baldrick-ts) ![Build
+status](https://github.com/flarebyte/baldrick-ts/actions/workflows/main.yml/badge.svg)
+![npm bundle size](https://img.shields.io/bundlephobia/min/baldrick-ts)
 
-![npm bundle size](https://img.shields.io/bundlephobia/min/scratchbook)
-![Dependencies](https://status.david-dm.org/gh/flarebyte/scratchbook.svg)
-
-![npm type definitions](https://img.shields.io/npm/types/scratchbook)
-![node-current](https://img.shields.io/node/v/scratchbook)
-![NPM](https://img.shields.io/npm/l/scratchbook)
+![npm type definitions](https://img.shields.io/npm/types/baldrick-ts)
+![node-current](https://img.shields.io/node/v/baldrick-ts)
+![NPM](https://img.shields.io/npm/l/baldrick-ts)
 
 > Scratch Book is an annotation library written in Typescript that makes it easy to write documentation in a decentralized fashion.
 

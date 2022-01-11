@@ -278,6 +278,22 @@ development
 
 ---
 
+### Release
+
+> Creates a github release
+
+**Motivation:** Save releases in github
+
+**When to use it:** After publishing
+
+**Run:** `yarn release:ci`
+
+**From package:** [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of
+[npm](https://www.npmjs.com/) : Zero-config CLI for TypeScript package
+development
+
+---
+
 ### Install the local project globally
 
 > Install this local project/script globally on the dev machine for
