@@ -86,6 +86,7 @@ export interface GenerateActionOpts {
   githubAccount: string;
   copyrightHolder?: string;
   copyrightStartYear: number;
+  codacyId?: string;
 }
 
 export interface GenerateRawOpts {
@@ -96,6 +97,7 @@ export interface GenerateRawOpts {
   githubAccount: string;
   copyrightHolder?: string;
   copyrightStartYear: string;
+  codacyId?: string;
 }
 
 export interface CmdOptionsGenerator {
@@ -106,6 +108,7 @@ export interface CmdOptionsGenerator {
   githubAccount: CmdOption;
   copyrightHolder: CmdOption;
   copyrightStartYear: CmdOption;
+  codacyId: CmdOption;
 }
 
 export interface CoreProject extends GenerateActionOpts {

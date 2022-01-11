@@ -276,17 +276,17 @@ const mdFixCmd = (project: CoreProject): MdCommand => ({
   ],
 });
 
-const mdReleaseCmd: MdCommand = {
-  name: 'release',
+const mdReleaseCiCmd = (project: CoreProject): MdCommand => ({
+  name: 'release:ci',
   title: 'Release',
   description: 'Creates a github release',
   motivation: 'Save releases in github',
   context: 'After publishing',
-  run: 'yarn release',
-  partOf: githubPackage,
+  run: 'yarn release:ci',
+  partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['release', 'gh release create --generate-notes'],
-};
+  npmScript: ['release:ci', `${runBaldrick(project)} release ci`],
+});
 
 const actCmd: MdCommand = {
   name: 'act',
@@ -300,6 +300,28 @@ const actCmd: MdCommand = {
 };
 const og = cmdOptionsGenerator;
 const normCmd = (project: CoreProject, global: boolean): MdCommand => {
+  const npmMandatoryScript = [
+    global ? 'baldrick-ts generate' : 'npx baldrick-ts generate',
+    `-${og.feature.shortFlag}`,
+    project.feature.join(' '),
+    `-${og.githubAccount.shortFlag}`,
+    `'${project.githubAccount}'`,
+    `-${og.copyrightHolder.shortFlag}`,
+    `'${project.copyrightHolder}'`,
+    `-${og.copyrightStartYear.shortFlag}`,
+    project.copyrightStartYear,
+    `-${og.license.shortFlag}`,
+    project.license,
+    `-${og.bin.shortFlag}`,
+    project.bin,
+  ];
+
+  const codacyScript = project.codacyId
+    ? [`-${og.codacyId.shortFlag}`, project.codacyId]
+    : [];
+
+  const npmScript = [...npmMandatoryScript, codacyScript];
+
   return {
     name: global ? 'norm:global' : 'norm',
     title: global
@@ -313,24 +335,7 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
     run: global ? 'yarn norm:g' : 'yarn norm',
     partOf: baldrickScaffoldingPackage,
     examples: [],
-    npmScript: [
-      global ? 'norm:g' : 'norm',
-      [
-        global ? 'baldrick-ts generate' : 'npx baldrick-ts generate',
-        `-${og.feature.shortFlag}`,
-        project.feature.join(' '),
-        `-${og.githubAccount.shortFlag}`,
-        `'${project.githubAccount}'`,
-        `-${og.copyrightHolder.shortFlag}`,
-        `'${project.copyrightHolder}'`,
-        `-${og.copyrightStartYear.shortFlag}`,
-        project.copyrightStartYear,
-        `-${og.license.shortFlag}`,
-        project.license,
-        `-${og.bin.shortFlag}`,
-        project.bin,
-      ].join(' '),
-    ],
+    npmScript: [global ? 'norm:g' : 'norm', npmScript.join(' ')],
   };
 };
 
@@ -364,7 +369,7 @@ const devCommands = (project: CoreProject): MdCommand[] => [
   testCovCmd(project),
   testFixCmd(project),
   versionCmd,
-  mdReleaseCmd,
+  mdReleaseCiCmd(project),
   yarnAddGlobalCmd,
 ];
 

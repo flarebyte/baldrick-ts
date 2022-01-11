@@ -28,6 +28,7 @@ export class Commanding {
       .addOption(toCommanderOption(cmdOptionsGenerator.copyrightStartYear))
       .addOption(toCommanderOption(cmdOptionsGenerator.license))
       .addOption(toCommanderOption(cmdOptionsGenerator.bin))
+      .addOption(toCommanderOption(cmdOptionsGenerator.codacyId))
       .action(async (options: GenerateRawOpts) => {
         const {
           feature,
@@ -37,6 +38,7 @@ export class Commanding {
           license,
           copyrightStartYear,
           bin,
+          codacyId,
         } = options;
         const generateOpts: GenerateActionOpts = {
           feature: toFeatures(feature),
@@ -46,6 +48,7 @@ export class Commanding {
           license,
           copyrightStartYear: parseInt(copyrightStartYear),
           bin,
+          codacyId,
         };
         const ctx: RunnerContext = {
           currentPath: process.cwd(),

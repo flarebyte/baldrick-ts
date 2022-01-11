@@ -7,7 +7,8 @@ const actAndGetSecondParam = async (given: string[]) => {
   const mockedAction = jest.fn();
   commanding.declareGenerateAction(mockedAction as GenerateAction);
   await commanding.parseAsync(['node', 'baldrick-ts', 'generate', ...given]);
-  const secondParam = mockedAction.mock.calls[0] && mockedAction.mock.calls[0][1];
+  const secondParam =
+    mockedAction.mock.calls[0] && mockedAction.mock.calls[0][1];
   return secondParam;
 };
 
@@ -22,6 +23,7 @@ describe('Command Generate', () => {
     expect(secondParam).toMatchInlineSnapshot(`
       Object {
         "bin": undefined,
+        "codacyId": undefined,
         "copyrightHolder": undefined,
         "copyrightStartYear": 2021,
         "feature": Array [
