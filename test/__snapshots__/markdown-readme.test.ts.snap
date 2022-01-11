@@ -9,8 +9,6 @@ exports[`Readme documentation Updates README.md with standardized chapters 1`] =
 
 ![npm bundle size](https://img.shields.io/bundlephobia/min/project123)
 
-![Dependencies](https://status.david-dm.org/gh/mycompany/project123.svg)
-
 ![npm type definitions](https://img.shields.io/npm/types/project123)
 
 ![node-current](https://img.shields.io/node/v/project123)
@@ -61,7 +59,7 @@ yarn add scratchbook
 
 ## Installation
 
-This package is [ESM only][esm].
+This package is [ESM only](https://blog.sindresorhus.com/get-ready-for-esm-aa53530b3f77).
 \`\`\`
 yarn add project123
 \`\`\`"

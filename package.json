@@ -6,7 +6,7 @@
     "config",
     "continuous-integration"
   ],
-  "version": "0.9.0",
+  "version": "0.10.0",
   "author": {
     "name": "Olivier Huin",
     "url": "https://github.com/olih"
@@ -17,6 +17,7 @@
     "type": "git",
     "url": "https://github.com/flarebyte/baldrick-ts.git"
   },
+  "bugs": "https://github.com/flarebyte/baldrick-ts/issues",
   "type": "module",
   "exports": {
     ".": {
@@ -39,16 +40,21 @@
     "node": ">=14"
   },
   "scripts": {
+    "build": "tsc --outDir dist",
+    "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json",
+    "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
+    "lint:ci": "baldrick lint ci",
     "lint": "baldrick lint check",
     "lint:fix": "baldrick lint fix",
-    "lint:ci": "baldrick lint ci",
-    "test": "baldrick test check",
-    "test:fix": "baldrick test fix",
-    "test:cov": "baldrick test cov",
-    "test:ci": "baldrick test ci",
+    "md": "baldrick markdown check && baldrick markdown check -s .github/",
+    "md:fix": "baldrick markdown fix && baldrick markdown fix -s .github/",
+    "prebuild": "yarn reset",
+    "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated",
     "reset": "rm -rf dist; rm -rf report",
-    "build": "yarn reset;tsc --outDir dist",
-    "ready": "yarn lint && yarn test:cov && yarn outdated",
+    "test:ci": "baldrick test ci",
+    "test": "baldrick test check",
+    "test:cov": "baldrick test cov",
+    "test:fix": "baldrick test fix",
     "norm": "npx baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts",
     "norm:g": "baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts"
   },
@@ -60,7 +66,7 @@
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.5",
-    "baldrick-dev-ts": "^0.8.5",
+    "baldrick-dev-ts": "0.9.0",
     "typescript": "^4.5.3"
   },
   "peerDependencies": {}

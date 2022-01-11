@@ -223,7 +223,10 @@ const readyCmd: MdCommand = {
   run: 'yarn ready',
   partOf: yarnPackage,
   examples: [],
-  npmScript: ['ready', 'yarn lint && yarn test:cov && yarn outdated'],
+  npmScript: [
+    'ready',
+    'yarn lint && yarn test:cov && yarn md && yarn outdated',
+  ],
 };
 
 const versionCmd: MdCommand = {
@@ -235,6 +238,54 @@ const versionCmd: MdCommand = {
   run: 'yarn version',
   partOf: yarnPackage,
   examples: [],
+};
+
+const mdCmd = (project: CoreProject): MdCommand => ({
+  name: 'md',
+  title: 'Markdown check',
+  description:
+    'Checks that the markdown documents follows some consistent guidelines',
+  motivation: 'Make the markdown documents consistent in style',
+  context: 'Before publishing',
+  run: 'yarn md',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: [
+    'md',
+    `${runBaldrick(project)} markdown check && ${runBaldrick(
+      project
+    )} markdown check -s .github/`,
+  ],
+});
+
+const mdFixCmd = (project: CoreProject): MdCommand => ({
+  name: 'md:fix',
+  title: 'Markdown fix',
+  description:
+    'Modify the markdown documents to ensure they follow some consistent guidelines',
+  motivation: 'Make the markdown documents consistent in style',
+  context: 'Before publishing',
+  run: 'yarn md:fix',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: [
+    'md:fix',
+    `${runBaldrick(project)} markdown fix && ${runBaldrick(
+      project
+    )} markdown fix -s .github/`,
+  ],
+});
+
+const mdReleaseCmd: MdCommand = {
+  name: 'release',
+  title: 'Release',
+  description: 'Creates a github release',
+  motivation: 'Save releases in github',
+  context: 'After publishing',
+  run: 'yarn release',
+  partOf: githubPackage,
+  examples: [],
+  npmScript: ['release', 'gh release create --generate-notes'],
 };
 
 const actCmd: MdCommand = {
@@ -296,21 +347,24 @@ const yarnAddGlobalCmd: MdCommand = {
 };
 
 const devCommands = (project: CoreProject): MdCommand[] => [
-  lintCmd(project),
-  lintFixCmd(project),
-  lintCICmd(project),
-  testCmd(project),
-  testFixCmd(project),
-  testCovCmd(project),
-  testCICmd(project),
-  resetCmd,
-  prebuildCmd,
+  actCmd,
   buildCmd,
   docCmd,
-  readyCmd,
-  versionCmd,
-  actCmd,
   githubCmd,
+  lintCICmd(project),
+  lintCmd(project),
+  lintFixCmd(project),
+  mdCmd(project),
+  mdFixCmd(project),
+  prebuildCmd,
+  readyCmd,
+  resetCmd,
+  testCICmd(project),
+  testCmd(project),
+  testCovCmd(project),
+  testFixCmd(project),
+  versionCmd,
+  mdReleaseCmd,
   yarnAddGlobalCmd,
 ];
 

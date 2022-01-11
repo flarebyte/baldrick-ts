@@ -113,6 +113,7 @@ export interface CoreProject extends GenerateActionOpts {
   bin: string;
   copyrightHolder: string;
   copyrightEndYear: number;
+  codacyId?: string;
 }
 
 export type FieldStatus = 'ok' | 'todo' | 'fixable';
