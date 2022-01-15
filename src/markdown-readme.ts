@@ -2,7 +2,7 @@ import { markdownToString, parseMarkdown } from './markdown.js';
 import { Badge, CoreProject, MdSection } from './model.js';
 
 const capitalize = (value: string) =>
-  (value[0]?.toUpperCase() || '') + value.substring(1);
+  (value[0]?.toUpperCase() || '') + value.slice(1);
 
 const libBadges = (core: CoreProject): Badge[] => {
   const always: Badge[] = [
@@ -110,5 +110,5 @@ export const toReadmeMd = (core: CoreProject, existingMd: string): string => {
     sections,
   };
   const rawReadme = markdownToString(updated);
-  return rawReadme.replace(/[\r\n]{3,}/gm, '\n\n');
+  return rawReadme.replace(/[\n\r]{3,}/gm, '\n\n');
 };

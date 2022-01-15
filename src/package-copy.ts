@@ -6,7 +6,7 @@ import {
   Scripts,
 } from './model.js';
 import { alwaysObj, trimString } from './utils.js';
-import path from 'path';
+import path from 'node:path';
 
 export const copyScripts = (scripts: Scripts): Scripts =>
   Object.fromEntries(
@@ -25,7 +25,7 @@ export const copyDependencies = (deps: Dependencies): Dependencies =>
   );
 
 const capitalize = (value: string): string =>
-  value.length > 0 ? (value[0] || '').toUpperCase() + value.substring(1) : '';
+  value.length > 0 ? (value[0] || '').toUpperCase() + value.slice(1) : '';
 
 export const computeCoreProject = (
   ctx: RunnerContext,

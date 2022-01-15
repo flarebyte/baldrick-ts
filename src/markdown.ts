@@ -34,7 +34,7 @@ const getSecondarySections = (lines: string[]): MdSection[] => {
     .map(detectSecondaryHeader)
     .filter((index) => index >= 0);
   const indexes = [...foundIndexes, lines.length - 1];
-  const idxRange = Array.from(Array(foundIndexes.length).keys());
+  const idxRange = [...Array.from({ length: foundIndexes.length }).keys()];
   const sections = idxRange.map((idx) =>
     linesToSection(lines.slice(indexes[idx], indexes[idx + 1]))
   );
@@ -87,7 +87,7 @@ const foldBadgePart = (
 
 const locateBadgeZone = (lines: string[]): string[] => {
   const badgeLines = lines.map(countBadgeParts);
-  const reduced = badgeLines.reduce(foldBadgePart);
+  const reduced = badgeLines.reduce(foldBadgePart); // eslint-disable-line  unicorn/no-array-reduce
   return reduced.lines;
 };
 const isWithinBadgeZone =

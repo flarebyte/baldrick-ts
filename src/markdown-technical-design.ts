@@ -43,5 +43,5 @@ export const toTechnicalDesignMd = (
     sections,
   };
   const rawReadme = markdownToString(updated);
-  return rawReadme.replace(/[\r\n]{3,}/gm, '\n\n');
+  return rawReadme.replace(/[\n\r]{3,}/gm, '\n\n');
 };

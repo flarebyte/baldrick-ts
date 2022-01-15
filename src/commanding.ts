@@ -46,7 +46,7 @@ export class Commanding {
           githubAccount,
           copyrightHolder,
           license,
-          copyrightStartYear: parseInt(copyrightStartYear),
+          copyrightStartYear: Number.parseInt(copyrightStartYear),
           bin,
           codacyId,
         };

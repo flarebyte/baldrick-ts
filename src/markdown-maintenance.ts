@@ -416,7 +416,7 @@ export const maintenanceMd = (project: CoreProject): string => {
   ].join('\n\n');
 };
 
-const removeNulls = <S>(value: S | undefined): value is S => value != null;
+const removeNulls = <S>(value: S | undefined): value is S => value != undefined;
 
 export const getNpmScripts = (project: CoreProject): Scripts => {
   const isCliOrLib =
