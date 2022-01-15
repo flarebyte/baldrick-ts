@@ -225,7 +225,7 @@ const readyCmd: MdCommand = {
   examples: [],
   npmScript: [
     'ready',
-    'yarn lint && yarn test:cov && yarn md && yarn outdated',
+    'yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit',
   ],
 };
 
