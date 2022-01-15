@@ -1,10 +1,9 @@
 const _ = '`';
 
 export const pullRequestMd = `
-
 # Summary of the change 
 
-Fixes # (issue)
+Fixes: # (issue)
 
 ## Code check
 
@@ -13,15 +12,22 @@ Fixes # (issue)
 - [ ] the documentation has been updated
 - [ ] the version has been updated in ${_}package.json${_}
 
-
 ## Type of change
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
+
 - [ ] New feature (non-breaking change which adds functionality)
+
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
 ## Motivation and context
 
+- [ ] improve user experience
+- [ ] improve consistency
+- [ ] improve security
+- [ ] improve documentation
+- [ ] reduce risk for unfamiliar tasks
+- [ ] automate repetitive tasks
 
 ## How Has This Been Tested?
 
