@@ -38,7 +38,9 @@ describe('Markdown documentation', () => {
     `;
     const actual = parseMarkdown(basicMarkdown);
     expect(actual.title).toEqual('Main title');
-    expect(actual.description).toEqual('main description second part of description');
+    expect(actual.description).toEqual(
+      'main description second part of description'
+    );
     expect(actual.badges).toMatchInlineSnapshot(`
       Array [
         Object {
@@ -87,7 +89,7 @@ describe('Markdown documentation', () => {
             "text": "npm type definitions",
           },
         ],
-        "description": "main description",
+        "description": "main description second part of description",
         "mainSection": "
 
 
