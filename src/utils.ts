@@ -111,3 +111,10 @@ export const findHeader = (prefix: string) => (lines: string[]) =>
   (lines.find((line) => line.startsWith(prefix)) || prefix).slice(
     prefix.length
   );
+
+export const findQuote = (lines: string[]): string => {
+  const quoteParts = lines
+    .filter((line) => line.startsWith('>'))
+    .map((line) => line.slice(1).trim());
+  return quoteParts.join(' ');
+};

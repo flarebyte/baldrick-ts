@@ -9,6 +9,7 @@ status](https://github.com/flarebyte/baldrick-ts/actions/workflows/main.yml/badg
 ![NPM](https://img.shields.io/npm/l/baldrick-ts)
 
 > Baldrick-ts is a Typescript assistant with a cunning plan that can be
+> used for scaffolding
 
 The main motivation is to streamline the development process for node.js
 libraries and CLI written in Typescript. It supports the following features.

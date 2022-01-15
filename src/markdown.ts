@@ -6,7 +6,7 @@ import {
   MdPackage,
   MdSection,
 } from './model.js';
-import { findHeader, stringBetween } from './utils.js';
+import { findHeader, findQuote, stringBetween } from './utils.js';
 
 const ___ = '```';
 
@@ -113,7 +113,7 @@ export const parseMarkdown = (content: string): MdDocument => {
   const badgeZone = locateBadgeZone(mainSect);
 
   const title = findHeader('# ')(mainSect);
-  const description = findHeader('> ')(mainSect);
+  const description = findQuote(mainSect);
   const mainSection = mainSect.filter(keepHeaderBody(badgeZone)).join('\n');
   const badges = findBadges(badgeZone);
   const sections = getSecondarySections(lines);
