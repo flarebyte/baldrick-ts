@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, appendFile, mkdir } from 'node:fs/promises';
 import YAML from 'yaml';
 import { codeOfConductMd } from './markdown-code-of-conduct.js';
 import { contributingMd } from './markdown-contributing.js';
@@ -29,6 +29,7 @@ import { editorConfig } from './conf-editor-config.js';
 import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
+import { commitMessage } from './commit-message.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
@@ -161,6 +162,10 @@ const createSourceDir = async () => {
   await mkdir('test', { recursive: true });
 };
 
+const appendCommitMessage = async () => {
+  await appendFile('.message', commitMessage(), 'utf8');
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -188,6 +193,7 @@ export const updateAll = async (
     await writeBugReportYaml();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
+    await appendCommitMessage();
     const todos = suggestTasksToDo(coreProject, newPackageJson);
     for (const todo of todos)
       ctx.termFormatter({

@@ -4,6 +4,7 @@ const gitIgnoreRows: string[] = [
   'node_modules/',
   'dist/',
   'report/',
+  '.message',
 ];
 
 export const gitIgnoreConfig = gitIgnoreRows.join('\n');
