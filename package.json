@@ -55,6 +55,7 @@
     "test": "baldrick test check",
     "test:cov": "baldrick test cov",
     "test:fix": "baldrick test fix",
+    "release:check": "baldrick release check",
     "release:ci": "baldrick release ci",
     "norm": "npx baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts && yarn md:fix",
     "norm:g": "baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT -b baldrick-ts && yarn md:fix"
