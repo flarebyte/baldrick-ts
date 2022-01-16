@@ -6,9 +6,9 @@ import { commanding } from './index.js';
 export async function runClient() {
   try {
     await commanding.parseAsyncArgv();
-  } catch (err) {
+  } catch (error) {
     console.log('baldrick-ts generator will exit with error code 1');
-    console.error(err);
-    process.exit(1);
+    console.error(error);
+    process.exit(1); // eslint-disable-line  unicorn/no-process-exit
   }
 }

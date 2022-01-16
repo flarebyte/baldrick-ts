@@ -27,5 +27,5 @@ export const fromString = (content: string): PackageJson => {
 };
 
 export const toString = (packageJson: PackageJson): string => {
-  return JSON.stringify(packageJson, null, 2);
+  return JSON.stringify(packageJson, undefined, 2);
 };

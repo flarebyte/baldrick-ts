@@ -7,11 +7,11 @@ exports[`Maintenance documentation normalizes MAINTENANCE.md 1`] = `
 
 The typical developer workflow goes as follow:
 
-| Mode                   | Code analysis | Testing                    | Building     | Publishing                       |
-| ---------------------- | ------------- | -------------------------- | ------------ | -------------------------------- |
-| Checking               | yarn lint     | yarn test or yarn test:cov | yarn build   | yarn ready                       |
-| Fixing                 | yarn lint:fix | yarn test:fix              | Fix the code | Update dependencies and yarn doc |
-| Continuous integration | yarn lint:ci  | yarn test:ci               | yarn build   | Not available yet                |
+| Mode                   | Code analysis | Testing                    | Building     | Publishing                        |
+| ---------------------- | ------------- | -------------------------- | ------------ | --------------------------------- |
+| Checking               | yarn lint     | yarn test or yarn test:cov | yarn build   | yarn ready and yarn release:check |
+| Fixing                 | yarn lint:fix | yarn test:fix              | Fix the code | Update dependencies and yarn doc  |
+| Continuous integration | yarn lint:ci  | yarn test:ci               | yarn build   | yarn release:ci                   |
 
 ## Commands
 
@@ -239,17 +239,17 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
-### Versioning
+### Release check
 
-> Checks that the code is ready for versioning and version it
+> Checks if a release could be created
 
-__Motivation:__ Normalize the steps involved in versioning
+__Motivation:__ Avoid failing the release
 
-__When to use it:__ Before publishing
+__When to use it:__ After publishing
 
-__Run:__ \`\`\`yarn version\`\`\`
+__Run:__ \`\`\`yarn release:check\`\`\`
 
-__From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
+__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
 
 ---
 
@@ -323,7 +323,8 @@ Object {
   "norm": "npx baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch && yarn md:fix",
   "norm:g": "baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch && yarn md:fix",
   "prebuild": "yarn reset",
-  "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated",
+  "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit",
+  "release:check": "baldrick release check",
   "release:ci": "baldrick release ci",
   "reset": "rm -rf dist; rm -rf report",
   "test": "baldrick test check",

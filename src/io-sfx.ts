@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir } from 'fs/promises';
+import { readFile, writeFile, appendFile, mkdir } from 'node:fs/promises';
 import YAML from 'yaml';
 import { codeOfConductMd } from './markdown-code-of-conduct.js';
 import { contributingMd } from './markdown-contributing.js';
@@ -29,9 +29,10 @@ import { editorConfig } from './conf-editor-config.js';
 import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
+import { commitMessage } from './commit-message.js';
 
 export const toJsonString = (value: object): string => {
-  return JSON.stringify(value, null, 2);
+  return JSON.stringify(value, undefined, 2);
 };
 
 export const toYamlString = (value: object): string => {
@@ -42,8 +43,8 @@ const readCustomizedPackageJson = async (): Promise<CustomizedPackageJson> => {
   try {
     const content = await readFile('./package.json', 'utf8');
     return fromString(content);
-  } catch (err) {
-    return Promise.resolve(defaultCustomizedPackageJson);
+  } catch {
+    return defaultCustomizedPackageJson;
   }
 };
 
@@ -54,8 +55,8 @@ const writePackageJson = async (packageJson: PackageJson) => {
 const readReadme = async (): Promise<string> => {
   try {
     return await readFile('./README.md', 'utf8');
-  } catch (err) {
-    return Promise.resolve('');
+  } catch {
+    return '';
   }
 };
 
@@ -68,8 +69,8 @@ const writeReadme = async (core: CoreProject) => {
 const readTechnicalDesign = async (): Promise<string> => {
   try {
     return await readFile('./TECHNICAL_DESIGN.md', 'utf8');
-  } catch (err) {
-    return Promise.resolve('');
+  } catch {
+    return '';
   }
 };
 
@@ -161,6 +162,10 @@ const createSourceDir = async () => {
   await mkdir('test', { recursive: true });
 };
 
+const appendCommitMessage = async () => {
+  await appendFile('.message', commitMessage(), 'utf8');
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -188,20 +193,20 @@ export const updateAll = async (
     await writeBugReportYaml();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
+    await appendCommitMessage();
     const todos = suggestTasksToDo(coreProject, newPackageJson);
-    todos.forEach((todo) =>
+    for (const todo of todos)
       ctx.termFormatter({
         title: todo.status,
         detail: todo.description,
         kind: 'info',
         format: 'default',
-      })
-    );
-  } catch (err) {
+      });
+  } catch (error) {
     ctx.errTermFormatter({
       title: 'Generating - update error',
-      detail: err,
+      detail: error,
     });
-    throw err;
+    throw error;
   }
 };

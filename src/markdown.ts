@@ -6,7 +6,7 @@ import {
   MdPackage,
   MdSection,
 } from './model.js';
-import { findHeader, stringBetween } from './utils.js';
+import { findHeader, findQuote, stringBetween } from './utils.js';
 
 const ___ = '```';
 
@@ -34,7 +34,7 @@ const getSecondarySections = (lines: string[]): MdSection[] => {
     .map(detectSecondaryHeader)
     .filter((index) => index >= 0);
   const indexes = [...foundIndexes, lines.length - 1];
-  const idxRange = Array.from(Array(foundIndexes.length).keys());
+  const idxRange = [...Array.from({ length: foundIndexes.length }).keys()];
   const sections = idxRange.map((idx) =>
     linesToSection(lines.slice(indexes[idx], indexes[idx + 1]))
   );
@@ -87,7 +87,7 @@ const foldBadgePart = (
 
 const locateBadgeZone = (lines: string[]): string[] => {
   const badgeLines = lines.map(countBadgeParts);
-  const reduced = badgeLines.reduce(foldBadgePart);
+  const reduced = badgeLines.reduce(foldBadgePart); // eslint-disable-line  unicorn/no-array-reduce
   return reduced.lines;
 };
 const isWithinBadgeZone =
@@ -113,7 +113,7 @@ export const parseMarkdown = (content: string): MdDocument => {
   const badgeZone = locateBadgeZone(mainSect);
 
   const title = findHeader('# ')(mainSect);
-  const description = findHeader('> ')(mainSect);
+  const description = findQuote(mainSect);
   const mainSection = mainSect.filter(keepHeaderBody(badgeZone)).join('\n');
   const badges = findBadges(badgeZone);
   const sections = getSecondarySections(lines);

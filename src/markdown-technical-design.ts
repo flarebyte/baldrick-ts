@@ -13,7 +13,7 @@ const codeStructure: MdSection = {
     ' - __report__: Temporary folder for reporting; usually for continuous integration',
     ' - __.github__: Folder for github pipeline',
     ' - __.vscode__: Folder for visual code snippets',
-  ].join('\n'),
+  ].join('\n\n'),
 };
 
 const docAndLinks: MdSection = {
@@ -21,7 +21,7 @@ const docAndLinks: MdSection = {
   body: [
     ' - Guideline for [Clean Code in Typescript](https://labs42io.github.io/clean-code-typescript/)',
     ' - [Supporting node.js ESM](https://the-guild.dev/blog/support-nodejs-esm)',
-  ].join('\n'),
+  ].join('\n\n'),
 };
 
 export const toTechnicalDesignMd = (
@@ -43,5 +43,5 @@ export const toTechnicalDesignMd = (
     sections,
   };
   const rawReadme = markdownToString(updated);
-  return rawReadme.replace(/[\r\n]{3,}/gm, '\n\n');
+  return rawReadme.replace(/[\n\r]{3,}/gm, '\n\n');
 };
