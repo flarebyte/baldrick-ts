@@ -56,6 +56,7 @@ Object {
     "norm:g": "baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch && yarn md:fix",
     "prebuild": "yarn reset",
     "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit",
+    "release:check": "baldrick release check",
     "release:ci": "baldrick release ci",
     "reset": "rm -rf dist; rm -rf report",
     "test": "baldrick test check",

@@ -229,17 +229,6 @@ const readyCmd: MdCommand = {
   ],
 };
 
-const versionCmd: MdCommand = {
-  name: 'version',
-  title: 'Versioning',
-  description: 'Checks that the code is ready for versioning and version it',
-  motivation: 'Normalize the steps involved in versioning',
-  context: 'Before publishing',
-  run: 'yarn version',
-  partOf: yarnPackage,
-  examples: [],
-};
-
 const mdCmd = (project: CoreProject): MdCommand => ({
   name: 'md',
   title: 'Markdown check',
@@ -276,7 +265,19 @@ const mdFixCmd = (project: CoreProject): MdCommand => ({
   ],
 });
 
-const mdReleaseCiCmd = (project: CoreProject): MdCommand => ({
+const releaseCheckCmd = (project: CoreProject): MdCommand => ({
+  name: 'release:check',
+  title: 'Release check',
+  description: 'Checks if a release could be created',
+  motivation: 'Avoid failing the release',
+  context: 'After publishing',
+  run: 'yarn release:check',
+  partOf: baldrickDevPackage,
+  examples: [],
+  npmScript: ['release:check', `${runBaldrick(project)} release check`],
+});
+
+const releaseCiCmd = (project: CoreProject): MdCommand => ({
   name: 'release:ci',
   title: 'Release',
   description: 'Creates a github release',
@@ -368,8 +369,8 @@ const devCommands = (project: CoreProject): MdCommand[] => [
   testCmd(project),
   testCovCmd(project),
   testFixCmd(project),
-  versionCmd,
-  mdReleaseCiCmd(project),
+  releaseCheckCmd(project),
+  releaseCiCmd(project),
   yarnAddGlobalCmd,
 ];
 
@@ -381,7 +382,7 @@ const maintenanceOverview = (project: CoreProject) =>
       lintCmd(project).run,
       `${testCmd(project).run} or ${testCovCmd(project).run}`,
       buildCmd.run,
-      readyCmd.run,
+      `${readyCmd.run} and ${releaseCheckCmd(project).run}`,
     ],
     [
       'Fixing',
@@ -395,7 +396,7 @@ const maintenanceOverview = (project: CoreProject) =>
       lintCICmd(project).run,
       testCICmd(project).run,
       buildCmd.run,
-      'Not available yet',
+      releaseCiCmd(project).run,
     ],
   ]);
 
