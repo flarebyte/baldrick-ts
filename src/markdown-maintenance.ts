@@ -58,6 +58,17 @@ const actPackage: MdPackage = {
   },
 };
 
+const zshPackage: MdPackage = {
+  name: 'zsh',
+  installationType: 'brew',
+  description: 'Shell designed for interactive use',
+  homepage: 'https://www.zsh.org/',
+  repository: {
+    type: 'git',
+    url: 'https://github.com/ohmyzsh',
+  },
+};
+
 const runBaldrick = (project: CoreProject): string =>
   project.feature.includes('npx') ? 'npx baldrick-dev-ts' : 'baldrick';
 
@@ -283,10 +294,11 @@ const releaseCiCmd = (project: CoreProject): MdCommand => ({
   description: 'Creates a github release',
   motivation: 'Save releases in github',
   context: 'After publishing',
-  run: 'yarn release:ci',
+  run: 'bpub',
   partOf: baldrickDevPackage,
   examples: [],
   npmScript: ['release:ci', `${runBaldrick(project)} release ci`],
+  zshAlias: ['bpub', `${runBaldrick(project)} release ci`],
 });
 
 const actCmd: MdCommand = {
@@ -347,9 +359,22 @@ const yarnAddGlobalCmd: MdCommand = {
     'Install this local project/script globally on the dev machine for development or testing purpose',
   motivation: 'Test global project locally before publishing',
   context: 'When testing locally',
-  run: 'yarn global add `pwd`',
+  run: 'yig',
   partOf: yarnPackage,
   examples: [],
+  zshAlias: ['yig', 'yarn global add $PWD'],
+};
+
+const gitCommitFileCmd: MdCommand = {
+  name: 'gc-file',
+  title: 'Git commit from file',
+  description: 'Git commit a message that has been saved in the .message file',
+  motivation: 'Quicker commit for pre-defined use cases',
+  context: 'When commit to github',
+  run: 'yig',
+  partOf: zshPackage,
+  examples: [],
+  zshAlias: ['gcf', 'git add . && git commit -F .message && rm .message'],
 };
 
 const devCommands = (project: CoreProject): MdCommand[] => [
@@ -371,6 +396,7 @@ const devCommands = (project: CoreProject): MdCommand[] => [
   testFixCmd(project),
   releaseCheckCmd(project),
   releaseCiCmd(project),
+  gitCommitFileCmd,
   yarnAddGlobalCmd,
 ];
 
@@ -433,4 +459,16 @@ export const getNpmScripts = (project: CoreProject): Scripts => {
     return Object.fromEntries(commands);
   }
   return {};
+};
+
+export const getZshAliases = (project: CoreProject): [string, string][] => {
+  const isCliOrLib =
+    project.feature.includes('lib') || project.feature.includes('cli');
+  if (isCliOrLib) {
+    const commands = devCommands(project)
+      .map((cmd) => cmd.zshAlias)
+      .filter(removeNulls);
+    return commands;
+  }
+  return [];
 };
