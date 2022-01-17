@@ -17,7 +17,7 @@ import {
 } from './package.js';
 import { computeCoreProject } from './package-copy.js';
 import { fromString, toString } from './package-io.js';
-import { maintenanceMd } from './markdown-maintenance.js';
+import { getZshAliases, maintenanceMd } from './markdown-maintenance.js';
 import { defaultPrettier } from './conf-prettier.js';
 import { gitIgnoreConfig } from './conf-git-ignore.js';
 import { defaultTsConfig } from './conf-tsconfig.js';
@@ -166,6 +166,10 @@ const appendCommitMessage = async () => {
   await appendFile('.message', commitMessage(), 'utf8');
 };
 
+const writeZshAlias = async (core: CoreProject) => {
+  await appendFile('.aliases', getZshAliases(core), 'utf8');
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -193,6 +197,7 @@ export const updateAll = async (
     await writeBugReportYaml();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
+    await writeZshAlias(coreProject);
     await appendCommitMessage();
     const todos = suggestTasksToDo(coreProject, newPackageJson);
     for (const todo of todos)

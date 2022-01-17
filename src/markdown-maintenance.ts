@@ -461,14 +461,16 @@ export const getNpmScripts = (project: CoreProject): Scripts => {
   return {};
 };
 
-export const getZshAliases = (project: CoreProject): [string, string][] => {
+export const getZshAliases = (project: CoreProject): string => {
   const isCliOrLib =
     project.feature.includes('lib') || project.feature.includes('cli');
-  if (isCliOrLib) {
-    const commands = devCommands(project)
-      .map((cmd) => cmd.zshAlias)
-      .filter(removeNulls);
-    return commands;
+  if (!isCliOrLib) {
+    return '# no alias available';
   }
-  return [];
+  const commands = devCommands(project)
+    .map((cmd) => cmd.zshAlias)
+    .filter(removeNulls)
+    .map(([name, command]) => `alias ${name}='${command}'`);
+
+  return commands.join('\n');
 };
