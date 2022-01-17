@@ -474,3 +474,18 @@ export const getZshAliases = (project: CoreProject): string => {
 
   return commands.join('\n');
 };
+
+export const getCommandHelp = (project: CoreProject): string => {
+  const commands = [
+    ...devCommands(project),
+    normCmd(project, false),
+    normCmd(project, true),
+  ];
+
+  const runMaxLength = Math.max(...commands.map((cmd) => cmd.run.length));
+
+  const helps = commands
+    .map((cmd) => cmd.run.padEnd(runMaxLength + 2, ' ') + cmd.description)
+    .sort();
+  return ['Commands:', ...helps].join('\n');
+};
