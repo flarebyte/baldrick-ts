@@ -16,14 +16,18 @@ Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in
 
 ## Build the project locally
 
-The following commands should get you started
+The following commands should get you started:
 
 ${___}bash
 yarn install
 yarn test
 ${___}
 
-A list of [most used commands](MAINTENANCE.md) is available.
+A list of [most used commands](MAINTENANCE.md) is available:
+
+${___}bash
+yarn h
+${___}
 
 Please keep an eye on test coverage, bundle size and documentation.
 When you are ready for a pull request:
@@ -53,10 +57,13 @@ ${___}
 
 ## Publishing the library
 
-This would be done by the main maintainers of the project. Locally for now as updates are pretty infrequent.
+This would be done by the main maintainers of the project. Locally for now as updates are pretty infrequent, and some of tests have to be done manually.
+
+Assuming you have zsh installed, you can just do:
 
 ${___}bash
-yarn version
+source .aliases.zsh
+bpub
 ${___}
 `;
 

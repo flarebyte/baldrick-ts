@@ -34,6 +34,7 @@ import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
+import { glossaryMd } from './markdown-glossary.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
@@ -178,6 +179,10 @@ const writeCommandHelp = async (core: CoreProject) => {
   await writeFile('commands.txt', getCommandHelp(core), 'utf8');
 };
 
+const writeGlossary = async () => {
+  await writeFile('GLOSSARY.md', glossaryMd(), 'utf8');
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -207,6 +212,7 @@ export const updateAll = async (
     await writeVsCodeSnippets();
     await writeZshAlias(coreProject);
     await writeCommandHelp(coreProject);
+    await writeGlossary();
     await appendCommitMessage();
     const todos = suggestTasksToDo(coreProject, newPackageJson);
     for (const todo of todos)
