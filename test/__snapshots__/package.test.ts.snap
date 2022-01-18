@@ -47,6 +47,7 @@ Object {
     "build": "tsc --outDir dist",
     "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json",
     "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
+    "h": "cat commands.txt",
     "lint": "baldrick lint check",
     "lint:ci": "baldrick lint ci",
     "lint:fix": "baldrick lint fix",

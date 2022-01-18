@@ -288,6 +288,18 @@ const releaseCheckCmd = (project: CoreProject): MdCommand => ({
   npmScript: ['release:check', `${runBaldrick(project)} release check`],
 });
 
+const helpCmd: MdCommand = {
+  name: 'help',
+  title: 'Help for commands',
+  description: 'Summarize all the yarn and shell commands',
+  motivation: 'Assist the developer in quickly finding commands',
+  context: 'Before running a command',
+  run: 'yarn h',
+  partOf: baldrickDevPackage,
+  examples: [],
+  npmScript: ['h', 'cat commands.txt'],
+};
+
 const releaseCiCmd = (project: CoreProject): MdCommand => ({
   name: 'release:ci',
   title: 'Release',
@@ -396,6 +408,7 @@ const devCommands = (project: CoreProject): MdCommand[] => [
   testFixCmd(project),
   releaseCheckCmd(project),
   releaseCiCmd(project),
+  helpCmd,
   gitCommitFileCmd,
   yarnAddGlobalCmd,
 ];

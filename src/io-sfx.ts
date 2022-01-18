@@ -17,7 +17,11 @@ import {
 } from './package.js';
 import { computeCoreProject } from './package-copy.js';
 import { fromString, toString } from './package-io.js';
-import { getZshAliases, maintenanceMd } from './markdown-maintenance.js';
+import {
+  getCommandHelp,
+  getZshAliases,
+  maintenanceMd,
+} from './markdown-maintenance.js';
 import { defaultPrettier } from './conf-prettier.js';
 import { gitIgnoreConfig } from './conf-git-ignore.js';
 import { defaultTsConfig } from './conf-tsconfig.js';
@@ -167,7 +171,11 @@ const appendCommitMessage = async () => {
 };
 
 const writeZshAlias = async (core: CoreProject) => {
-  await appendFile('.aliases', getZshAliases(core), 'utf8');
+  await writeFile('.aliases', getZshAliases(core), 'utf8');
+};
+
+const writeCommandHelp = async (core: CoreProject) => {
+  await writeFile('commands.txt', getCommandHelp(core), 'utf8');
 };
 
 export const updateAll = async (
@@ -198,6 +206,7 @@ export const updateAll = async (
     await createVisualCodeDir();
     await writeVsCodeSnippets();
     await writeZshAlias(coreProject);
+    await writeCommandHelp(coreProject);
     await appendCommitMessage();
     const todos = suggestTasksToDo(coreProject, newPackageJson);
     for (const todo of todos)

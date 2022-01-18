@@ -267,6 +267,20 @@ __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [n
 
 ---
 
+### Help for commands
+
+> Summarize all the yarn and shell commands
+
+__Motivation:__ Assist the developer in quickly finding commands
+
+__When to use it:__ Before running a command
+
+__Run:__ \`\`\`yarn h\`\`\`
+
+__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+
+---
+
 ### Git commit from file
 
 > Git commit a message that has been saved in the .message file
@@ -329,6 +343,7 @@ Object {
   "build": "tsc --outDir dist",
   "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json",
   "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
+  "h": "cat commands.txt",
   "lint": "baldrick lint check",
   "lint:ci": "baldrick lint ci",
   "lint:fix": "baldrick lint fix",

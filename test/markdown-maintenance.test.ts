@@ -31,6 +31,7 @@ describe('Maintenance documentation', () => {
       yarn build          Transpile all the typescript source code to javascript
       yarn doc            Generate the markdown documentation for the typescript project
       yarn github         Enable useful features for the github project repository
+      yarn h              Summarize all the yarn and shell commands
       yarn lint           Find problems in Typescript code
       yarn lint:ci        Find problems in Typescript code
       yarn lint:fix       Fix problems in Typescript code
