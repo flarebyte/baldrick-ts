@@ -171,7 +171,7 @@ const appendCommitMessage = async () => {
 };
 
 const writeZshAlias = async (core: CoreProject) => {
-  await writeFile('.aliases', getZshAliases(core), 'utf8');
+  await writeFile('.aliases.zsh', getZshAliases(core), 'utf8');
 };
 
 const writeCommandHelp = async (core: CoreProject) => {

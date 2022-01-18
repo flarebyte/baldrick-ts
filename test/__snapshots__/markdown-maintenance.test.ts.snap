@@ -289,7 +289,7 @@ __Motivation:__ Quicker commit for pre-defined use cases
 
 __When to use it:__ When commit to github
 
-__Run:__ \`\`\`yig\`\`\`
+__Run:__ \`\`\`gcf\`\`\`
 
 __From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :  Shell designed for interactive use
 

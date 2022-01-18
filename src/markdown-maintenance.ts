@@ -383,7 +383,7 @@ const gitCommitFileCmd: MdCommand = {
   description: 'Git commit a message that has been saved in the .message file',
   motivation: 'Quicker commit for pre-defined use cases',
   context: 'When commit to github',
-  run: 'yig',
+  run: 'gcf',
   partOf: zshPackage,
   examples: [],
   zshAlias: ['gcf', 'git add . && git commit -F .message && rm .message'],

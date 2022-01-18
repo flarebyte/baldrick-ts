@@ -28,6 +28,7 @@ describe('Maintenance documentation', () => {
       "Commands:
       act                 Run GitHub Actions inside a docker container
       bpub                Creates a github release
+      gcf                 Git commit a message that has been saved in the .message file
       yarn build          Transpile all the typescript source code to javascript
       yarn doc            Generate the markdown documentation for the typescript project
       yarn github         Enable useful features for the github project repository
@@ -47,7 +48,6 @@ describe('Maintenance documentation', () => {
       yarn test:ci        Test and verify the coverage of the code
       yarn test:cov       Verify the extent to which the code has been executed. This does not include any threshold, but it is recommended to maximize the coverage
       yarn test:fix       Run the unit tests and update the snapshots
-      yig                 Git commit a message that has been saved in the .message file
       yig                 Install this local project/script globally on the dev machine for development or testing purpose"
     `);
   });
