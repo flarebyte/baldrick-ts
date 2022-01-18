@@ -5,6 +5,7 @@ Some additional references:
 
 -   [Functional programming
     jargon](https://github.com/hemanth/functional-programming-jargon)
+
 -   [FP glossary](https://degoes.net/articles/fp-glossary)
 
 ## Higher-Order Function
@@ -27,9 +28,11 @@ Function](https://en.wikipedia.org/wiki/Higher-order_function)
 These two related concepts in Typescript:
 
 -   Closure provides a way of binding a context to a function
+
 -   Currying converts a function that takes multiple arguments into a
     function that takes them one at a time.
-    Example: `const f = x => y => x + y;`
+
+-   Example: `const f = x => y => x + y;`
 
 **Motivation:**
 

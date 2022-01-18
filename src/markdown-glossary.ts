@@ -25,8 +25,8 @@ const glossaryDefs: GlossaryDefinition[] = [
       'These two related concepts in Typescript:',
       ' - Closure provides a way of binding a context to a function',
       ' - Currying converts a function that takes multiple arguments into a function that takes them one at a time.',
-      'Example: `const f = x => y => x + y;`',
-    ].join('\n'),
+      ' - Example: `const f = x => y => x + y;`',
+    ].join('\n\n'),
     link: 'https://en.wikipedia.org/wiki/Currying',
     motivation: [
       '- Make it possible to have function with a single parameter that can be used for `.map` or `.filter` while some specific context has been provided before hand',
@@ -83,6 +83,7 @@ export const glossaryMd = (): string => {
     '# Glossary',
     'Glossary of the key terms for functional and object oriented programming. Some additional references:',
     ' - [Functional programming jargon](https://github.com/hemanth/functional-programming-jargon)',
+    '',
     ' - [FP glossary](https://degoes.net/articles/fp-glossary)',
     defs,
   ].join('\n');
