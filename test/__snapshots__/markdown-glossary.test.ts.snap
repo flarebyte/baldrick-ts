@@ -4,6 +4,7 @@ exports[`markdown-glossarys should provide a glossary 1`] = `
 "# Glossary
 Glossary of the key terms for functional and object oriented programming. Some additional references:
  - [Functional programming jargon](https://github.com/hemanth/functional-programming-jargon)
+
  - [FP glossary](https://degoes.net/articles/fp-glossary)
 ## Higher-Order Function
 
@@ -21,9 +22,12 @@ More about [Higher-Order Function](https://en.wikipedia.org/wiki/Higher-order_fu
 ## Currying and closure
 
 These two related concepts in Typescript:
+
  - Closure provides a way of binding a context to a function
+
  - Currying converts a function that takes multiple arguments into a function that takes them one at a time.
-Example: \`const f = x => y => x + y;\`
+
+ - Example: \`const f = x => y => x + y;\`
 
 __Motivation:__
 

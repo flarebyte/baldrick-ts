@@ -1250,10 +1250,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-baldrick-dev-ts@0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/baldrick-dev-ts/-/baldrick-dev-ts-0.14.0.tgz#8dd1e309c0456631a0a22c089ed6108365e6efd9"
-  integrity sha512-d0NL4uwCCpziQVXxU0EZM6S/da8ckwX/5LkFiEou3vNnXbZcISydq2uKhov00PX2P32mMaehzAksV2UpSqI7Og==
+baldrick-dev-ts@0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/baldrick-dev-ts/-/baldrick-dev-ts-0.15.0.tgz#f3768aad4000830061c10b6aed29c82c0e7d6ea8"
+  integrity sha512-wDKqhAdFtMJFN/CQtZs8RDMSOaPGEdNK6vFdDBGccfhLPVPCNUeFdISdbkWRdLiNOAm0fWKeynn4QBCeNyB6oQ==
   dependencies:
     "@types/jest" "27.4.0"
     "@typescript-eslint/eslint-plugin" "5.9.1"

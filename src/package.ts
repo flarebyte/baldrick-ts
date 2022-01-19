@@ -36,8 +36,12 @@ const normalizeOpenSourcePackage = (
 ): PackageJson => {
   const isCli = coreProject.feature.includes('cli');
   const mainExport = isCli ? 'cli' : 'index';
+  const longPackageBinName = coreProject.name.includes('/')
+    ? []
+    : [[coreProject.name, 'dist/src/cli.mjs']];
+  const customPackageBinName = [[coreProject.bin, 'dist/src/cli.mjs']];
   const bin: { [key: string]: string } = isCli
-    ? Object.fromEntries([[coreProject.bin, 'dist/src/cli.mjs']])
+    ? Object.fromEntries([...customPackageBinName, ...longPackageBinName])
     : {};
   return {
     name: coreProject.name,

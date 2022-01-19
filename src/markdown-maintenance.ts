@@ -254,7 +254,7 @@ const mdCmd = (project: CoreProject): MdCommand => ({
     'md',
     `${runBaldrick(project)} markdown check && ${runBaldrick(
       project
-    )} markdown check -s .github`,
+    )} markdown check -s .github/`,
   ],
 });
 
@@ -272,7 +272,7 @@ const mdFixCmd = (project: CoreProject): MdCommand => ({
     'md:fix',
     `${runBaldrick(project)} markdown fix && ${runBaldrick(
       project
-    )} markdown fix -s .github`,
+    )} markdown fix -s .github/`,
   ],
 });
 
