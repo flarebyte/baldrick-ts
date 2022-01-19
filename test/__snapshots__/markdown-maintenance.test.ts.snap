@@ -11,7 +11,7 @@ The typical developer workflow goes as follow:
 | ---------------------- | ------------- | -------------------------- | ------------ | --------------------------------- |
 | Checking               | yarn lint     | yarn test or yarn test:cov | yarn build   | yarn ready and yarn release:check |
 | Fixing                 | yarn lint:fix | yarn test:fix              | Fix the code | Update dependencies and yarn doc  |
-| Continuous integration | yarn lint:ci  | yarn test:ci               | yarn build   | yarn release:ci                   |
+| Continuous integration | yarn lint:ci  | yarn test:ci               | yarn build   | bpub                              |
 
 ## Commands
 
@@ -261,9 +261,37 @@ __Motivation:__ Save releases in github
 
 __When to use it:__ After publishing
 
-__Run:__ \`\`\`yarn release:ci\`\`\`
+__Run:__ \`\`\`bpub\`\`\`
 
 __From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+
+---
+
+### Help for commands
+
+> Summarize all the yarn and shell commands
+
+__Motivation:__ Assist the developer in quickly finding commands
+
+__When to use it:__ Before running a command
+
+__Run:__ \`\`\`yarn h\`\`\`
+
+__From package:__ [baldrick](https://github.com/flarebyte/baldrick-dev-ts) of [npm](https://www.npmjs.com/) :  Zero-config CLI for TypeScript package development
+
+---
+
+### Git commit from file
+
+> Git commit a message that has been saved in the .message file
+
+__Motivation:__ Quicker commit for pre-defined use cases
+
+__When to use it:__ When commit to github
+
+__Run:__ \`\`\`gcf\`\`\`
+
+__From package:__ [zsh](https://www.zsh.org/) of [brew](https://docs.brew.sh/) :  Shell designed for interactive use
 
 ---
 
@@ -275,7 +303,7 @@ __Motivation:__ Test global project locally before publishing
 
 __When to use it:__ When testing locally
 
-__Run:__ \`\`\`yarn global add \`pwd\`\`\`\`
+__Run:__ \`\`\`yig\`\`\`
 
 __From package:__ [yarn](https://classic.yarnpkg.com/en/) of [npm](https://www.npmjs.com/) :  Dependency management
 
@@ -315,11 +343,12 @@ Object {
   "build": "tsc --outDir dist",
   "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json",
   "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
+  "h": "cat commands.txt",
   "lint": "baldrick lint check",
   "lint:ci": "baldrick lint ci",
   "lint:fix": "baldrick lint fix",
-  "md": "baldrick markdown check && baldrick markdown check -s .github",
-  "md:fix": "baldrick markdown fix && baldrick markdown fix -s .github",
+  "md": "baldrick markdown check && baldrick markdown check -s .github/",
+  "md:fix": "baldrick markdown fix && baldrick markdown fix -s .github/",
   "norm": "npx baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch && yarn md:fix",
   "norm:g": "baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT -b scratch && yarn md:fix",
   "prebuild": "yarn reset",

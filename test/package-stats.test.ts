@@ -98,7 +98,7 @@ describe('IO and package stats', () => {
           "stringLength": 0,
         },
         Object {
-          "countItems": 19,
+          "countItems": 20,
           "key": "scripts",
           "stringLength": 0,
         },

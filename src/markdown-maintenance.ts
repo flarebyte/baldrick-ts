@@ -58,6 +58,17 @@ const actPackage: MdPackage = {
   },
 };
 
+const zshPackage: MdPackage = {
+  name: 'zsh',
+  installationType: 'brew',
+  description: 'Shell designed for interactive use',
+  homepage: 'https://www.zsh.org/',
+  repository: {
+    type: 'git',
+    url: 'https://github.com/ohmyzsh',
+  },
+};
+
 const runBaldrick = (project: CoreProject): string =>
   project.feature.includes('npx') ? 'npx baldrick-dev-ts' : 'baldrick';
 
@@ -243,7 +254,7 @@ const mdCmd = (project: CoreProject): MdCommand => ({
     'md',
     `${runBaldrick(project)} markdown check && ${runBaldrick(
       project
-    )} markdown check -s .github`,
+    )} markdown check -s .github/`,
   ],
 });
 
@@ -261,7 +272,7 @@ const mdFixCmd = (project: CoreProject): MdCommand => ({
     'md:fix',
     `${runBaldrick(project)} markdown fix && ${runBaldrick(
       project
-    )} markdown fix -s .github`,
+    )} markdown fix -s .github/`,
   ],
 });
 
@@ -277,16 +288,29 @@ const releaseCheckCmd = (project: CoreProject): MdCommand => ({
   npmScript: ['release:check', `${runBaldrick(project)} release check`],
 });
 
+const helpCmd: MdCommand = {
+  name: 'help',
+  title: 'Help for commands',
+  description: 'Summarize all the yarn and shell commands',
+  motivation: 'Assist the developer in quickly finding commands',
+  context: 'Before running a command',
+  run: 'yarn h',
+  partOf: baldrickDevPackage,
+  examples: [],
+  npmScript: ['h', 'cat commands.txt'],
+};
+
 const releaseCiCmd = (project: CoreProject): MdCommand => ({
   name: 'release:ci',
   title: 'Release',
   description: 'Creates a github release',
   motivation: 'Save releases in github',
   context: 'After publishing',
-  run: 'yarn release:ci',
+  run: 'bpub',
   partOf: baldrickDevPackage,
   examples: [],
   npmScript: ['release:ci', `${runBaldrick(project)} release ci`],
+  zshAlias: ['bpub', `${runBaldrick(project)} release ci`],
 });
 
 const actCmd: MdCommand = {
@@ -347,9 +371,22 @@ const yarnAddGlobalCmd: MdCommand = {
     'Install this local project/script globally on the dev machine for development or testing purpose',
   motivation: 'Test global project locally before publishing',
   context: 'When testing locally',
-  run: 'yarn global add `pwd`',
+  run: 'yig',
   partOf: yarnPackage,
   examples: [],
+  zshAlias: ['yig', 'yarn global add $PWD'],
+};
+
+const gitCommitFileCmd: MdCommand = {
+  name: 'gc-file',
+  title: 'Git commit from file',
+  description: 'Git commit a message that has been saved in the .message file',
+  motivation: 'Quicker commit for pre-defined use cases',
+  context: 'When commit to github',
+  run: 'gcf',
+  partOf: zshPackage,
+  examples: [],
+  zshAlias: ['gcf', 'git add . && git commit -F .message && rm .message'],
 };
 
 const devCommands = (project: CoreProject): MdCommand[] => [
@@ -371,6 +408,8 @@ const devCommands = (project: CoreProject): MdCommand[] => [
   testFixCmd(project),
   releaseCheckCmd(project),
   releaseCiCmd(project),
+  helpCmd,
+  gitCommitFileCmd,
   yarnAddGlobalCmd,
 ];
 
@@ -433,4 +472,33 @@ export const getNpmScripts = (project: CoreProject): Scripts => {
     return Object.fromEntries(commands);
   }
   return {};
+};
+
+export const getZshAliases = (project: CoreProject): string => {
+  const isCliOrLib =
+    project.feature.includes('lib') || project.feature.includes('cli');
+  if (!isCliOrLib) {
+    return '# no alias available';
+  }
+  const commands = devCommands(project)
+    .map((cmd) => cmd.zshAlias)
+    .filter(removeNulls)
+    .map(([name, command]) => `alias ${name}='${command}'`);
+
+  return commands.join('\n');
+};
+
+export const getCommandHelp = (project: CoreProject): string => {
+  const commands = [
+    ...devCommands(project),
+    normCmd(project, false),
+    normCmd(project, true),
+  ];
+
+  const runMaxLength = Math.max(...commands.map((cmd) => cmd.run.length));
+
+  const helps = commands
+    .map((cmd) => cmd.run.padEnd(runMaxLength + 2, ' ') + cmd.description)
+    .sort();
+  return ['Commands:', ...helps].join('\n');
 };

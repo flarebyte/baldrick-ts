@@ -17,7 +17,11 @@ import {
 } from './package.js';
 import { computeCoreProject } from './package-copy.js';
 import { fromString, toString } from './package-io.js';
-import { maintenanceMd } from './markdown-maintenance.js';
+import {
+  getCommandHelp,
+  getZshAliases,
+  maintenanceMd,
+} from './markdown-maintenance.js';
 import { defaultPrettier } from './conf-prettier.js';
 import { gitIgnoreConfig } from './conf-git-ignore.js';
 import { defaultTsConfig } from './conf-tsconfig.js';
@@ -30,6 +34,7 @@ import { vsCodeSnippets } from './conf-vscode-snippet.js';
 import { licenseMd } from './markdown-license.js';
 import { toTechnicalDesignMd } from './markdown-technical-design.js';
 import { commitMessage } from './commit-message.js';
+import { glossaryMd } from './markdown-glossary.js';
 
 export const toJsonString = (value: object): string => {
   return JSON.stringify(value, undefined, 2);
@@ -166,6 +171,18 @@ const appendCommitMessage = async () => {
   await appendFile('.message', commitMessage(), 'utf8');
 };
 
+const writeZshAlias = async (core: CoreProject) => {
+  await writeFile('.aliases.zsh', getZshAliases(core), 'utf8');
+};
+
+const writeCommandHelp = async (core: CoreProject) => {
+  await writeFile('commands.txt', getCommandHelp(core), 'utf8');
+};
+
+const writeGlossary = async () => {
+  await writeFile('GLOSSARY.md', glossaryMd(), 'utf8');
+};
+
 export const updateAll = async (
   ctx: RunnerContext,
   opts: GenerateActionOpts
@@ -193,6 +210,9 @@ export const updateAll = async (
     await writeBugReportYaml();
     await createVisualCodeDir();
     await writeVsCodeSnippets();
+    await writeZshAlias(coreProject);
+    await writeCommandHelp(coreProject);
+    await writeGlossary();
     await appendCommitMessage();
     const todos = suggestTasksToDo(coreProject, newPackageJson);
     for (const todo of todos)

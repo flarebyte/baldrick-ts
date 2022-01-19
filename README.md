@@ -61,6 +61,7 @@ Generate and standardize the source code files
 -   [Code Of Conduct](CODE_OF_CONDUCT.md)
 -   [Api for baldrick-ts](API.md)
 -   [Contributing](CONTRIBUTING.md)
+-   [Glossary](GLOSSARY.md)
 -   [Contributors](https://github.com/flarebyte/baldrick-ts/graphs/contributors)
 -   [Dependencies](https://github.com/flarebyte/baldrick-ts/network/dependencies)
 

@@ -218,8 +218,13 @@ export interface MdCommand {
    * [name, command]
    */
   npmScript?: [string, string];
-}
 
+  /**
+   * The zsh alias that should be run if any
+   * [name, command]
+   */
+  zshAlias?: [string, string];
+}
 export interface VsCodeSnippet {
   scope: string;
   prefix: string;
