@@ -1,7 +1,7 @@
 import { SupportedFeature } from './model.js';
 
 function isFeature(value: string): value is SupportedFeature {
-  return ['lib', 'cli', 'npx'].includes(value);
+  return ['lib', 'cli', 'npx', 'no:lint', 'no:test'].includes(value);
 }
 const toFeature = (feature: string): SupportedFeature => {
   if (isFeature(feature)) {

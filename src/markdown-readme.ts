@@ -68,7 +68,7 @@ const docAndLinks = (core: CoreProject): MdSection => ({
 
 const installSection = (core: CoreProject): MdSection => {
   const isCli = core.feature.includes('cli');
-  const bodyLib = ['```', `yarn add ${core.name}`, '```'];
+  const bodyLib = ['```bash', `yarn add ${core.name}`, '```'];
   const bodyCli = [
     '```bash',
     `yarn global add ${core.name}`,

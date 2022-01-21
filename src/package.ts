@@ -65,6 +65,7 @@ const normalizeOpenSourcePackage = (
       },
       './package.json': { default: './package.json' },
     },
+    main: './dist/src/index.mjs',
     files: ['dist/src', 'src'],
     bin,
     engines: {

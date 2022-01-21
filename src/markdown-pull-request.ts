@@ -29,7 +29,7 @@ Fixes: # (issue)
 - [ ] reduce risk for unfamiliar tasks
 - [ ] automate repetitive tasks
 
-## How Has This Been Tested?
+## How Has This Been Tested
 
 - [ ] Unit tests
 - [ ] Manual tests

@@ -41,4 +41,5 @@ export const computeCoreProject = (
     : capitalize(generateOpts.githubAccount),
   copyrightStartYear: generateOpts.copyrightStartYear,
   copyrightEndYear: ctx.currentYear,
+  codacyId: generateOpts.codacyId,
 });

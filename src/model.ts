@@ -24,6 +24,7 @@ export type PackageJson = {
   type: string;
   /** Modern public exports for CommonJS and ES modules*/
   exports: PackageJsonExports;
+  main: string;
   /** Array of file patterns that describes the entries to be included when your package is installed as a dependency*/
   files: string[];
   bin: { [key: string]: string };
@@ -76,7 +77,7 @@ export interface Scripts {
 
 type ProjectType = 'lib' | 'cli';
 
-export type SupportedFeature = ProjectType | 'npx';
+export type SupportedFeature = ProjectType | 'npx' | 'no:lint' | 'no:test';
 
 export interface GenerateActionOpts {
   feature: SupportedFeature[];
@@ -116,7 +117,6 @@ export interface CoreProject extends GenerateActionOpts {
   bin: string;
   copyrightHolder: string;
   copyrightEndYear: number;
-  codacyId?: string;
 }
 
 export type FieldStatus = 'ok' | 'todo' | 'fixable';
@@ -144,6 +144,7 @@ interface GenericPackageJson<T> {
   repository: T;
   type: T;
   exports: T;
+  main: T;
   files: T;
   bin: T;
   engines: T;

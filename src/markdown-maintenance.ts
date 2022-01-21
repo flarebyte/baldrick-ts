@@ -81,7 +81,7 @@ const lintCmd = (project: CoreProject): MdCommand => ({
   run: 'yarn lint',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['lint', `${runBaldrick(project)} lint check`],
+  npmScript: ['lint', `${runBaldrick(project)} lint check -s src test`],
 });
 
 const lintFixCmd = (project: CoreProject): MdCommand => ({
@@ -93,7 +93,7 @@ const lintFixCmd = (project: CoreProject): MdCommand => ({
   run: 'yarn lint:fix',
   partOf: baldrickDevPackage,
   examples: [],
-  npmScript: ['lint:fix', `${runBaldrick(project)} lint fix`],
+  npmScript: ['lint:fix', `${runBaldrick(project)} lint fix -s src test`],
 });
 
 const lintCICmd = (project: CoreProject): MdCommand => ({
@@ -310,7 +310,7 @@ const releaseCiCmd = (project: CoreProject): MdCommand => ({
   partOf: baldrickDevPackage,
   examples: [],
   npmScript: ['release:ci', `${runBaldrick(project)} release ci`],
-  zshAlias: ['bpub', `${runBaldrick(project)} release ci`],
+  zshAlias: ['bpub', `npx baldrick-dev-ts release ci`],
 });
 
 const actCmd: MdCommand = {
@@ -337,15 +337,23 @@ const normCmd = (project: CoreProject, global: boolean): MdCommand => {
     `${project.copyrightStartYear}`,
     `-${og.license.shortFlag}`,
     project.license,
-    `-${og.bin.shortFlag}`,
-    project.bin,
   ];
 
   const codacyScript = project.codacyId
     ? [`-${og.codacyId.shortFlag}`, project.codacyId]
     : [];
 
-  const npmScript = [...npmMandatoryScript, ...codacyScript, '&& yarn md:fix'];
+  const binParam =
+    project.feature.includes('cli') && project.bin !== project.name
+      ? [`-${og.bin.shortFlag}`, project.bin]
+      : [];
+
+  const npmScript = [
+    ...npmMandatoryScript,
+    ...binParam,
+    ...codacyScript,
+    '&& yarn md:fix',
+  ];
 
   return {
     name: global ? 'norm:global' : 'norm',

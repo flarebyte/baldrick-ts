@@ -53,7 +53,7 @@ yarn add scratchbook
 ## Installation
 
 This package is [ESM only](https://blog.sindresorhus.com/get-ready-for-esm-aa53530b3f77).
-\`\`\`
+\`\`\`bash
 yarn add project123
 \`\`\`"
 `;

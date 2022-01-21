@@ -17,7 +17,7 @@ describe('Maintenance documentation', () => {
 
   it('produces a list of zsh aliases', () => {
     expect(getZshAliases(libCoreProject)).toMatchInlineSnapshot(`
-      "alias bpub='baldrick release ci'
+      "alias bpub='npx baldrick-dev-ts release ci'
       alias gcf='git add . && git commit -F .message && rm .message'
       alias yig='yarn global add $PWD'"
     `);

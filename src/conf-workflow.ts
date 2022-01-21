@@ -1,4 +1,6 @@
-export const defaultGithubWorkflow = {
+import { CoreProject } from './model.js';
+
+export const defaultGithubWorkflow = (proj: CoreProject) => ({
   name: 'CI',
   on: ['push'],
   jobs: {
@@ -29,17 +31,25 @@ export const defaultGithubWorkflow = {
         },
         {
           name: 'Static code analysis',
-          run: 'yarn lint:ci',
+          run: proj.feature.includes('no:lint')
+            ? 'yarn lint:ci || echo "Some linting failed"'
+            : 'yarn lint:ci',
         },
         {
           name: 'Test',
-          run: 'yarn test:ci',
+          run: proj.feature.includes('no:test')
+            ? 'yarn test:ci || echo "Some unit tests failed"'
+            : 'yarn test:ci',
         },
         {
           name: 'Build',
           run: 'yarn build',
         },
+        {
+          name: 'Version',
+          run: 'yarn release:check',
+        },
       ],
     },
   },
-};
+});
