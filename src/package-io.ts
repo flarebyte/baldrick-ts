@@ -12,6 +12,7 @@ const simpleCopyPackageJson = (pj: PackageJson): PackageJson => ({
   repository: pj.repository,
   type: pj.type,
   exports: pj.exports,
+  main: pj.main,
   bin: pj.bin,
   files: pj.files,
   engines: pj.engines,

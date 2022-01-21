@@ -122,10 +122,10 @@ const createGithubWorkflowDir = async () => {
   await mkdir('.github/ISSUE_TEMPLATE', { recursive: true });
 };
 
-const writeWorkflowConfig = async () => {
+const writeWorkflowConfig = async (core: CoreProject) => {
   await writeFile(
     '.github/workflows/main.yml',
-    toYamlString(defaultGithubWorkflow),
+    toYamlString(defaultGithubWorkflow(core)),
     'utf8'
   );
 };
@@ -204,7 +204,7 @@ export const updateAll = async (
     await writeTsConfig();
     await writeLicense(coreProject);
     await createGithubWorkflowDir();
-    await writeWorkflowConfig();
+    await writeWorkflowConfig(coreProject);
     await writePullRequestMd();
     await writeFeatureRequestYaml();
     await writeBugReportYaml();

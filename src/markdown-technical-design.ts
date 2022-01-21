@@ -38,6 +38,7 @@ export const toTechnicalDesignMd = (
   const updated = {
     ...existing,
     title: 'Technical Design',
+    badges: [],
     description:
       'Guide for the implementation, including detailed design, priorities, coding conventions, and testing',
     sections,
