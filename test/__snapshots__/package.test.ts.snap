@@ -46,7 +46,7 @@ Object {
   },
   "scripts": Object {
     "build": "tsc --outDir dist",
-    "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json && baldrick-doc-ts parse -f internal ngram",
+    "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json && baldrick-doc-ts parse -f internal ngram && yarn md:fix",
     "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
     "h": "cat commands.txt",
     "lint": "baldrick lint check -s src test",

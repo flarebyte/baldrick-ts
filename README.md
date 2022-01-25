@@ -62,6 +62,8 @@ Generate and standardize the source code files
 -   [Api for baldrick-ts](API.md)
 -   [Contributing](CONTRIBUTING.md)
 -   [Glossary](GLOSSARY.md)
+-   [Diagram for the code base](INTERNAL.md)
+-   [Vocabulary used in the code base](CODE_VOCABULARY.md)
 -   [Contributors](https://github.com/flarebyte/baldrick-ts/graphs/contributors)
 -   [Dependencies](https://github.com/flarebyte/baldrick-ts/network/dependencies)
 

@@ -209,6 +209,7 @@ const docCmd: MdCommand = {
       'npx typedoc --json report/doc.json --pretty src/index.ts',
       'npx baldrick-doc-ts typedoc --json-source report/doc.json',
       'baldrick-doc-ts parse -f internal ngram',
+      'yarn md:fix',
     ].join(' && '),
   ],
 };
