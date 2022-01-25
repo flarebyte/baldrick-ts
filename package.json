@@ -59,8 +59,8 @@
     "release:check": "baldrick release check",
     "release:ci": "baldrick release ci",
     "h": "cat commands.txt",
-    "norm": "npx baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT && yarn md:fix",
-    "norm:g": "baldrick-ts generate -f cli -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT && yarn md:fix"
+    "norm": "npx baldrick-ts generate -f cli no:test -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT && yarn md:fix",
+    "norm:g": "baldrick-ts generate -f cli no:test -ga 'flarebyte' -ch 'Flarebyte.com' -cy 2021 -l MIT && yarn md:fix"
   },
   "dependencies": {
     "commander": "^8.3.0",
