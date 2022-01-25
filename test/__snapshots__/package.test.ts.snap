@@ -46,7 +46,7 @@ Object {
   },
   "scripts": Object {
     "build": "tsc --outDir dist",
-    "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json",
+    "doc": "npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json && baldrick-doc-ts parse -f internal ngram",
     "github": "gh repo edit --delete-branch-on-merge --enable-squash-merge",
     "h": "cat commands.txt",
     "lint": "baldrick lint check -s src test",
@@ -57,7 +57,7 @@ Object {
     "norm": "npx baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && yarn md:fix",
     "norm:g": "baldrick-ts generate -f lib -ga 'mycompany' -ch 'Great Company' -cy 2020 -l MIT && yarn md:fix",
     "prebuild": "yarn reset",
-    "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit",
+    "ready": "yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit && yarn release:check",
     "release:check": "baldrick release check",
     "release:ci": "baldrick release ci",
     "reset": "rm -rf dist; rm -rf report",

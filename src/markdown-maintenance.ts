@@ -205,7 +205,11 @@ const docCmd: MdCommand = {
   examples: [],
   npmScript: [
     'doc',
-    'npx typedoc --json report/doc.json --pretty src/index.ts && npx baldrick-doc-ts typedoc --json-source report/doc.json',
+    [
+      'npx typedoc --json report/doc.json --pretty src/index.ts',
+      'npx baldrick-doc-ts typedoc --json-source report/doc.json',
+      'baldrick-doc-ts parse -f internal ngram',
+    ].join(' && '),
   ],
 };
 
@@ -236,7 +240,7 @@ const readyCmd: MdCommand = {
   examples: [],
   npmScript: [
     'ready',
-    'yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit',
+    'yarn lint && yarn test:cov && yarn md && yarn outdated && yarn audit && yarn release:check',
   ],
 };
 
@@ -310,7 +314,7 @@ const releaseCiCmd = (project: CoreProject): MdCommand => ({
   partOf: baldrickDevPackage,
   examples: [],
   npmScript: ['release:ci', `${runBaldrick(project)} release ci`],
-  zshAlias: ['bpub', `npx baldrick-dev-ts release ci`],
+  zshAlias: ['bpub', `yarn build && npx baldrick-dev-ts release ci`],
 });
 
 const actCmd: MdCommand = {
