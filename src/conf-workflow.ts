@@ -45,10 +45,6 @@ export const defaultGithubWorkflow = (proj: CoreProject) => ({
           name: 'Build',
           run: 'yarn build',
         },
-        {
-          name: 'Version',
-          run: 'yarn release:check',
-        },
       ],
     },
   },

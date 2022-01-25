@@ -47,6 +47,8 @@ yarn add scratchbook
 * [Api for project123](API.md)
 * [Contributing](CONTRIBUTING.md)
 * [Glossary](GLOSSARY.md)
+* [Diagram for the code base](INTERNAL.md)
+* [Vocabulary used in the code base](CODE_VOCABULARY.md)
 * [Contributors](https://github.com/mycompany/project123/graphs/contributors)
 * [Dependencies](https://github.com/mycompany/project123/network/dependencies)
 

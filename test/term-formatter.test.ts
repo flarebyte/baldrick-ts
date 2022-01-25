@@ -1,9 +1,9 @@
 import { ErrTermFormatterParams, TermFormatterParams } from '../src/model.js';
 import { basicFormatter, errorFormatter } from '../src/term-formatter.js';
-import {jest} from '@jest/globals';
+import { jest } from '@jest/globals';
 
-jest.spyOn(global.console, 'info').mockImplementation(() => {});
-jest.spyOn(global.console, 'error').mockImplementation(() => {});
+jest.spyOn(global.console, 'info').mockImplementation(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+jest.spyOn(global.console, 'error').mockImplementation(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 
 describe('term-formatter', () => {
   it('should format with basic info', () => {

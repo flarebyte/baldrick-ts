@@ -1,7 +1,5 @@
 # Technical Design
 
-![]()
-
 > Guide for the implementation, including detailed design, priorities,
 > coding conventions, and testing
 
