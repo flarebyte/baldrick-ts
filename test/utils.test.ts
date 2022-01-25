@@ -15,18 +15,15 @@ describe('Utility', () => {
   it('Trim a string', () => {
     expect(trimString(' center ')).toEqual('center');
     expect(trimString('')).toEqual('');
-    expect(trimString(null)).toEqual('fixme');
-    expect(trimString(undefined)).toEqual('fixme');
+    expect(trimString(null)).toEqual('fixme'); // eslint-disable-line unicorn/no-null
   });
   it('Trim a string array', () => {
     expect(trimStringArray([' center '])).toEqual(['center']);
     expect(trimStringArray([])).toEqual([]);
-    expect(trimStringArray(null)).toEqual([]);
-    expect(trimStringArray(undefined)).toEqual([]);
+    expect(trimStringArray(null)).toEqual([]); // eslint-disable-line unicorn/no-null
   });
   it('Count the number of items', () => {
-    expect(toCountItems(null)).toEqual(0);
-    expect(toCountItems(undefined)).toEqual(0);
+    expect(toCountItems(null)).toEqual(0); // eslint-disable-line unicorn/no-null
     expect(toCountItems('abc')).toEqual(1);
     expect(toCountItems('')).toEqual(1);
     expect(toCountItems([])).toEqual(0);
@@ -45,9 +42,7 @@ describe('Utility', () => {
   it('Convert an editable array field field value to status', () => {
     expect(editableArrToStatus(['same'], ['same'])).toEqual('ok');
     expect(editableArrToStatus([], [])).toEqual('todo');
-    expect(editableArrToStatus(['original'], ['fixed'])).toEqual(
-      'fixable'
-    );
+    expect(editableArrToStatus(['original'], ['fixed'])).toEqual('fixable');
   });
   it('Convert a status to a todo string', () => {
     expect(statusToTodo('ok')).toContain('OK');
@@ -82,8 +77,7 @@ describe('Utility', () => {
       a: 'something',
     };
     expect(alwaysObj(obj1)).toEqual(obj1);
-    expect(alwaysObj(null)).toEqual({});
-    expect(alwaysObj(undefined)).toEqual({});
+    expect(alwaysObj(null)).toEqual({}); // eslint-disable-line unicorn/no-null
   });
   it('Find headers', () => {
     expect(
@@ -94,14 +88,12 @@ describe('Utility', () => {
     ).toEqual('');
   });
   it('Find quote', () => {
-    expect(
-      findQuote(['not quote', '> quote', 'after-quote'])
-    ).toEqual('quote');
+    expect(findQuote(['not quote', '> quote', 'after-quote'])).toEqual('quote');
     expect(
       findQuote(['not quote', '> quote 1', '> quote 2', 'after-quote'])
     ).toEqual('quote 1 quote 2');
-    expect(
-      findQuote(['not quote', 'still-no-quote', 'after-quote'])
-    ).toEqual('');
+    expect(findQuote(['not quote', 'still-no-quote', 'after-quote'])).toEqual(
+      ''
+    );
   });
 });

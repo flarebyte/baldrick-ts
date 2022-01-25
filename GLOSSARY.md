@@ -8,6 +8,8 @@ Some additional references:
 
 -   [FP glossary](https://degoes.net/articles/fp-glossary)
 
+This glossary could also be used as a controlled vocabulary for documentation
+
 ## Higher-Order Function
 
 A higher-order function (HOF) is:
