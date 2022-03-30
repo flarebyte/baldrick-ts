@@ -66,6 +66,18 @@ const glossaryDefs: GlossaryDefinition[] = [
       '- In best cases increases the readability',
     ].join('\n'),
   },
+  {
+    title: 'Railway oriented programming',
+    description: [
+      'Functional approach for composing functions',
+    ].join('\n'),
+    link: 'https://swlaschin.gitbooks.io/fsharpforfunandprofit/content/posts/recipe-part2.html',
+    motivation: [
+      '- Each function will always yield a failure or a success',
+      '- Composition of happy paths',
+      '- Failure path short-circuits and forwards any previous errors',
+    ].join('\n'),
+  },
 ];
 
 const glossaryDefToString = (gdef: GlossaryDefinition): string =>
