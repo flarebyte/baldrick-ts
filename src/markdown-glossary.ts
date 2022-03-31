@@ -78,6 +78,29 @@ const glossaryDefs: GlossaryDefinition[] = [
       '- Failure path short-circuits and forwards any previous errors',
     ].join('\n'),
   },
+  {
+    title: 'Reactive programming',
+    description: [
+      'Declarative programming paradigm concerned with data streams and the propagation of change',
+    ].join('\n'),
+    link: 'https://en.wikipedia.org/wiki/Reactive_programming',
+    motivation: [
+      '- Cleaner code, more concise',
+      '- Easier to scale',
+    ].join('\n'),
+  },
+  {
+    title: 'Functional reactive programming',
+    description: [
+      'Programming paradigm for reactive programming using the building blocks of functional programming ',
+    ].join('\n'),
+    link: 'https://en.wikipedia.org/wiki/Functional_reactive_programming',
+    motivation: [
+      '- Well defined semantic model',
+      '- The dynamical behavior of a value is specified at declaration time',
+      '- Stop working on individual events and work with event streams instead'
+    ].join('\n'),
+  },
 ];
 
 const glossaryDefToString = (gdef: GlossaryDefinition): string =>

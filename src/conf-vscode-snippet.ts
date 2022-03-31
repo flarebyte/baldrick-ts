@@ -25,9 +25,9 @@ const snippets: VsCodeSnippet[] = [
     scope,
     prefix: 'jest-regression-inline',
     body: [
-      "import { $1 } from '../src/$TM_FILENAME_BASE';",
+      "import { $1 } from '../src/${TM_FILENAME_BASE/.test//}';",
       '',
-      "describe('$TM_FILENAME_BASE', () => {",
+      "describe('${TM_FILENAME_BASE/.test//}', () => {",
       "  it('should provide', () => {",
       '    const opts = {};',
       '    const actual = $1(opts);',

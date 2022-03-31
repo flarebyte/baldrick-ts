@@ -63,6 +63,7 @@ const docAndLinks = (core: CoreProject): MdSection => ({
     '* [Glossary](GLOSSARY.md)',
     '* [Diagram for the code base](INTERNAL.md)',
     '* [Vocabulary used in the code base](CODE_VOCABULARY.md)',
+    '* [Architectural Decision Records](DECISIONS.md)',
     `* [Contributors](https://github.com/${core.githubAccount}/${core.name}/graphs/contributors)`,
     `* [Dependencies](https://github.com/${core.githubAccount}/${core.name}/network/dependencies)`,
   ].join('\n'),
