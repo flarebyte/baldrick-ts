@@ -9,6 +9,7 @@ const codeStructure: MdSection = {
   body: [
     ' - __src__: Typescript source code',
     ' - __test__: Jest unit tests',
+    ' - __script__: Folder for bash, python or ts-node scripts',
     ' - __dist__: Temporary folder for building distribution code',
     ' - __report__: Temporary folder for reporting; usually for continuous integration',
     ' - __.github__: Folder for github pipeline',

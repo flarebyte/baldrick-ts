@@ -281,6 +281,19 @@ const mdFixCmd = (project: CoreProject): MdCommand => ({
   ],
 });
 
+const cliCmd = (): MdCommand => ({
+  name: 'cli',
+  title: 'Run client directly',
+  description: 'Run the client with ts-node during development',
+  motivation:
+    'Simulate a CLI app in development without the need to install it globally',
+  context: 'After compilation',
+  run: 'yarn cli',
+  partOf: yarnPackage,
+  examples: [],
+  npmScript: ['cli', 'node --loader ts-node/esm src/cli.mts'],
+});
+
 const releaseCheckCmd = (project: CoreProject): MdCommand => ({
   name: 'release:check',
   title: 'Release check',
@@ -457,6 +470,7 @@ export const maintenanceMd = (project: CoreProject): string => {
     ...devCommands(project),
     normCmd(project, false),
     normCmd(project, true),
+    cliCmd(),
   ];
   const cmdSections: string[] = cmds.map(commandToMd);
   return [
@@ -472,13 +486,15 @@ export const maintenanceMd = (project: CoreProject): string => {
 const removeNulls = <S>(value: S | undefined): value is S => value != undefined;
 
 export const getNpmScripts = (project: CoreProject): Scripts => {
-  const isCliOrLib =
-    project.feature.includes('lib') || project.feature.includes('cli');
+  const isCli = project.feature.includes('cli');
+  const isCliOrLib = project.feature.includes('lib') || isCli;
+  const cliOnlyCommands = isCli ? [cliCmd()] : [];
   if (isCliOrLib) {
     const commands = [
       ...devCommands(project),
       normCmd(project, false),
       normCmd(project, true),
+      ...cliOnlyCommands,
     ]
       .map((cmd) => cmd.npmScript)
       .filter(removeNulls);
@@ -506,6 +522,7 @@ export const getCommandHelp = (project: CoreProject): string => {
     ...devCommands(project),
     normCmd(project, false),
     normCmd(project, true),
+    cliCmd(),
   ];
 
   const runMaxLength = Math.max(...commands.map((cmd) => cmd.run.length));
