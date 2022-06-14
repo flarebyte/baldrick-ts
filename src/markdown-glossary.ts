@@ -68,9 +68,7 @@ const glossaryDefs: GlossaryDefinition[] = [
   },
   {
     title: 'Railway oriented programming',
-    description: [
-      'Functional approach for composing functions',
-    ].join('\n'),
+    description: ['Functional approach for composing functions'].join('\n'),
     link: 'https://swlaschin.gitbooks.io/fsharpforfunandprofit/content/posts/recipe-part2.html',
     motivation: [
       '- Each function will always yield a failure or a success',
@@ -84,10 +82,9 @@ const glossaryDefs: GlossaryDefinition[] = [
       'Declarative programming paradigm concerned with data streams and the propagation of change',
     ].join('\n'),
     link: 'https://en.wikipedia.org/wiki/Reactive_programming',
-    motivation: [
-      '- Cleaner code, more concise',
-      '- Easier to scale',
-    ].join('\n'),
+    motivation: ['- Cleaner code, more concise', '- Easier to scale'].join(
+      '\n'
+    ),
   },
   {
     title: 'Functional reactive programming',
@@ -98,7 +95,7 @@ const glossaryDefs: GlossaryDefinition[] = [
     motivation: [
       '- Well defined semantic model',
       '- The dynamical behavior of a value is specified at declaration time',
-      '- Stop working on individual events and work with event streams instead'
+      '- Stop working on individual events and work with event streams instead',
     ].join('\n'),
   },
 ];

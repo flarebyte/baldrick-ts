@@ -71,5 +71,40 @@ __Motivation:__
 - Avoid the creation of intermediate variables
 - In best cases increases the readability
 
-More about [Point-Free Style](https://en.wikipedia.org/wiki/Tacit_programming)"
+More about [Point-Free Style](https://en.wikipedia.org/wiki/Tacit_programming)
+
+## Railway oriented programming
+
+Functional approach for composing functions
+
+__Motivation:__
+
+- Each function will always yield a failure or a success
+- Composition of happy paths
+- Failure path short-circuits and forwards any previous errors
+
+More about [Railway oriented programming](https://swlaschin.gitbooks.io/fsharpforfunandprofit/content/posts/recipe-part2.html)
+
+## Reactive programming
+
+Declarative programming paradigm concerned with data streams and the propagation of change
+
+__Motivation:__
+
+- Cleaner code, more concise
+- Easier to scale
+
+More about [Reactive programming](https://en.wikipedia.org/wiki/Reactive_programming)
+
+## Functional reactive programming
+
+Programming paradigm for reactive programming using the building blocks of functional programming 
+
+__Motivation:__
+
+- Well defined semantic model
+- The dynamical behavior of a value is specified at declaration time
+- Stop working on individual events and work with event streams instead
+
+More about [Functional reactive programming](https://en.wikipedia.org/wiki/Functional_reactive_programming)"
 `;
